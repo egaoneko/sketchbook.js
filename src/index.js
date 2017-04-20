@@ -1,8 +1,3 @@
-class Sketchbook {
-
-	toString () {
-		return "Sketchbook";
-	}
-}
+import Sketchbook from "./sketchbook";
 
 export default Sketchbook;

@@ -2,3 +2,6 @@ dist
 node_modules
 coverage
 /.idea/
+/npm-debug.log
+/eslint
+/rollup-starter-project@1.0.0
