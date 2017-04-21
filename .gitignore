@@ -1,7 +1,11 @@
-dist
 node_modules
-coverage
-/.idea/
-/npm-debug.log
-/eslint
-/rollup-starter-project@1.0.0
+temp
+.tmp
+.idea
+dist
+.sass-cache
+app/bower_components
+test/bower_components
+package
+npm-debug.log
+/coverage/

@@ -1,48 +1,21 @@
+// Karma configuration
 module.exports = function (config) {
 	config.set({
+		// ... normal karma configuration
 		files: [
-			// Watch src files for changes but
-			// don't load them into the browser.
-			{pattern: 'src/**/*.js', included: false},
-			'test/**/*.spec.js'
+			// all files ending in "_test"
+			{pattern: 'test/*.spec.js', watched: false},
+			{pattern: 'test/**/*.spec.js', watched: false}
+			// each file acts as entry point for the webpack configuration
 		],
 
 		browsers: ['Chrome'],
 
 		preprocessors: {
-			'src/**/*.js': ['rollup'],
-			'test/**/*.spec.js': ['rollup']
+			// add webpack as preprocessor
+			'test/*.spec.js': ['webpack'],
+			'test/**/*.spec.js': ['webpack']
 		},
-
-		rollupPreprocessor: {
-			plugins: [
-				require('rollup-plugin-buble')()
-			],
-			format: 'iife', // Helps prevent naming collisions.
-			sourceMap: 'inline' // Sensible for testing.
-		},
-
-
-		// customPreprocessors: {
-		// 	// Clones the base preprocessor, but overwrites
-		// 	// its options with those defined below.
-		// 	rollupBabel: {
-		// 		base: 'rollup',
-		// 		options: {
-		// 			// In this case, to use
-		// 			// a different transpiler:
-		// 			plugins: [
-		// 				require('rollup-plugin-babel')({
-		// 					presets: [
-		// 						['es2015', {modules: false}],
-		// 						// 'stage-2'
-		// 					]
-		// 				})
-		// 			]
-		// 		}
-		// 	}
-		// }
-
 
 		frameworks: ['mocha'],
 		client: {
@@ -58,6 +31,20 @@ module.exports = function (config) {
 				// // custom ui, defined in required file above
 				// ui: 'bdd-lazy-var/global',
 			}
+		},
+
+		webpack: {
+			// karma watches the test entry points
+			// (you don't need to specify the entry option)
+			// webpack watches dependencies
+
+			// webpack configuration
+		},
+
+		webpackMiddleware: {
+			// webpack-dev-middleware configuration
+			// i. e.
+			stats: 'errors-only'
 		}
 	});
 };
