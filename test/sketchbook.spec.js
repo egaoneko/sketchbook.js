@@ -37,4 +37,10 @@ describe('Sketchbook', () => {
 		let wrongId = "wrong-canvas";
 		assert.throws(()=>new Sketchbook(wrongId), Error, "Cannot found element by id.");
 	});
+
+	describe('initialized after construct Sketchbook', () => {
+		it('initialized matrix', () => {
+		});
+	});
+
 });

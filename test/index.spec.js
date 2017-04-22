@@ -1,4 +1,4 @@
-import Sketchbook from "../src/index";
+import {Sketchbook} from "../src/index";
 import chai from "chai";
 
 let assert = chai.assert;

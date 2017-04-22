@@ -1,4 +1,4 @@
-import ExtendableError from "./ExtendableError";
+import ExtendableError from "./extendable_error";
 
 /**
  * @description It occurs, when something can not found.
