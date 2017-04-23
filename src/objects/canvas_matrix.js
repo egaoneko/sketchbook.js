@@ -72,6 +72,11 @@ class CanvasMatrix extends Matrix {
 	get f () {
 		return super.e(3, 2);
 	}
+
+	// TODO : set에 대한 정의 필요
+	setElements (elements) {
+		super.setElements(elements);
+	}
 }
 
 export default CanvasMatrix;

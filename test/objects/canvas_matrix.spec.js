@@ -1,5 +1,6 @@
 import chai from "chai";
 import CanvasMatrix from "../../src/objects/canvas_matrix";
+import {Matrix} from "sylvester-es6";
 
 let assert = chai.assert;
 
@@ -11,8 +12,9 @@ describe('CanvasMatrix', () => {
 	});
 
 	describe('initialized CanvasMatrix', () => {
-		it('check rank', () => {
-			assert.strictEqual(canvasMatrix.rank(), 3);
+		it('check size', () => {
+			assert.strictEqual(canvasMatrix.rows().length, 3);
+			assert.strictEqual(canvasMatrix.cols().length, 3);
 		});
 
 		it('initialized CanvasMatrix', () => {
@@ -22,6 +24,14 @@ describe('CanvasMatrix', () => {
 			assert.strictEqual(canvasMatrix.d, 1);
 			assert.strictEqual(canvasMatrix.e, 0);
 			assert.strictEqual(canvasMatrix.f, 0);
+		});
+	});
+
+	describe('set elements', () => {
+		it('check size', () => {
+		});
+
+		it('initialized CanvasMatrix', () => {
 		});
 	});
 });
