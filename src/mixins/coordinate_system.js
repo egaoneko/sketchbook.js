@@ -1,4 +1,5 @@
-import {Vector} from "sylvester-es6";
+import Point from "../objects/point";
+import CanvasMatrix from "../objects/canvas_matrix";
 
 /**
  * @description Coordinate System Class
@@ -12,9 +13,14 @@ class CoordinateSystem {
 	 * @constructs CoordinateSystem
 	 */
 	constructor () {
-		this._position = new Vector([0, 0]);
+		this._position = new Point([0, 0]);
 		this._scale = 1;
 		this._radian = 0.0;
+
+		this._scaleMatrix = new CanvasMatrix();
+		this._rotateMatrix = new CanvasMatrix();
+		this._translateMatrix = new CanvasMatrix();
+		this._basis = new CanvasMatrix();
 	}
 
 	/**
@@ -23,10 +29,7 @@ class CoordinateSystem {
 	 * @member CoordinateSystem#position
 	 */
 	get position () {
-		return {
-			x: this._position.e(1),
-			y: this._position.e(2)
-		};
+		return this._position;
 	}
 
 	/**

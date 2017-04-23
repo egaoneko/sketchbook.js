@@ -26,5 +26,21 @@ describe('CoordinateSystem', () => {
 			let radian = cs.radian;
 			assert.strictEqual(radian, 0.0);
 		});
+
+		it('initialized matrix', () => {
+			checkMatrix(cs._scaleMatrix);
+			checkMatrix(cs._rotateMatrix);
+			checkMatrix(cs._translateMatrix);
+			checkMatrix(cs._basis);
+		});
 	});
+
+	function checkMatrix (matrix) {
+		assert.strictEqual(matrix.a, 1);
+		assert.strictEqual(matrix.b, 0);
+		assert.strictEqual(matrix.c, 0);
+		assert.strictEqual(matrix.d, 1);
+		assert.strictEqual(matrix.e, 0);
+		assert.strictEqual(matrix.f, 0);
+	}
 });
