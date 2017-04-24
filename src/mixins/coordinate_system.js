@@ -16,6 +16,7 @@ class CoordinateSystem {
 		this._position = new Point([0, 0]);
 		this._scale = 1;
 		this._radian = 0.0;
+		this._isNeedToUpdate = false;
 
 		this._scaleMatrix = new CanvasMatrix();
 		this._rotateMatrix = new CanvasMatrix();
@@ -24,30 +25,41 @@ class CoordinateSystem {
 	}
 
 	/**
-	 * @description Get position
-	 * @type {Object}
-	 * @member CoordinateSystem#position
-	 */
-	get position () {
-		return this._position;
-	}
-
-	/**
-	 * @description Get scale
-	 * @type {Object}
+	 * @description scale
+	 * @param {Number} scale scale
 	 * @member CoordinateSystem#scale
 	 */
-	get scale () {
-		return this._scale;
+	scale (scale) {
+		this._scale = scale;
+		this._scaleMatrix = new CanvasMatrix(scale, 0, 0, scale, 0, 0);
+		this._isNeedToUpdate = true;
 	}
 
 	/**
-	 * @description Get radian
-	 * @type {Object}
-	 * @member CoordinateSystem#radian
+	 * @description rotate
+	 * @param {Number} radian radian
+	 * @member CoordinateSystem#rotate
 	 */
-	get radian () {
-		return this._radian;
+	rotate (radian) {
+		let a = Math.cos(radian);
+		let b = Math.sin(radian);
+		let c = -Math.sin(radian);
+		let d = Math.cos(radian);
+
+		this._radian = radian;
+		this._rotateMatrix = new CanvasMatrix(a, b, c, d, 0, 0);
+		this._isNeedToUpdate = true;
+	}
+
+	/**
+	 * @description translate
+	 * @param {Point} position position
+	 * @member CoordinateSystem#translate
+	 */
+	translate (position) {
+		this._position = new Point(position);
+		this._translateMatrix = new CanvasMatrix(1, 0, 0, 1, -position.x, -position.y);
+		this._isNeedToUpdate = true;
 	}
 }
 

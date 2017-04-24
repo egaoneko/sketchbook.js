@@ -115,7 +115,7 @@ class CanvasMatrix {
 
 	/**
 	 * @description Is equal CanvasMatrix
-	 * @type {Number}
+	 * @param {CanvasMatrix} other matrix for compare
 	 * @member CanvasMatrix#equal
 	 */
 	equal (other) {

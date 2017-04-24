@@ -13,12 +13,17 @@ class Point {
 	 * @description Point constructor.
 	 * @constructs Point
 	 */
-	constructor (elements) {
-		if (!typeCheck('array', elements) || elements.length !== 2) {
+	constructor (param) {
+		if (param instanceof Point) {
+			this._vector = param._vector.dup();
+			return;
+		}
+
+		if (!typeCheck('array', param) || param.length !== 2) {
 			throw new ArgumentError("Initialized with wrong elements.");
 		}
 
-		this._vector = new Vector(elements);
+		this._vector = new Vector(param);
 	}
 
 	/**
