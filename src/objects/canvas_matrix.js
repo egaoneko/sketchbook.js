@@ -5,18 +5,14 @@ import {Matrix} from "sylvester-es6";
  * @class CanvasMatrix
  */
 
-class CanvasMatrix extends Matrix {
+class CanvasMatrix {
 
 	/**
 	 * @description CanvasMatrix constructor.
 	 * @constructs CanvasMatrix
 	 */
 	constructor () {
-		super([
-			[1, 0, 0],
-			[0, 1, 0],
-			[0, 0, 1],
-		]);
+		this._matrix = Matrix.I(3);
 	}
 
 	/**
@@ -25,7 +21,7 @@ class CanvasMatrix extends Matrix {
 	 * @member CanvasMatrix#a
 	 */
 	get a () {
-		return super.e(1, 1);
+		return this._matrix.e(1, 1);
 	}
 
 	/**
@@ -34,7 +30,7 @@ class CanvasMatrix extends Matrix {
 	 * @member CanvasMatrix#b
 	 */
 	get b () {
-		return super.e(1, 2);
+		return this._matrix.e(1, 2);
 	}
 
 	/**
@@ -43,7 +39,7 @@ class CanvasMatrix extends Matrix {
 	 * @member CanvasMatrix#c
 	 */
 	get c () {
-		return super.e(2, 1);
+		return this._matrix.e(2, 1);
 	}
 
 	/**
@@ -52,7 +48,7 @@ class CanvasMatrix extends Matrix {
 	 * @member CanvasMatrix#d
 	 */
 	get d () {
-		return super.e(2, 2);
+		return this._matrix.e(2, 2);
 	}
 
 	/**
@@ -61,7 +57,7 @@ class CanvasMatrix extends Matrix {
 	 * @member CanvasMatrix#e
 	 */
 	get e () {
-		return super.e(3, 1);
+		return this._matrix.e(3, 1);
 	}
 
 	/**
@@ -70,12 +66,25 @@ class CanvasMatrix extends Matrix {
 	 * @member CanvasMatrix#f
 	 */
 	get f () {
-		return super.e(3, 2);
+		return this._matrix.e(3, 2);
 	}
 
-	// TODO : set에 대한 정의 필요
-	setElements (elements) {
-		super.setElements(elements);
+	/**
+	 * @description Get rows
+	 * @type {Number}
+	 * @member CanvasMatrix#rows
+	 */
+	get rows () {
+		return this._matrix.rows();
+	}
+
+	/**
+	 * @description Get cols
+	 * @type {Number}
+	 * @member CanvasMatrix#cols
+	 */
+	get cols () {
+		return this._matrix.cols();
 	}
 }
 

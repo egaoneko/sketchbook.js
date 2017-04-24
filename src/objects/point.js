@@ -1,18 +1,33 @@
 import {Vector} from "sylvester-es6";
+import {typeCheck} from "../utils/base";
+import {ArgumentError} from "../errors/errors";
 
 /**
  * @description Point Class
  * @class Point
  */
 
-class Point extends Vector {
+class Point {
+
+	/**
+	 * @description Point constructor.
+	 * @constructs Point
+	 */
+	constructor (elements) {
+		if (!typeCheck('array', elements) || elements.length !== 2) {
+			throw new ArgumentError("Initialized with wrong elements.");
+		}
+
+		this._vector = new Vector(elements);
+	}
+
 	/**
 	 * @description Get x
 	 * @type {Number}
 	 * @member Point#x
 	 */
 	get x () {
-		return this.e(1);
+		return this._vector.e(1);
 	}
 
 	/**
@@ -21,7 +36,7 @@ class Point extends Vector {
 	 * @member Point#y
 	 */
 	get y () {
-		return this.e(2);
+		return this._vector.e(2);
 	}
 }
 
