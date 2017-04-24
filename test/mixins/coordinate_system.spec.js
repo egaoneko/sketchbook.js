@@ -12,18 +12,18 @@ describe('CoordinateSystem', () => {
 
 	describe('initialized CoordinateSystem', () => {
 		it('initialized position', () => {
-			let position = cs.position;
+			let position = cs._position;
 			assert.strictEqual(position.x, 0);
 			assert.strictEqual(position.y, 0);
 		});
 
 		it('initialized scale', () => {
-			let scale = cs.scale;
+			let scale = cs._scale;
 			assert.strictEqual(scale, 1);
 		});
 
 		it('initialized radian', () => {
-			let radian = cs.radian;
+			let radian = cs._radian;
 			assert.strictEqual(radian, 0.0);
 		});
 
@@ -35,6 +35,11 @@ describe('CoordinateSystem', () => {
 		});
 	});
 
+	it('scale', () => {
+		cs.scale(2);
+		assert.strictEqual(matrix.a, 1);
+	});
+
 	function checkMatrix (matrix) {
 		assert.strictEqual(matrix.a, 1);
 		assert.strictEqual(matrix.b, 0);
@@ -42,5 +47,8 @@ describe('CoordinateSystem', () => {
 		assert.strictEqual(matrix.d, 1);
 		assert.strictEqual(matrix.e, 0);
 		assert.strictEqual(matrix.f, 0);
+		assert.strictEqual(matrix._matrix.e(3, 1), 0);
+		assert.strictEqual(matrix._matrix.e(3, 2), 0);
+		assert.strictEqual(matrix._matrix.e(3, 3), 1);
 	}
 });
