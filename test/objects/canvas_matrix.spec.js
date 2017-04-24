@@ -23,14 +23,48 @@ describe('CanvasMatrix', () => {
 			assert.strictEqual(canvasMatrix.d, 1);
 			assert.strictEqual(canvasMatrix.e, 0);
 			assert.strictEqual(canvasMatrix.f, 0);
+			checkRow3_001(canvasMatrix);
+		});
+
+		it('initialized CanvasMatrix with params', () => {
+			canvasMatrix = new CanvasMatrix(0, 1, 2, 3, 4, 5);
+			assert.strictEqual(canvasMatrix.a, 0);
+			assert.strictEqual(canvasMatrix.b, 1);
+			assert.strictEqual(canvasMatrix.c, 2);
+			assert.strictEqual(canvasMatrix.d, 3);
+			assert.strictEqual(canvasMatrix.e, 4);
+			assert.strictEqual(canvasMatrix.f, 5);
+			checkRow3_001(canvasMatrix);
+		});
+
+		it('initialized CanvasMatrix with CanvasMatrix', () => {
+			var oldCanvasMatrix = new CanvasMatrix(0, 1, 2, 3, 4, 5);
+			canvasMatrix = new CanvasMatrix(oldCanvasMatrix);
+			assert.strictEqual(canvasMatrix.a, oldCanvasMatrix.a);
+			assert.strictEqual(canvasMatrix.b, oldCanvasMatrix.b);
+			assert.strictEqual(canvasMatrix.c, oldCanvasMatrix.c);
+			assert.strictEqual(canvasMatrix.d, oldCanvasMatrix.d);
+			assert.strictEqual(canvasMatrix.e, oldCanvasMatrix.e);
+			assert.strictEqual(canvasMatrix.f, oldCanvasMatrix.f);
+			checkRow3_001(canvasMatrix);
+		});
+
+		it('initialized with wrong parameters', () => {
+			assert.throws(()=>new CanvasMatrix(1, 1), Error, "Initialized with wrong parameters.");
+			assert.throws(()=>new CanvasMatrix(1), Error, "Initialized with wrong parameter.(Different class)");
+			// assert.throws(()=>new CanvasMatrix([0]), Error, "Initialized with wrong parameters.");
 		});
 	});
 
-	describe('set elements', () => {
-		it('check size', () => {
-		});
-
-		it('initialized CanvasMatrix', () => {
-		});
+	it('equal', () => {
+		var a = new CanvasMatrix(0, 1, 2, 3, 4, 5);
+		var b = new CanvasMatrix(0, 1, 2, 3, 4, 5);
+		assert.isTrue(a.equal(b));
 	});
+
+	function checkRow3_001 (canvasMatrix) {
+		assert.strictEqual(canvasMatrix._matrix.e(3, 1), 0);
+		assert.strictEqual(canvasMatrix._matrix.e(3, 2), 0);
+		assert.strictEqual(canvasMatrix._matrix.e(3, 3), 1);
+	}
 });
