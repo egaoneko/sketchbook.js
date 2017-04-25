@@ -17,7 +17,7 @@ describe('Point', () => {
 		});
 
 		it('initialized point with Point', () => {
-			var oldPoint = new Point([3, 4]);
+			let oldPoint = new Point([3, 4]);
 			point = new Point(oldPoint);
 			assert.strictEqual(point.x, 3);
 			assert.strictEqual(point.y, 4);

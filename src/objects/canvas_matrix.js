@@ -116,10 +116,28 @@ class CanvasMatrix {
 	/**
 	 * @description Is equal CanvasMatrix
 	 * @param {CanvasMatrix} other matrix for compare
+	 * @return {Boolean} is equal
 	 * @member CanvasMatrix#equal
 	 */
 	equal (other) {
 		return this._matrix.eql(other._matrix);
+	}
+
+	/**
+	 * @description Multiply CanvasMatrix
+	 * @param {CanvasMatrix} other matrix for multiply
+	 * @return {CanvasMatrix} multiplied matrix
+	 * @member CanvasMatrix#multiply
+	 */
+	multiply (other) {
+		let multipliedMatrix = this._matrix.multiply(other._matrix);
+		let a = multipliedMatrix.e(1, 1);
+		let b = multipliedMatrix.e(1, 2);
+		let c = multipliedMatrix.e(2, 1);
+		let d = multipliedMatrix.e(2, 2);
+		let e = multipliedMatrix.e(1, 3);
+		let f = multipliedMatrix.e(2, 3);
+		return new CanvasMatrix(a, b, c, d, e, f);
 	}
 }
 

@@ -1,4 +1,5 @@
 import chai from "chai";
+import {Matrix} from "sylvester-es6";
 import CanvasMatrix from "../../src/objects/canvas_matrix";
 
 let assert = chai.assert;
@@ -38,7 +39,7 @@ describe('CanvasMatrix', () => {
 		});
 
 		it('initialized CanvasMatrix with CanvasMatrix', () => {
-			var oldCanvasMatrix = new CanvasMatrix(0, 1, 2, 3, 4, 5);
+			let oldCanvasMatrix = new CanvasMatrix(0, 1, 2, 3, 4, 5);
 			canvasMatrix = new CanvasMatrix(oldCanvasMatrix);
 			assert.strictEqual(canvasMatrix.a, oldCanvasMatrix.a);
 			assert.strictEqual(canvasMatrix.b, oldCanvasMatrix.b);
@@ -57,9 +58,17 @@ describe('CanvasMatrix', () => {
 	});
 
 	it('equal', () => {
-		var a = new CanvasMatrix(0, 1, 2, 3, 4, 5);
-		var b = new CanvasMatrix(0, 1, 2, 3, 4, 5);
+		let a = new CanvasMatrix(0, 1, 2, 3, 4, 5);
+		let b = new CanvasMatrix(0, 1, 2, 3, 4, 5);
 		assert.isTrue(a.equal(b));
+	});
+
+	it('multiply', () => {
+		let expected = new Matrix([[0, 1, 4], [2, 3, 5], [0, 0, 1]])
+			.multiply(new Matrix([[0, 1, 4], [2, 3, 5], [0, 0, 1]]));
+		let actual = new CanvasMatrix(0, 1, 2, 3, 4, 5)
+			.multiply(new CanvasMatrix(0, 1, 2, 3, 4, 5));
+		assert.isTrue(actual._matrix.eql(expected));
 	});
 
 	function checkRow3_001 (canvasMatrix) {

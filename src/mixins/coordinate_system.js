@@ -61,6 +61,23 @@ class CoordinateSystem {
 		this._translateMatrix = new CanvasMatrix(1, 0, 0, 1, -position.x, -position.y);
 		this._isNeedToUpdate = true;
 	}
+
+	/**
+	 * @description Get basis
+	 * @type {CanvasMatrix}
+	 * @member CoordinateSystem#basis
+	 */
+	get basis () {
+		if (!this._isNeedToUpdate) {
+			return this._basis;
+		}
+
+		this._basis = this._scaleMatrix
+			.multiply(this._rotateMatrix)
+			.multiply(this._translateMatrix);
+		this._isNeedToUpdate = false;
+		return this._basis;
+	}
 }
 
 export default CoordinateSystem;

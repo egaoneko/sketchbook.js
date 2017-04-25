@@ -75,6 +75,30 @@ describe('CoordinateSystem', () => {
 		assert.isTrue(cs._isNeedToUpdate);
 	});
 
+	it('basis', () => {
+		let scale = 2;
+		let radian = 90 * Math.PI / 180;
+		let a = Math.cos(radian);
+		let b = Math.sin(radian);
+		let c = -Math.sin(radian);
+		let d = Math.cos(radian);
+		let position = new Point([3, 4]);
+
+		let scaleMatrix = new CanvasMatrix(scale, 0, 0, scale, 0, 0);
+		let rotateMatrix = new CanvasMatrix(a, b, c, d, 0, 0);
+		let translateMatrix = new CanvasMatrix(1, 0, 0, 1, -position.x, -position.y);
+
+		cs.scale(scale);
+		cs.rotate(radian);
+		cs.translate(position);
+
+		assert.isTrue(cs._isNeedToUpdate);
+		let expected = scaleMatrix.multiply(rotateMatrix).multiply(translateMatrix);
+		let actual = cs.basis;
+		assert.isTrue(actual.equal(expected));
+		assert.isFalse(cs._isNeedToUpdate);
+	});
+
 	function checkMatrix (matrix) {
 		assert.strictEqual(matrix.a, 1);
 		assert.strictEqual(matrix.b, 0);
