@@ -10,6 +10,10 @@
 <script src="./bundle.js"></script>
 <script>
     var canvas = new sketchbook.Sketchbook('canvas');
+    document.body.appendChild(canvas._canvas);
+    canvas.render(10, 10, 10, 10);
+    canvas.scale(2);
+    canvas.render(10, 10, 10, 10);
 </script>
 </body>
 </html>

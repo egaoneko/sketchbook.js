@@ -23,7 +23,7 @@ class Point {
 			throw new ArgumentError("Initialized with wrong elements.");
 		}
 
-		this._vector = new Vector(param);
+		this._vector = new Vector([param[0], param[1], 1]);
 	}
 
 	/**

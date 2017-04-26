@@ -1,3 +1,4 @@
+import Point from "./objects/point";
 import {typeCheck} from "./utils/base";
 import {CannotFoundError} from "./errors/errors";
 import CoordinateSystem from "./mixins/coordinate_system";
@@ -28,6 +29,7 @@ class Sketchbook {
 			canvas = document.createElement('canvas');
 		}
 		this._canvas = canvas;
+		this._context = canvas.getContext('2d');
 		this._cs = new CoordinateSystem();
 	}
 
@@ -65,6 +67,25 @@ class Sketchbook {
 	 */
 	translate (position) {
 		this._cs.translate(position);
+	}
+
+	render (x, y, w, h) {
+		let lt = new Point([x, y]);
+		let lb = new Point([x, y + h]);
+		let rt = new Point([x + w, y]);
+		let rb = new Point([x + w, y + h]);
+		lt = this._cs.basis.multiply(lt);
+		lb = this._cs.basis.multiply(lb);
+		rt = this._cs.basis.multiply(rt);
+		rb = this._cs.basis.multiply(rb);
+
+		this._context.beginPath();
+		this._context.moveTo(lt.x, lt.y);
+		this._context.lineTo(lb.x, lb.y);
+		this._context.lineTo(rb.x, rb.y);
+		this._context.lineTo(rt.x, rt.y);
+		this._context.lineTo(lt.x, lt.y);
+		this._context.stroke();
 	}
 }
 
