@@ -49,7 +49,6 @@
     "webpack-dev-server": "^2.2.1"
   },
   "dependencies": {
-    "es6-mixins": "^1.0.2",
     "lodash": "^4.17.4",
     "sylvester-es6": "0.0.2"
   }

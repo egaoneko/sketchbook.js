@@ -1,5 +1,6 @@
 import {typeCheck} from "./utils/base";
 import {CannotFoundError} from "./errors/errors";
+import CoordinateSystem from "./mixins/coordinate_system";
 
 /**
  * @description Sketchbook Class
@@ -27,6 +28,7 @@ class Sketchbook {
 			canvas = document.createElement('canvas');
 		}
 		this._canvas = canvas;
+		this._cs = new CoordinateSystem();
 	}
 
 	/**
@@ -36,6 +38,33 @@ class Sketchbook {
 	 */
 	get canvas () {
 		return this._canvas;
+	}
+
+	/**
+	 * @description scale
+	 * @param {Number} scale scale
+	 * @member Sketchbook#scale
+	 */
+	scale (scale) {
+		this._cs.scale(scale);
+	}
+
+	/**
+	 * @description rotate
+	 * @param {Number} radian radian
+	 * @member Sketchbook#rotate
+	 */
+	rotate (radian) {
+		this._cs.rotate(radian);
+	}
+
+	/**
+	 * @description translate
+	 * @param {Point} position position
+	 * @member Sketchbook#translate
+	 */
+	translate (position) {
+		this._cs.translate(position);
 	}
 }
 

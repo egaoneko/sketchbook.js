@@ -57,18 +57,20 @@ describe('CanvasMatrix', () => {
 		});
 	});
 
-	it('equal', () => {
-		let a = new CanvasMatrix(0, 1, 2, 3, 4, 5);
-		let b = new CanvasMatrix(0, 1, 2, 3, 4, 5);
-		assert.isTrue(a.equal(b));
-	});
+	describe('initialized CanvasMatrix', () => {
+		it('equal', () => {
+			let a = new CanvasMatrix(0, 1, 2, 3, 4, 5);
+			let b = new CanvasMatrix(0, 1, 2, 3, 4, 5);
+			assert.isTrue(a.equal(b));
+		});
 
-	it('multiply', () => {
-		let expected = new Matrix([[0, 1, 4], [2, 3, 5], [0, 0, 1]])
-			.multiply(new Matrix([[0, 1, 4], [2, 3, 5], [0, 0, 1]]));
-		let actual = new CanvasMatrix(0, 1, 2, 3, 4, 5)
-			.multiply(new CanvasMatrix(0, 1, 2, 3, 4, 5));
-		assert.isTrue(actual._matrix.eql(expected));
+		it('multiply', () => {
+			let expected = new Matrix([[0, 1, 4], [2, 3, 5], [0, 0, 1]])
+				.multiply(new Matrix([[0, 1, 4], [2, 3, 5], [0, 0, 1]]));
+			let actual = new CanvasMatrix(0, 1, 2, 3, 4, 5)
+				.multiply(new CanvasMatrix(0, 1, 2, 3, 4, 5));
+			assert.isTrue(actual._matrix.eql(expected));
+		});
 	});
 
 	function checkRow3_001 (canvasMatrix) {
