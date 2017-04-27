@@ -2,6 +2,7 @@ import Point from "./objects/point";
 import {typeCheck} from "./utils/base";
 import {CannotFoundError} from "./errors/errors";
 import CoordinateSystem from "./mixins/coordinate_system";
+import ORIENTATION from "./global/orientation";
 
 /**
  * @description Sketchbook Class
@@ -16,10 +17,13 @@ class Sketchbook {
 	constructor (param) {
 		let canvas = null;
 		let isTypeObject = typeCheck('object', param);
+
+		// If param is canvas element
 		if (isTypeObject) {
 			canvas = _getCanvasByElement(param);
 		}
 
+		// If param is canvas id
 		let isTypeString = typeCheck('string', param);
 		if (isTypeString) {
 			canvas = _getCanvasById(param);
@@ -31,6 +35,9 @@ class Sketchbook {
 		this._canvas = canvas;
 		this._context = canvas.getContext('2d');
 		this._cs = new CoordinateSystem();
+		this._opt = {
+			orientation: ORIENTATION.CW
+		};
 	}
 
 	/**
@@ -44,11 +51,12 @@ class Sketchbook {
 
 	/**
 	 * @description scale
-	 * @param {Number} scale scale
+	 * @param {Number} xScale xScale
+	 * @param {Number} yScale yScale
 	 * @member Sketchbook#scale
 	 */
-	scale (scale) {
-		this._cs.scale(scale);
+	scale (xScale, yScale) {
+		this._cs.scale(xScale, yScale);
 	}
 
 	/**
@@ -62,11 +70,46 @@ class Sketchbook {
 
 	/**
 	 * @description translate
-	 * @param {Point} position position
+	 * @param {Number} x position x
+	 * @param {Number} y position y
 	 * @member Sketchbook#translate
 	 */
-	translate (position) {
-		this._cs.translate(position);
+	translate (x, y) {
+		this._cs.translate(new Point([x, y]));
+	}
+
+	/**
+	 * @description get option
+	 * @param {String} name property name
+	 * @return {Object} option
+	 * @member Sketchbook#getOption
+	 */
+	getOption (name) {
+		let hasName = name !== undefined && name !== null;
+		if (!hasName) {
+			return null;
+		}
+		return this._opt[name];
+	}
+
+	/**
+	 * @description set option
+	 * @param {String} name property name
+	 * @param {Object} value property value
+	 * @member Sketchbook#setOption
+	 */
+	setOption (name, value) {
+		let hasName = name !== undefined && name !== null;
+		let hasValue = value !== undefined && value !== null;
+
+		if (!hasName || !hasValue) {
+			return;
+		}
+
+		this._opt[name] = value;
+		if (name === "orientation") {
+			this._cs.setOption("orientation", value);
+		}
 	}
 
 	render (x, y, w, h) {

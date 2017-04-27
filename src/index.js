@@ -1,3 +1,7 @@
 import Sketchbook from "./sketchbook";
+import Point from "./objects/point";
 
-export {Sketchbook};
+export {
+	Sketchbook,
+	Point
+};

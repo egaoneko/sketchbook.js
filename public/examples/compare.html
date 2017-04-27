@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Compare with canvas</title>
+</head>
+<body>
+<h1>Compare with canvas</h1>
+<canvas width="300" height="300" style="border: solid 1px" id="canvas_origin"></canvas>
+<canvas width="300" height="300" style="border: solid 1px" id="canvas_sketchbook"></canvas>
+<script src="../bundle.js"></script>
+<script>
+    window.onload = function () {
+        var radian = 30 * Math.PI / 180;
+
+        var canvasOrigin = document.getElementById('canvas_origin');
+        var canvasOriginCtx = canvasOrigin.getContext('2d');
+        canvasOriginCtx.strokeRect(10, 10, 10, 10);
+        //        canvasOriginCtx.scale(5, 5);
+        //        canvasOriginCtx.translate(20, 20);
+        canvasOriginCtx.rotate(radian);
+        canvasOriginCtx.strokeRect(10, 10, 10, 10);
+
+        var canvasSketchbook = new sketchbook.Sketchbook('canvas_sketchbook');
+        canvasSketchbook.render(10, 10, 10, 10);
+        //        canvasSketchbook.scale(5, 5);
+        //        canvasSketchbook.translate(20, 20);
+        canvasSketchbook.rotate(radian);
+        canvasSketchbook.render(10, 10, 10, 10);
+    };
+</script>
+</body>
+</html>
