@@ -4,6 +4,11 @@ import Point from "./point";
 
 /**
  * @description CanvasMatrix Class
+ *
+ *   a   c   e
+ *   b   d   f
+ *   0   0   1
+ *
  * @class CanvasMatrix
  */
 
@@ -23,8 +28,8 @@ class CanvasMatrix {
 
 		if (params.length === 6) {
 			this._matrix = new Matrix([
-				[params[0], params[1], params[4]],
-				[params[2], params[3], params[5]],
+				[params[0], params[2], params[4]],
+				[params[1], params[3], params[5]],
 				[0, 0, 1]
 			]);
 			return;
@@ -57,7 +62,7 @@ class CanvasMatrix {
 	 * @member CanvasMatrix#b
 	 */
 	get b () {
-		return this._matrix.e(1, 2);
+		return this._matrix.e(2, 1);
 	}
 
 	/**
@@ -66,7 +71,7 @@ class CanvasMatrix {
 	 * @member CanvasMatrix#c
 	 */
 	get c () {
-		return this._matrix.e(2, 1);
+		return this._matrix.e(1, 2);
 	}
 
 	/**
@@ -134,8 +139,8 @@ class CanvasMatrix {
 		if (other instanceof CanvasMatrix) {
 			let multipliedMatrix = this._matrix.multiply(other._matrix);
 			let a = multipliedMatrix.e(1, 1);
-			let b = multipliedMatrix.e(1, 2);
-			let c = multipliedMatrix.e(2, 1);
+			let b = multipliedMatrix.e(2, 1);
+			let c = multipliedMatrix.e(1, 2);
 			let d = multipliedMatrix.e(2, 2);
 			let e = multipliedMatrix.e(1, 3);
 			let f = multipliedMatrix.e(2, 3);

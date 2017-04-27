@@ -65,8 +65,8 @@ describe('CanvasMatrix', () => {
 		});
 
 		it('multiply', () => {
-			let expected = new Matrix([[0, 1, 4], [2, 3, 5], [0, 0, 1]])
-				.multiply(new Matrix([[0, 1, 4], [2, 3, 5], [0, 0, 1]]));
+			let expected = new Matrix([[0, 2, 4], [1, 3, 5], [0, 0, 1]])
+				.multiply(new Matrix([[0, 2, 4], [1, 3, 5], [0, 0, 1]]));
 			let actual = new CanvasMatrix(0, 1, 2, 3, 4, 5)
 				.multiply(new CanvasMatrix(0, 1, 2, 3, 4, 5));
 			assert.isTrue(actual._matrix.eql(expected));

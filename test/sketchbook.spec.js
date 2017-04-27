@@ -12,7 +12,7 @@ describe('Sketchbook', () => {
 	beforeEach(function () {
 		sketchbook = new Sketchbook();
 	});
-	
+
 	describe('initialized Sketchbook', () => {
 		it('construct Sketchbook without parameter', () => {
 			let canvas = sketchbook.canvas;
@@ -83,8 +83,8 @@ describe('Sketchbook', () => {
 		it('rotate cw', () => {
 			let radian = 90 * Math.PI / 180;
 			let a = Math.cos(radian);
-			let b = -Math.sin(radian);
-			let c = Math.sin(radian);
+			let b = Math.sin(radian);
+			let c = -Math.sin(radian);
 			let d = Math.cos(radian);
 			let matrix = new CanvasMatrix(a, b, c, d, 0, 0);
 
@@ -97,8 +97,8 @@ describe('Sketchbook', () => {
 		it('rotate ccw', () => {
 			let radian = 90 * Math.PI / 180;
 			let a = Math.cos(radian);
-			let b = Math.sin(radian);
-			let c = -Math.sin(radian);
+			let b = -Math.sin(radian);
+			let c = Math.sin(radian);
 			let d = Math.cos(radian);
 			let matrix = new CanvasMatrix(a, b, c, d, 0, 0);
 
@@ -118,5 +118,138 @@ describe('Sketchbook', () => {
 			assert.strictEqual(sketchbook._cs._position.y, position.y);
 			assert.isTrue(sketchbook._cs._translateMatrix.equal(matrix));
 		});
+
+		it('compare with svgMatrix - SRT', () => {
+			let radian = -10 * Math.PI / 180;
+
+			let canvasSvg = document.createElement('canvas');
+			let canvasSvgCtx = canvasSvg.getContext('2d');
+			trackTransforms(canvasSvgCtx);
+
+			canvasSvgCtx.scale(1, 2);
+			canvasSvgCtx.translate(30, 20);
+			canvasSvgCtx.rotate(radian);
+
+			let canvasSketchbook = new Sketchbook();
+
+			canvasSketchbook.scale(1, 2);
+			canvasSketchbook.translate(30, 20);
+			canvasSketchbook.rotate(radian);
+
+			checkMatrix(canvasSvgCtx.getTransform(), canvasSketchbook._cs._basis);
+		});
+
+		it('compare with svgMatrix - TSR', () => {
+			let radian = -10 * Math.PI / 180;
+
+			let canvasSvg = document.createElement('canvas');
+			let canvasSvgCtx = canvasSvg.getContext('2d');
+			trackTransforms(canvasSvgCtx);
+
+			canvasSvgCtx.translate(30, 20);
+			canvasSvgCtx.scale(1, 2);
+			canvasSvgCtx.rotate(radian);
+
+			let canvasSketchbook = new Sketchbook();
+
+			canvasSketchbook.translate(30, 20);
+			canvasSketchbook.scale(1, 2);
+			canvasSketchbook.rotate(radian);
+
+			checkMatrix(canvasSvgCtx.getTransform(), canvasSketchbook._cs._basis);
+		});
+
+		it('compare with svgMatrix - CRT', () => {
+			let radian = -10 * Math.PI / 180;
+
+			let canvasSvg = document.createElement('canvas');
+			let canvasSvgCtx = canvasSvg.getContext('2d');
+			trackTransforms(canvasSvgCtx);
+
+			canvasSvgCtx.scale(1, 2);
+			canvasSvgCtx.rotate(radian);
+			canvasSvgCtx.translate(30, 20);
+
+			let canvasSketchbook = new Sketchbook();
+
+			canvasSketchbook.scale(1, 2);
+			canvasSketchbook.rotate(radian);
+			canvasSketchbook.translate(30, 20);
+
+			checkMatrix(canvasSvgCtx.getTransform(), canvasSketchbook._cs._basis);
+		});
+
+		function checkMatrix (svgMatrix, canvasMatrix) {
+			assert.strictEqual(svgMatrix.a, canvasMatrix.a);
+			assert.strictEqual(svgMatrix.b, canvasMatrix.b);
+			assert.strictEqual(svgMatrix.c, canvasMatrix.c);
+			assert.strictEqual(svgMatrix.d, canvasMatrix.d);
+			assert.strictEqual(svgMatrix.e, canvasMatrix.e);
+			assert.strictEqual(svgMatrix.f, canvasMatrix.f);
+		}
+
+		function trackTransforms (ctx) {
+			let svg = document.createElementNS("http://www.w3.org/2000/svg", 'svg');
+			let xform = svg.createSVGMatrix();
+			ctx.getTransform = function () {
+				return xform;
+			};
+
+			let savedTransforms = [];
+			let save = ctx.save;
+			ctx.save = function () {
+				savedTransforms.push(xform.translate(0, 0));
+				return save.call(ctx);
+			};
+			let restore = ctx.restore;
+			ctx.restore = function () {
+				xform = savedTransforms.pop();
+				return restore.call(ctx);
+			};
+
+			let scale = ctx.scale;
+			ctx.scale = function (sx, sy) {
+				xform = xform.scaleNonUniform(sx, sy);
+				return scale.call(ctx, sx, sy);
+			};
+			let rotate = ctx.rotate;
+			ctx.rotate = function (radians) {
+				xform = xform.rotate(radians * 180 / Math.PI);
+				return rotate.call(ctx, radians);
+			};
+			let translate = ctx.translate;
+			ctx.translate = function (dx, dy) {
+				xform = xform.translate(dx, dy);
+				return translate.call(ctx, dx, dy);
+			};
+			let transform = ctx.transform;
+			ctx.transform = function (a, b, c, d, e, f) {
+				let m2 = svg.createSVGMatrix();
+				m2.a = a;
+				m2.b = b;
+				m2.c = c;
+				m2.d = d;
+				m2.e = e;
+				m2.f = f;
+				xform = xform.multiply(m2);
+				return transform.call(ctx, a, b, c, d, e, f);
+			};
+			let setTransform = ctx.setTransform;
+			ctx.setTransform = function (a, b, c, d, e, f) {
+				xform.a = a;
+				xform.b = b;
+				xform.c = c;
+				xform.d = d;
+				xform.e = e;
+				xform.f = f;
+				return setTransform.call(ctx, a, b, c, d, e, f);
+			};
+			let pt = svg.createSVGPoint();
+			ctx.transformedPoint = function (x, y) {
+				pt.x = x;
+				pt.y = y;
+				return pt.matrixTransform(xform.inverse());
+			};
+		}
 	});
 });

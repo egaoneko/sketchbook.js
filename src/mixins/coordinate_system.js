@@ -38,15 +38,20 @@ class CoordinateSystem {
 	 * @member CoordinateSystem#basis
 	 */
 	get basis () {
-		if (!this._isNeedToUpdate) {
-			return this._basis;
+		return this._basis;
+	}
+
+	/**
+	 * @description Set basis
+	 * @type {CanvasMatrix}
+	 * @member CoordinateSystem#basis
+	 */
+	set basis (basis) {
+		if (!(basis instanceof CanvasMatrix)) {
+			throw new TypeError("Input basis is not CanvasMatrix.");
 		}
 
-		this._basis = this._scaleMatrix
-			.multiply(this._rotateMatrix)
-			.multiply(this._translateMatrix);
-		this._isNeedToUpdate = false;
-		return this._basis;
+		this._basis = basis;
 	}
 
 	/**
@@ -59,6 +64,7 @@ class CoordinateSystem {
 		this._xScale = xScale;
 		this._yScale = yScale;
 		this._scaleMatrix = new CanvasMatrix(xScale, 0, 0, yScale, 0, 0);
+		this._basis = this._basis.multiply(this._scaleMatrix);
 		this._isNeedToUpdate = true;
 	}
 
@@ -71,18 +77,19 @@ class CoordinateSystem {
 		let a, b, c, d;
 		if (this._opt.orientation === ORIENTATION.CCW) {
 			a = Math.cos(radian);
-			b = Math.sin(radian);
-			c = -Math.sin(radian);
+			b = -Math.sin(radian);
+			c = Math.sin(radian);
 			d = Math.cos(radian);
 		} else {
 			a = Math.cos(radian);
-			b = -Math.sin(radian);
-			c = Math.sin(radian);
+			b = Math.sin(radian);
+			c = -Math.sin(radian);
 			d = Math.cos(radian);
 		}
 
 		this._radian = radian;
 		this._rotateMatrix = new CanvasMatrix(a, b, c, d, 0, 0);
+		this._basis = this._basis.multiply(this._rotateMatrix);
 		this._isNeedToUpdate = true;
 	}
 
@@ -94,6 +101,7 @@ class CoordinateSystem {
 	translate (position) {
 		this._position = new Point(position);
 		this._translateMatrix = new CanvasMatrix(1, 0, 0, 1, position.x, position.y);
+		this._basis = this._basis.multiply(this._translateMatrix);
 		this._isNeedToUpdate = true;
 	}
 
