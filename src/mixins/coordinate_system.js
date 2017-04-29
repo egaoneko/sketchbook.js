@@ -24,9 +24,6 @@ class CoordinateSystem {
 			orientation: ORIENTATION.CW
 		};
 
-		this._scaleMatrix = new CanvasMatrix();
-		this._rotateMatrix = new CanvasMatrix();
-		this._translateMatrix = new CanvasMatrix();
 		this._basis = new CanvasMatrix();
 
 		Object.assign(this._opt, options);
@@ -61,10 +58,11 @@ class CoordinateSystem {
 	 * @member CoordinateSystem#scale
 	 */
 	scale (xScale, yScale) {
+		let scaleMatrix = new CanvasMatrix(xScale, 0, 0, yScale, 0, 0);
+
 		this._xScale = xScale;
 		this._yScale = yScale;
-		this._scaleMatrix = new CanvasMatrix(xScale, 0, 0, yScale, 0, 0);
-		this._basis = this._basis.multiply(this._scaleMatrix);
+		this._basis = this._basis.multiply(scaleMatrix);
 		this._isNeedToUpdate = true;
 	}
 
@@ -86,10 +84,10 @@ class CoordinateSystem {
 			c = -Math.sin(radian);
 			d = Math.cos(radian);
 		}
+		let rotateMatrix = new CanvasMatrix(a, b, c, d, 0, 0);
 
 		this._radian = radian;
-		this._rotateMatrix = new CanvasMatrix(a, b, c, d, 0, 0);
-		this._basis = this._basis.multiply(this._rotateMatrix);
+		this._basis = this._basis.multiply(rotateMatrix);
 		this._isNeedToUpdate = true;
 	}
 
@@ -99,9 +97,10 @@ class CoordinateSystem {
 	 * @member CoordinateSystem#translate
 	 */
 	translate (position) {
+		let translateMatrix = new CanvasMatrix(1, 0, 0, 1, position.x, position.y);
+
 		this._position = new Point(position);
-		this._translateMatrix = new CanvasMatrix(1, 0, 0, 1, position.x, position.y);
-		this._basis = this._basis.multiply(this._translateMatrix);
+		this._basis = this._basis.multiply(translateMatrix);
 		this._isNeedToUpdate = true;
 	}
 

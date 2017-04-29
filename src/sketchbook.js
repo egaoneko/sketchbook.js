@@ -1,6 +1,7 @@
+import _ from "lodash";
 import Point from "./objects/point";
 import {typeCheck} from "./utils/base";
-import {CannotFoundError} from "./errors/errors";
+import {CannotFoundError, ArgumentError} from "./errors/errors";
 import CoordinateSystem from "./mixins/coordinate_system";
 import ORIENTATION from "./global/orientation";
 
@@ -38,6 +39,7 @@ class Sketchbook {
 		this._opt = {
 			orientation: ORIENTATION.CW
 		};
+		this._renderList = [];
 	}
 
 	/**
@@ -47,6 +49,42 @@ class Sketchbook {
 	 */
 	get canvas () {
 		return this._canvas;
+	}
+
+	/**
+	 * @description Get sketchbook width
+	 * @type {Number}
+	 * @member Sketchbook#width
+	 */
+	get width () {
+		return this._canvas.width;
+	}
+
+	/**
+	 * @description Set sketchbook width
+	 * @type {Number}
+	 * @member Sketchbook#width
+	 */
+	set width (width) {
+		this._canvas.width = width;
+	}
+
+	/**
+	 * @description Get sketchbook height
+	 * @type {Number}
+	 * @member Sketchbook#height
+	 */
+	get height () {
+		return this._canvas.height;
+	}
+
+	/**
+	 * @description Set sketchbook height
+	 * @type {Number}
+	 * @member Sketchbook#height
+	 */
+	set height (height) {
+		this._canvas.height = height;
 	}
 
 	/**
@@ -112,23 +150,46 @@ class Sketchbook {
 		}
 	}
 
-	render (x, y, w, h) {
-		let lt = new Point([x, y]);
-		let lb = new Point([x, y + h]);
-		let rt = new Point([x + w, y]);
-		let rb = new Point([x + w, y + h]);
-		lt = this._cs.basis.multiply(lt);
-		lb = this._cs.basis.multiply(lb);
-		rt = this._cs.basis.multiply(rt);
-		rb = this._cs.basis.multiply(rb);
+	/**
+	 * @description add Objects
+	 * @param {Object} object added Object
+	 * @member Sketchbook#add
+	 */
+	add (object) {
+		if (!object) {
+			throw new CannotFoundError("Cannot found object.");
+		}
 
-		this._context.beginPath();
-		this._context.moveTo(lt.x, lt.y);
-		this._context.lineTo(lb.x, lb.y);
-		this._context.lineTo(rb.x, rb.y);
-		this._context.lineTo(rt.x, rt.y);
-		this._context.lineTo(lt.x, lt.y);
-		this._context.stroke();
+		if (!object.hasOwnProperty('render')) {
+			throw new ArgumentError("This object doesn't have render method.");
+		}
+
+		if (!typeCheck('function', object.render)) {
+			throw new ArgumentError("The render method isn't a function.");
+		}
+		this._renderList.push(object);
+	}
+
+	/**
+	 * @description render
+	 * @param {Sketchbook} sketchbook Sketchbook
+	 * @member Sketchbook#render
+	 */
+	render (sketchbook) {
+		if (!sketchbook) {
+			_.each(this._renderList, renderObj=> {
+				if (!renderObj.hasOwnProperty('render')) {
+					return;
+				}
+				renderObj.render(this);
+			});
+			return;
+		}
+
+		if (sketchbook && !(sketchbook instanceof Sketchbook)) {
+			throw new TypeError("Input wrong parameter.(Different class)");
+		}
+		sketchbook._context.drawImage(this._canvas, 0, 0);
 	}
 }
 

@@ -60,6 +60,38 @@ describe('Sketchbook', () => {
 	});
 
 	describe('methods', () => {
+		it('construct Sketchbook get about width', () => {
+			let width = 500;
+			let canvasElement = document.createElement('canvas');
+			canvasElement.width = width;
+			sketchbook = new Sketchbook(canvasElement);
+			assert.strictEqual(sketchbook.width, width);
+		});
+
+		it('construct Sketchbook get about height', () => {
+			let height = 500;
+			let canvasElement = document.createElement('canvas');
+			canvasElement.height = height;
+			sketchbook = new Sketchbook(canvasElement);
+			assert.strictEqual(sketchbook.height, height);
+		});
+
+		it('construct Sketchbook set about width', () => {
+			let width = 500;
+			let canvasElement = document.createElement('canvas');
+			sketchbook = new Sketchbook(canvasElement);
+			sketchbook.width = width;
+			assert.strictEqual(sketchbook.width, width);
+		});
+
+		it('construct Sketchbook set about height', () => {
+			let height = 500;
+			let canvasElement = document.createElement('canvas');
+			sketchbook = new Sketchbook(canvasElement);
+			sketchbook.height = height;
+			assert.strictEqual(sketchbook.height, height);
+		});
+
 		it('coordinate system isolate', () => {
 			let sketchbook1 = new Sketchbook();
 			let sketchbook2 = new Sketchbook();
@@ -77,7 +109,7 @@ describe('Sketchbook', () => {
 			sketchbook.scale(xScale, yScale);
 			assert.strictEqual(sketchbook._cs._xScale, xScale);
 			assert.strictEqual(sketchbook._cs._yScale, yScale);
-			assert.isTrue(sketchbook._cs._scaleMatrix.equal(matrix));
+			assert.isTrue(sketchbook._cs._basis.equal(matrix));
 		});
 
 		it('rotate cw', () => {
@@ -91,7 +123,7 @@ describe('Sketchbook', () => {
 			assert.strictEqual(sketchbook.getOption("orientation"), ORIENTATION.CW);
 			sketchbook.rotate(radian);
 			assert.strictEqual(sketchbook._cs._radian, radian);
-			assert.isTrue(sketchbook._cs._rotateMatrix.equal(matrix));
+			assert.isTrue(sketchbook._cs._basis.equal(matrix));
 		});
 
 		it('rotate ccw', () => {
@@ -106,7 +138,7 @@ describe('Sketchbook', () => {
 			assert.strictEqual(sketchbook.getOption("orientation"), ORIENTATION.CCW);
 			sketchbook.rotate(radian);
 			assert.strictEqual(sketchbook._cs._radian, radian);
-			assert.isTrue(sketchbook._cs._rotateMatrix.equal(matrix));
+			assert.isTrue(sketchbook._cs._basis.equal(matrix));
 		});
 
 		it('translate', () => {
@@ -116,7 +148,7 @@ describe('Sketchbook', () => {
 			sketchbook.translate(position.x, position.y);
 			assert.strictEqual(sketchbook._cs._position.x, position.x);
 			assert.strictEqual(sketchbook._cs._position.y, position.y);
-			assert.isTrue(sketchbook._cs._translateMatrix.equal(matrix));
+			assert.isTrue(sketchbook._cs._basis.equal(matrix));
 		});
 
 		it('compare with svgMatrix - SRT', () => {
@@ -251,5 +283,37 @@ describe('Sketchbook', () => {
 				return pt.matrixTransform(xform.inverse());
 			};
 		}
+
+		it('add', () => {
+			let object = {
+				render: ()=> {
+				}
+			};
+			let lenderList = sketchbook._renderList;
+
+			sketchbook.add(object);
+			assert.strictEqual(lenderList[lenderList.length - 1], object);
+		});
+
+		it('add without object', () => {
+			assert.throws(()=>sketchbook.add(), Error, "Cannot found object.");
+		});
+
+		it('add with empty object', () => {
+			let object = {};
+			assert.throws(()=>sketchbook.add(object), Error, "This object doesn't have render method.");
+		});
+
+		it('add with render is not function', () => {
+			let object = {
+				render: 1
+			};
+			assert.throws(()=>sketchbook.add(object), Error, "The render method isn't a function.");
+		});
+
+		it('render with wrong type', () => {
+			let wrong = {};
+			assert.throws(()=>sketchbook.render(wrong), TypeError, "Input wrong parameter.(Different class)");
+		});
 	});
 });

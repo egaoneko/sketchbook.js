@@ -33,9 +33,6 @@ describe('CoordinateSystem', () => {
 		});
 
 		it('initialized matrix', () => {
-			checkMatrix(cs._scaleMatrix);
-			checkMatrix(cs._rotateMatrix);
-			checkMatrix(cs._translateMatrix);
 			checkMatrix(cs._basis);
 		});
 	});
@@ -69,7 +66,7 @@ describe('CoordinateSystem', () => {
 			cs.scale(xScale, yScale);
 			assert.strictEqual(cs._xScale, xScale);
 			assert.strictEqual(cs._yScale, yScale);
-			assert.isTrue(cs._scaleMatrix.equal(matrix));
+			assert.isTrue(cs._basis.equal(matrix));
 			assert.isTrue(cs._isNeedToUpdate);
 		});
 
@@ -84,7 +81,7 @@ describe('CoordinateSystem', () => {
 			assert.strictEqual(cs._opt.orientation, ORIENTATION.CW);
 			cs.rotate(radian);
 			assert.strictEqual(cs._radian, radian);
-			assert.isTrue(cs._rotateMatrix.equal(matrix));
+			assert.isTrue(cs._basis.equal(matrix));
 			assert.isTrue(cs._isNeedToUpdate);
 		});
 
@@ -100,7 +97,7 @@ describe('CoordinateSystem', () => {
 			assert.strictEqual(cs._opt.orientation, ORIENTATION.CCW);
 			cs.rotate(radian);
 			assert.strictEqual(cs._radian, radian);
-			assert.isTrue(cs._rotateMatrix.equal(matrix));
+			assert.isTrue(cs._basis.equal(matrix));
 			assert.isTrue(cs._isNeedToUpdate);
 		});
 
@@ -111,7 +108,7 @@ describe('CoordinateSystem', () => {
 			cs.translate(position);
 			assert.strictEqual(cs._position.x, position.x);
 			assert.strictEqual(cs._position.y, position.y);
-			assert.isTrue(cs._translateMatrix.equal(matrix));
+			assert.isTrue(cs._basis.equal(matrix));
 			assert.isTrue(cs._isNeedToUpdate);
 		});
 
