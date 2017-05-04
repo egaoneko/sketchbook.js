@@ -3,7 +3,7 @@ import CannotFoundError from "./cannot_found_error";
 import ArgumentError from "./argument_error";
 
 export {
-	ExtendableError,
-	CannotFoundError,
-	ArgumentError
+  ExtendableError,
+  CannotFoundError,
+  ArgumentError
 };

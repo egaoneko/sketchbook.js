@@ -1,7 +1,7 @@
 import Enum from "es6-enum";
 
 /**
- * CW    : clockwise
+ * CW     : clockwise
  * CCW    : counter clockwise
  */
 const ORIENTATION = Enum("CW", "CCW");

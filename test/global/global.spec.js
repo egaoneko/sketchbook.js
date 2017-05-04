@@ -3,8 +3,16 @@ import chai from "chai";
 
 let assert = chai.assert;
 
-describe('Index', () => {
-	it('ORIENTATION', () => {
-		assert.property(global, "ORIENTATION");
-	});
+describe('Global', () => {
+  it('ORIENTATION', () => {
+    assert.property(global, "ORIENTATION");
+  });
+
+  it('ORIGIN', () => {
+    assert.property(global, "ORIGIN");
+  });
+
+  it('COORDINATE_SYSTEM', () => {
+    assert.property(global, "COORDINATE_SYSTEM");
+  });
 });

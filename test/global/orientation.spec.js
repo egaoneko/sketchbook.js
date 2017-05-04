@@ -4,8 +4,8 @@ import chai from "chai";
 let assert = chai.assert;
 
 describe('orientation', () => {
-	it('ORIENTATION', () => {
-		assert.property(ORIENTATION, "CW");
-		assert.property(ORIENTATION, "CCW");
-	});
+  it('ORIENTATION', () => {
+    assert.property(ORIENTATION, "CW");
+    assert.property(ORIENTATION, "CCW");
+  });
 });
