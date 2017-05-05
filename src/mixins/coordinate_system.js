@@ -1,6 +1,6 @@
 import Point from "../objects/point";
 import CanvasMatrix from "../objects/canvas_matrix";
-import {ORIENTATION, ORIGIN, COORDINATE_SYSTEM} from "../global/global";
+import {ORIENTATION, COORDINATE_SYSTEM} from "../global/global";
 
 /**
  * @description Coordinate System Class
@@ -20,7 +20,6 @@ class CoordinateSystem {
     this._isNeedToUpdate = false;
     this._opt = {
       orientation: ORIENTATION.CW,
-      origin: ORIGIN.LEFT_TOP,
       coordinateSystem: COORDINATE_SYSTEM.SCREEN
     };
 
@@ -35,7 +34,7 @@ class CoordinateSystem {
    * @member CoordinateSystem#basis
    */
   get basis() {
-    return this._basis;
+    return new CanvasMatrix(this._basis);
   }
 
   /**

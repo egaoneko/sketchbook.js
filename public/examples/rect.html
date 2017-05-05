@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Origin</title>
+
+  <style>
+    html, body {
+      height: 100%;
+    }
+
+    .box {
+      position: relative;
+      display: inline-block;
+      margin: 10px;
+    }
+
+    .box > canvas {
+      border: solid 1px;
+    }
+  </style>
+</head>
+<body>
+<h1>Rect</h1>
+<script src="../bundle.js"></script>
+<script>
+  window.onload = function () {
+
+    var rect;
+
+    rect = new sketchbook.Rect({
+      x: 10,
+      y: 10,
+      width: 10,
+      height: 10
+    });
+    addBox("Simple rect", rect);
+
+    rect = new sketchbook.Rect({
+      x: 10,
+      y: 10,
+      width: 10,
+      height: 10,
+      lineWidth: 3
+    });
+    addBox("Line width rect", rect);
+  };
+
+  function addBox(name, rect) {
+    var box = document.createElement('div');
+    box.className = 'box';
+
+    var h2 = document.createElement('h2');
+    h2.innerText = name;
+    box.appendChild(h2);
+
+    var canvas = document.createElement('canvas');
+    box.appendChild(canvas);
+
+    var sb = new sketchbook.Sketchbook(canvas);
+    sb.width = 150;
+    sb.height = 150;
+    sb.add(rect);
+    sb.render();
+
+    document.body.appendChild(box);
+  }
+</script>
+</body>
+</html>

@@ -2,7 +2,7 @@ import chai from "chai";
 import CoordinateSystem from "../../src/mixins/coordinate_system";
 import CanvasMatrix from "../../src/objects/canvas_matrix";
 import Point from "../../src/objects/point";
-import {ORIENTATION, ORIGIN, COORDINATE_SYSTEM} from "../../src/global/global";
+import {ORIENTATION, COORDINATE_SYSTEM} from "../../src/global/global";
 
 
 let assert = chai.assert;
@@ -56,26 +56,6 @@ describe('CoordinateSystem', () => {
       it('set option orientation', () => {
         cs.setOption("orientation", ORIENTATION.CCW);
         assert.strictEqual(cs._opt.orientation, ORIENTATION.CCW);
-      });
-    });
-
-    describe('origin', () => {
-      it('initialized default origin', () => {
-        assert.strictEqual(cs._opt.origin, ORIGIN.LEFT_TOP);
-      });
-
-      it('initialized set origin', () => {
-        cs = new CoordinateSystem({origin: ORIGIN.CENTER});
-        assert.strictEqual(cs._opt.origin, ORIGIN.CENTER);
-      });
-
-      it('get option origin', () => {
-        assert.strictEqual(cs.getOption("origin"), ORIGIN.LEFT_TOP);
-      });
-
-      it('set option origin', () => {
-        cs.setOption("origin", ORIGIN.CENTER);
-        assert.strictEqual(cs._opt.origin, ORIGIN.CENTER);
       });
     });
 

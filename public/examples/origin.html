@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Origin</title>
+
+  <style>
+    html, body {
+      height: 100%;
+    }
+
+    .box {
+      position: relative;
+      display: inline-block;
+    }
+  </style>
+</head>
+<body>
+<h1>Origin</h1>
+<div class="box">
+  <h2>Left Top</h2>
+  <canvas width="600" height="600" style="border: solid 1px" id="canvas_left_top"></canvas>
+</div>
+<div class="box">
+  <h2>Center</h2>
+  <canvas width="600" height="600" style="border: solid 1px" id="canvas_center"></canvas>
+</div>
+<script src="../bundle.js"></script>
+<script>
+  window.onload = function () {
+    var radian = -10 * Math.PI / 180;
+
+    var sb = new sketchbook.Sketchbook();
+    sb.width = 300;
+    sb.height = 300;
+    var renderObj = new sketchbook.Rect({
+      x: 10,
+      y: 10,
+      width: 10,
+      height: 10
+    });
+    sb.add(renderObj);
+    sb.render();
+
+    sb.translate(30, 20);
+    sb.scale(1, 2);
+    sb.rotate(radian);
+    sb.render();
+
+    sb.scale(1, 2);
+    sb.translate(30, 20);
+    sb.rotate(radian);
+    sb.render();
+
+    sb.scale(1, 2);
+    sb.rotate(radian);
+    sb.translate(30, 20);
+    sb.render();
+
+    sb.position = new sketchbook.Point([300, 300]);
+
+    var leftTop = new sketchbook.Sketchbook('canvas_left_top');
+    sb.setOption('origin', sketchbook.global.ORIGIN.LEFT_TOP);
+    leftTop.add(sb);
+    leftTop.render();
+
+    var center = new sketchbook.Sketchbook('canvas_center');
+    sb.setOption('origin', sketchbook.global.ORIGIN.CENTER);
+    center.add(sb);
+    center.render();
+  };
+</script>
+</body>
+</html>

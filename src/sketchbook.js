@@ -3,9 +3,9 @@ import Point from "./objects/point";
 import {typeCheck} from "./utils/base";
 import {CannotFoundError, ArgumentError} from "./errors/errors";
 import CoordinateSystem from "./mixins/coordinate_system";
-import {ORIENTATION, ORIGIN, COORDINATE_SYSTEM} from "./global/global";
+import {ORIGIN} from "./global/global";
 
-const cs_options = ["orientation", "origin", "coordinateSystem"];
+const cs_options = ["orientation", "coordinateSystem"];
 
 /**
  * @description Sketchbook Class
@@ -19,17 +19,17 @@ class Sketchbook {
    */
   constructor(param) {
     let canvas = null;
-    let isTypeObject = typeCheck('object', param);
 
     // If param is canvas element
+    let isTypeObject = typeCheck('object', param);
     if (isTypeObject) {
-      canvas = _getCanvasByElement(param);
+      canvas = this._getCanvasByElement(param);
     }
 
     // If param is canvas id
     let isTypeString = typeCheck('string', param);
     if (isTypeString) {
-      canvas = _getCanvasById(param);
+      canvas = this._getCanvasById(param);
     }
 
     if (canvas === null) {
@@ -39,11 +39,38 @@ class Sketchbook {
     this._context = canvas.getContext('2d');
     this._cs = new CoordinateSystem();
     this._opt = {
-      orientation: ORIENTATION.CW,
-      origin: ORIGIN.LEFT_TOP,
-      coordinateSystem: COORDINATE_SYSTEM.SCREEN
+      origin: ORIGIN.LEFT_TOP
     };
     this._renderList = [];
+    this._position = new Point([0, 0]);
+  }
+
+  /**
+   * @description Get canvas by element/
+   * @param {Object} canvas canvas element
+   * @method _getCanvasByElement
+   */
+  _getCanvasByElement(canvas) {
+    let isCanvas = canvas.nodeName && canvas.nodeName === 'CANVAS';
+
+    if (!isCanvas) {
+      throw new TypeError("Input element is not canvas.");
+    }
+    return canvas;
+  }
+
+  /**
+   * @description Get canvas by element/
+   * @param {String} id canvas id
+   * @method _setCanvasById
+   */
+  _getCanvasById(id) {
+    let canvas = document.getElementById(id);
+
+    if (typeCheck('null', canvas)) {
+      throw new CannotFoundError("Cannot found element by id.");
+    }
+    return canvas;
   }
 
   /**
@@ -92,6 +119,27 @@ class Sketchbook {
   }
 
   /**
+   * @description Get position
+   * @type {Point}
+   * @member Sketchbook#position
+   */
+  get position() {
+    return new Point(this._position);
+  }
+
+  /**
+   * @description Set position
+   * @type {Point}
+   * @member Sketchbook#position
+   */
+  set position(position) {
+    if (!(position instanceof Point)) {
+      throw new TypeError("Input position is not Point.");
+    }
+    this._position = new Point(position);
+  }
+
+  /**
    * @description scale
    * @param {Number} xScale xScale
    * @param {Number} yScale yScale
@@ -131,6 +179,10 @@ class Sketchbook {
     if (!hasName) {
       return null;
     }
+
+    if (cs_options.includes(name)) {
+      return this._cs.getOption(name);
+    }
     return this._opt[name];
   }
 
@@ -148,10 +200,11 @@ class Sketchbook {
       return;
     }
 
-    this._opt[name] = value;
     if (cs_options.includes(name)) {
       this._cs.setOption(name, value);
+      return;
     }
+    this._opt[name] = value;
   }
 
   /**
@@ -164,7 +217,7 @@ class Sketchbook {
       throw new CannotFoundError("Cannot found object.");
     }
 
-    if (!object.hasOwnProperty('render')) {
+    if (!('render' in object)) {
       throw new ArgumentError("This object doesn't have render method.");
     }
 
@@ -181,48 +234,43 @@ class Sketchbook {
    */
   render(sketchbook) {
     if (!sketchbook) {
-      _.each(this._renderList, renderObj=> {
-        if (!renderObj.hasOwnProperty('render')) {
-          return;
-        }
-        renderObj.render(this);
-      });
+      this._renderChild();
       return;
     }
 
     if (sketchbook && !(sketchbook instanceof Sketchbook)) {
       throw new TypeError("Input wrong parameter.(Different class)");
     }
-    sketchbook._context.drawImage(this._canvas, 0, 0);
+    let origin = this._getOrigin();
+    sketchbook._context.drawImage(this._canvas, origin.x, origin.y);
   }
-}
 
-/**
- * @description Get canvas by element/
- * @param {Object} canvas canvas element
- * @method _getCanvasByElement
- */
-function _getCanvasByElement(canvas) {
-  let isCanvas = canvas.nodeName && canvas.nodeName === 'CANVAS';
-
-  if (!isCanvas) {
-    throw new TypeError("Input element is not canvas.");
+  /**
+   * @description render children
+   * @method _renderChild
+   */
+  _renderChild() {
+    _.each(this._renderList, renderObj=> {
+      if (!('render' in renderObj)) {
+        return;
+      }
+      renderObj.render(this);
+    });
   }
-  return canvas;
-}
 
-/**
- * @description Get canvas by element/
- * @param {String} id canvas id
- * @method _setCanvasById
- */
-function _getCanvasById(id) {
-  let canvas = document.getElementById(id);
-
-  if (typeCheck('null', canvas)) {
-    throw new CannotFoundError("Cannot found element by id.");
+  /**
+   * @description get origin
+   * @return {Point} position
+   * @method _getOrigin
+   */
+  _getOrigin() {
+    if (this._opt.origin === ORIGIN.CENTER) {
+      let x = this._position.x - this._canvas.width * 0.5;
+      let y = this._position.y - this._canvas.height * 0.5;
+      return new Point([x, y]);
+    }
+    return new Point(this._position);
   }
-  return canvas;
 }
 
 export default Sketchbook;

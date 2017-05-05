@@ -46,6 +46,12 @@ describe('Sketchbook', () => {
       let wrongId = "wrong-canvas";
       assert.throws(()=>new Sketchbook(wrongId), Error, "Cannot found element by id.");
     });
+
+    it('initialized position', () => {
+      let position = sketchbook._position;
+      assert.strictEqual(position.x, 0);
+      assert.strictEqual(position.y, 0);
+    });
   });
 
   describe('options', () => {
@@ -61,13 +67,17 @@ describe('Sketchbook', () => {
     });
 
     describe('origin', () => {
+      it('initialized default origin', () => {
+        assert.strictEqual(sketchbook._opt.origin, ORIGIN.LEFT_TOP);
+      });
+
       it('get option origin', () => {
         assert.strictEqual(sketchbook.getOption("origin"), ORIGIN.LEFT_TOP);
       });
 
       it('set option origin', () => {
         sketchbook.setOption("origin", ORIGIN.CENTER);
-        assert.strictEqual(sketchbook._cs._opt.origin, ORIGIN.CENTER);
+        assert.strictEqual(sketchbook._opt.origin, ORIGIN.CENTER);
       });
     });
 
@@ -84,7 +94,7 @@ describe('Sketchbook', () => {
   });
 
   describe('methods', () => {
-    it('construct Sketchbook get about width', () => {
+    it('get width', () => {
       let width = 500;
       let canvasElement = document.createElement('canvas');
       canvasElement.width = width;
@@ -92,7 +102,7 @@ describe('Sketchbook', () => {
       assert.strictEqual(sketchbook.width, width);
     });
 
-    it('construct Sketchbook get about height', () => {
+    it('get height', () => {
       let height = 500;
       let canvasElement = document.createElement('canvas');
       canvasElement.height = height;
@@ -100,20 +110,36 @@ describe('Sketchbook', () => {
       assert.strictEqual(sketchbook.height, height);
     });
 
-    it('construct Sketchbook set about width', () => {
+    it('set width', () => {
       let width = 500;
       let canvasElement = document.createElement('canvas');
       sketchbook = new Sketchbook(canvasElement);
       sketchbook.width = width;
-      assert.strictEqual(sketchbook.width, width);
+      assert.strictEqual(sketchbook._canvas.width, width);
     });
 
-    it('construct Sketchbook set about height', () => {
+    it('set height', () => {
       let height = 500;
       let canvasElement = document.createElement('canvas');
       sketchbook = new Sketchbook(canvasElement);
       sketchbook.height = height;
-      assert.strictEqual(sketchbook.height, height);
+      assert.strictEqual(sketchbook._canvas.height, height);
+    });
+
+    it('get position', () => {
+      assert.strictEqual(sketchbook.position.x, 0);
+      assert.strictEqual(sketchbook.position.y, 0);
+    });
+
+    it('set position', () => {
+      sketchbook.position = new Point([3, 4]);
+
+      assert.strictEqual(sketchbook.position.x, 3);
+      assert.strictEqual(sketchbook.position.y, 4);
+    });
+
+    it('set position with wrong input', () => {
+      assert.throws(()=>sketchbook.position = "wrong input", TypeError, "Input position is not Point.");
     });
 
     it('coordinate system isolate', () => {
@@ -338,6 +364,26 @@ describe('Sketchbook', () => {
     it('render with wrong type', () => {
       let wrong = {};
       assert.throws(()=>sketchbook.render(wrong), TypeError, "Input wrong parameter.(Different class)");
+    });
+
+    it('get origin with ORIGIN.LEFT_TOP option', () => {
+      sketchbook.position = new Point([100, 50]);
+      let position = sketchbook._getOrigin();
+
+      assert.strictEqual(position.x, 100);
+      assert.strictEqual(position.y, 50);
+    });
+
+    it('get origin with ORIGIN.CENTER option', () => {
+      sketchbook.position = new Point([100, 50]);
+      sketchbook.setOption("origin", ORIGIN.CENTER);
+
+      sketchbook.width = 50;
+      sketchbook.height = 50;
+      let position = sketchbook._getOrigin();
+
+      assert.strictEqual(position.x, 75);
+      assert.strictEqual(position.y, 25);
     });
   });
 });
