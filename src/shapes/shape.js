@@ -1,10 +1,9 @@
 import _ from "lodash";
 import Point from "../objects/point";
 import CoordinateSystem from "../mixins/coordinate_system";
-import Sketchbook from "../sketchbook";
 import {ExtendingError} from "../errors/errors";
 
-const cs_options = ["orientation"];
+const CS_OPTIONS = ["orientation"];
 
 /**
  * @description Shape Class
@@ -31,13 +30,15 @@ class Shape {
       miterLimit: 10,
 
       globalAlpha: 1.0,
-      globalCompositeOperation: 'source-over',
+      globalCompositeOperation: 'source-over'
     };
     this._cs = new CoordinateSystem();
     this._opt = Object.assign({
       x: 0,
       y: 0,
-      visible: true
+      visible: true,
+      isFilled: false,
+      isStroked: true
     }, this._defaultCanvasOpt);
 
     this.setOptions(options);
@@ -340,22 +341,68 @@ class Shape {
   }
 
   /**
+   * @description Get isFilled
+   * @type {Boolean}
+   * @member Shape#isFilled
+   */
+  get isFilled() {
+    return this._opt.isFilled;
+  }
+
+  /**
+   * @description Set isFilled
+   * @type {Boolean}
+   * @member Shape#isFilled
+   */
+  set isFilled(isFilled) {
+    this._opt.isFilled = isFilled;
+  }
+
+  /**
+   * @description Get isStroked
+   * @type {Boolean}
+   * @member Shape#isStroked
+   */
+  get isStroked() {
+    return this._opt.isStroked;
+  }
+
+  /**
+   * @description Set isStroked
+   * @type {Boolean}
+   * @member Shape#isStroked
+   */
+  set isStroked(isStroked) {
+    this._opt.isStroked = isStroked;
+  }
+
+  /**
    * @description scale
    * @param {Number} xScale xScale
    * @param {Number} yScale yScale
+   * @param {Point} [pivot] pivot point
    * @member Shape#scale
    */
-  scale(xScale, yScale) {
+  scale(xScale, yScale, pivot = this._position) {
+    if (xScale <= 0 || yScale <= 0) {
+      return;
+    }
+
+    this.translate(pivot.x, pivot.y);
     this._cs.scale(xScale, yScale);
+    this.translate(-pivot.x, -pivot.y);
   }
 
   /**
    * @description rotate
    * @param {Number} radian radian
+   * @param {Point} [pivot] pivot point
    * @member Shape#rotate
    */
-  rotate(radian) {
+  rotate(radian, pivot = this._position) {
+    this.translate(pivot.x, pivot.y);
     this._cs.rotate(radian);
+    this.translate(-pivot.x, -pivot.y);
   }
 
   /**
@@ -380,9 +427,10 @@ class Shape {
       return null;
     }
 
-    if (cs_options.includes(name)) {
+    if (CS_OPTIONS.includes(name)) {
       return this._cs.getOption(name);
     }
+
     return this._opt[name];
   }
 
@@ -400,10 +448,11 @@ class Shape {
       return;
     }
 
-    if (cs_options.includes(name)) {
+    if (CS_OPTIONS.includes(name)) {
       this._cs.setOption(name, value);
       return;
     }
+
     this._opt[name] = value;
   }
 
@@ -414,7 +463,7 @@ class Shape {
    */
   getOptions() {
     let options = Object.assign({}, this._opt);
-    _.each(cs_options, key => {
+    _.each(CS_OPTIONS, key => {
       options[key] = this._cs._opt[key];
     });
     return options;
@@ -429,13 +478,40 @@ class Shape {
     options = Object.assign({}, options);
 
     _.each(options, (value, key) => {
-      if (!cs_options.includes(key)) {
+      if (!CS_OPTIONS.includes(key)) {
         return;
       }
       this._cs.setOption(key, value);
       delete options[key];
     });
     Object.assign(this._opt, options);
+  }
+
+  /**
+   * @description renderShape
+   * @param {Sketchbook} sketchbook Sketchbook
+   * @member Shape#renderShape
+   */
+  renderShape(sketchbook) {
+    if (!this.visible) {
+      return;
+    }
+
+    this.beforeRender(sketchbook);
+    this.render(sketchbook);
+    this.afterRender(sketchbook);
+  }
+
+  /**
+   * @description before render
+   * @param {Sketchbook} sketchbook Sketchbook
+   * @member Shape#beforeRender
+   */
+  beforeRender(sketchbook) {
+    let ctx = sketchbook._context;
+    let basis = sketchbook._cs.basis.multiply(this._cs.basis);
+    ctx.setTransform(basis.a, basis.b, basis.c, basis.d, basis.e, basis.f);
+    this.applyOptions(sketchbook);
   }
 
   /**
@@ -447,14 +523,12 @@ class Shape {
   }
 
   /**
-   * @description validate Sketchbook
-   * @param {Sketchbook} sketchbook Shape
-   * @member Shape#validateSketchbook
+   * @description after render
+   * @param {Sketchbook} sketchbook Sketchbook
+   * @member Shape#afterRender
    */
-  validateSketchbook(sketchbook) {
-    if (sketchbook && !(sketchbook instanceof Sketchbook)) {
-      throw new TypeError("Input wrong parameter.(Different class)");
-    }
+  afterRender(sketchbook) {
+    this.resetOptions(sketchbook);
   }
 
   /**
@@ -463,7 +537,6 @@ class Shape {
    * @member Shape#applyOptions
    */
   applyOptions(sketchbook) {
-    this.validateSketchbook(sketchbook);
     _.each(this._defaultCanvasOpt, (value, key) => {
       sketchbook._context[key] = this._opt[key];
     });
@@ -475,7 +548,6 @@ class Shape {
    * @member Shape#resetOptions
    */
   resetOptions(sketchbook) {
-    this.validateSketchbook(sketchbook);
     _.each(this._defaultCanvasOpt, (value, key) => {
       sketchbook._context[key] = value;
     });

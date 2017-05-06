@@ -61,11 +61,6 @@ describe('Rect', () => {
       assert.strictEqual(rect._opt.height, height);
     });
 
-    it('render with wrong type', () => {
-      let wrong = {};
-      assert.throws(()=>rect.render(wrong), TypeError, "Input wrong parameter.(Different class)");
-    });
-
     it('get origin with ORIGIN.LEFT_TOP option', () => {
       rect.position = new Point([100, 50]);
       let position = rect._getOrigin();

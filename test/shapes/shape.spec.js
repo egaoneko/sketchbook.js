@@ -79,9 +79,31 @@ describe('Shape', () => {
     it('initialized visible', () => {
       assert.strictEqual(shape._opt.visible, true);
     });
+
+    it('initialized isFilled', () => {
+      assert.strictEqual(shape._opt.isFilled, false);
+    });
+
+    it('initialized isStroked', () => {
+      assert.strictEqual(shape._opt.isStroked, true);
+    });
   });
 
   describe('options', () => {
+    it('get option', () => {
+      assert.strictEqual(shape.getOption('fillStyle'), "#000000");
+      shape = new Shape({
+        fillStyle: '#ffffff'
+      });
+      assert.strictEqual(shape.getOption('fillStyle'), "#ffffff");
+    });
+
+    it('set option', () => {
+      assert.strictEqual(shape.getOption('fillStyle'), "#000000");
+      shape.setOption('fillStyle', '#ffffff');
+      assert.strictEqual(shape.getOption('fillStyle'), "#ffffff");
+    });
+
     it('initialized set options', () => {
       shape = new Shape({
         fillStyle: '#ffffff',
@@ -99,23 +121,25 @@ describe('Shape', () => {
         x: 10,
         y: 20,
         visible: false,
+        isFilled: true,
+        isStroked: false,
         orientation: ORIENTATION.CCW
       });
-      assert.strictEqual(shape.fillStyle, '#ffffff');
-      assert.strictEqual(shape.strokeStyle, '#ffffff');
-      assert.strictEqual(shape.shadowColor, '#ffffff');
-      assert.strictEqual(shape.shadowBlur, 20);
-      assert.strictEqual(shape.shadowOffsetX, 20);
-      assert.strictEqual(shape.shadowOffsetY, 20);
-      assert.strictEqual(shape.lineCap, 'round');
-      assert.strictEqual(shape.lineJoin, 'bevel');
-      assert.strictEqual(shape.lineWidth, 10);
-      assert.strictEqual(shape.miterLimit, 5);
-      assert.strictEqual(shape.globalAlpha, 0.0);
-      assert.strictEqual(shape.globalCompositeOperation, 'destination-over');
-      assert.strictEqual(shape.x, 10);
-      assert.strictEqual(shape.y, 20);
-      assert.strictEqual(shape.visible, false);
+      assert.strictEqual(shape._opt.fillStyle, '#ffffff');
+      assert.strictEqual(shape._opt.strokeStyle, '#ffffff');
+      assert.strictEqual(shape._opt.shadowColor, '#ffffff');
+      assert.strictEqual(shape._opt.shadowBlur, 20);
+      assert.strictEqual(shape._opt.shadowOffsetX, 20);
+      assert.strictEqual(shape._opt.shadowOffsetY, 20);
+      assert.strictEqual(shape._opt.lineCap, 'round');
+      assert.strictEqual(shape._opt.lineJoin, 'bevel');
+      assert.strictEqual(shape._opt.lineWidth, 10);
+      assert.strictEqual(shape._opt.miterLimit, 5);
+      assert.strictEqual(shape._opt.globalAlpha, 0.0);
+      assert.strictEqual(shape._opt.globalCompositeOperation, 'destination-over');
+      assert.strictEqual(shape._opt.x, 10);
+      assert.strictEqual(shape._opt.y, 20);
+      assert.strictEqual(shape._opt.visible, false);
       assert.strictEqual(shape._cs._opt.orientation, ORIENTATION.CCW);
     });
 
@@ -136,6 +160,8 @@ describe('Shape', () => {
         x: 10,
         y: 20,
         visible: false,
+        isFilled: true,
+        isStroked: false,
         orientation: ORIENTATION.CCW
       };
 
@@ -166,6 +192,8 @@ describe('Shape', () => {
         x: 10,
         y: 20,
         visible: false,
+        isFilled: true,
+        isStroked: false,
         orientation: ORIENTATION.CCW
       };
 
@@ -204,7 +232,7 @@ describe('Shape', () => {
 
     it('set fillStyle', () => {
       shape.fillStyle = '#ffffff';
-      assert.strictEqual(shape.fillStyle, '#ffffff');
+      assert.strictEqual(shape._opt.fillStyle, '#ffffff');
     });
 
     it('get strokeStyle', () => {
@@ -213,7 +241,7 @@ describe('Shape', () => {
 
     it('set strokeStyle', () => {
       shape.strokeStyle = '#ffffff';
-      assert.strictEqual(shape.strokeStyle, '#ffffff');
+      assert.strictEqual(shape._opt.strokeStyle, '#ffffff');
     });
 
     it('get shadowColor', () => {
@@ -222,7 +250,7 @@ describe('Shape', () => {
 
     it('set shadowColor', () => {
       shape.shadowColor = '#ffffff';
-      assert.strictEqual(shape.shadowColor, '#ffffff');
+      assert.strictEqual(shape._opt.shadowColor, '#ffffff');
     });
 
     it('get shadowBlur', () => {
@@ -231,7 +259,7 @@ describe('Shape', () => {
 
     it('set shadowBlur', () => {
       shape.shadowBlur = 20;
-      assert.strictEqual(shape.shadowBlur, 20);
+      assert.strictEqual(shape._opt.shadowBlur, 20);
     });
 
     it('get shadowOffsetX', () => {
@@ -240,7 +268,7 @@ describe('Shape', () => {
 
     it('set shadowOffsetX', () => {
       shape.shadowOffsetX = 20;
-      assert.strictEqual(shape.shadowOffsetX, 20);
+      assert.strictEqual(shape._opt.shadowOffsetX, 20);
     });
 
     it('get shadowOffsetY', () => {
@@ -249,7 +277,7 @@ describe('Shape', () => {
 
     it('set shadowOffsetY', () => {
       shape.shadowOffsetY = 20;
-      assert.strictEqual(shape.shadowOffsetY, 20);
+      assert.strictEqual(shape._opt.shadowOffsetY, 20);
     });
 
     it('get lineCap', () => {
@@ -258,7 +286,7 @@ describe('Shape', () => {
 
     it('set lineCap', () => {
       shape.lineCap = 'round';
-      assert.strictEqual(shape.lineCap, 'round');
+      assert.strictEqual(shape._opt.lineCap, 'round');
     });
 
     it('get lineJoin', () => {
@@ -267,7 +295,7 @@ describe('Shape', () => {
 
     it('set lineJoin', () => {
       shape.lineJoin = 'bevel';
-      assert.strictEqual(shape.lineJoin, 'bevel');
+      assert.strictEqual(shape._opt.lineJoin, 'bevel');
     });
 
     it('get lineWidth', () => {
@@ -276,7 +304,7 @@ describe('Shape', () => {
 
     it('set lineWidth', () => {
       shape.lineWidth = 10;
-      assert.strictEqual(shape.lineWidth, 10);
+      assert.strictEqual(shape._opt.lineWidth, 10);
     });
 
     it('get miterLimit', () => {
@@ -285,7 +313,7 @@ describe('Shape', () => {
 
     it('set miterLimit', () => {
       shape.miterLimit = 5;
-      assert.strictEqual(shape.miterLimit, 5);
+      assert.strictEqual(shape._opt.miterLimit, 5);
     });
 
     it('get globalAlpha', () => {
@@ -294,7 +322,7 @@ describe('Shape', () => {
 
     it('set globalAlpha', () => {
       shape.globalAlpha = 0.0;
-      assert.strictEqual(shape.globalAlpha, 0.0);
+      assert.strictEqual(shape._opt.globalAlpha, 0.0);
     });
 
     it('get globalCompositeOperation', () => {
@@ -303,7 +331,7 @@ describe('Shape', () => {
 
     it('set globalCompositeOperation', () => {
       shape.globalCompositeOperation = 'destination-over';
-      assert.strictEqual(shape.globalCompositeOperation, 'destination-over');
+      assert.strictEqual(shape._opt.globalCompositeOperation, 'destination-over');
     });
 
     it('get x', () => {
@@ -312,7 +340,7 @@ describe('Shape', () => {
 
     it('set x', () => {
       shape.x = 20;
-      assert.strictEqual(shape.x, 20);
+      assert.strictEqual(shape._opt.x, 20);
       assert.strictEqual(shape._position.x, 20);
       assert.strictEqual(shape._position.y, 0);
     });
@@ -323,7 +351,7 @@ describe('Shape', () => {
 
     it('set y', () => {
       shape.y = 20;
-      assert.strictEqual(shape.y, 20);
+      assert.strictEqual(shape._opt.y, 20);
       assert.strictEqual(shape._position.x, 0);
       assert.strictEqual(shape._position.y, 20);
     });
@@ -352,7 +380,25 @@ describe('Shape', () => {
 
     it('set visible', () => {
       shape.visible = false;
-      assert.strictEqual(shape.visible, false);
+      assert.strictEqual(shape._opt.visible, false);
+    });
+
+    it('get isFilled', () => {
+      assert.strictEqual(shape.isFilled, false);
+    });
+
+    it('set isFilled', () => {
+      shape.isFilled = true;
+      assert.strictEqual(shape._opt.isFilled, true);
+    });
+
+    it('get isStroked', () => {
+      assert.strictEqual(shape.isStroked, true);
+    });
+
+    it('set isStroked', () => {
+      shape.isStroked = false;
+      assert.strictEqual(shape._opt.isStroked, false);
     });
 
     it('coordinate system isolate', () => {
@@ -372,6 +418,19 @@ describe('Shape', () => {
       shape.scale(xScale, yScale);
       assert.strictEqual(shape._cs._xScale, xScale);
       assert.strictEqual(shape._cs._yScale, yScale);
+      assert.isTrue(shape._cs._basis.equal(matrix));
+    });
+
+    it('scale with minus', () => {
+      let xScale = -2;
+      let yScale = -2;
+      let matrix = new CanvasMatrix(1, 0, 0, 1, 0, 0);
+
+      shape.scale(xScale, 1);
+      assert.strictEqual(shape._cs._xScale, 1);
+      assert.isTrue(shape._cs._basis.equal(matrix));
+      shape.scale(1, yScale);
+      assert.strictEqual(shape._cs._yScale, 1);
       assert.isTrue(shape._cs._basis.equal(matrix));
     });
 
@@ -418,11 +477,6 @@ describe('Shape', () => {
       assert.throws(()=>shape.render(), Error, "The render isn't overridden. It need to be overridden.");
     });
 
-    it('validateSketchbook with wrong type', () => {
-      let wrong = {};
-      assert.throws(()=>shape.validateSketchbook(wrong), TypeError, "Input wrong parameter.(Different class)");
-    });
-
     it('applyOptions', () => {
       let sketchbook = new Sketchbook();
       shape = new Shape({
@@ -452,11 +506,6 @@ describe('Shape', () => {
       assert.strictEqual(sketchbook._context.miterLimit, 5);
       assert.strictEqual(sketchbook._context.globalAlpha, 0.0);
       assert.strictEqual(sketchbook._context.globalCompositeOperation, 'destination-over');
-    });
-
-    it('applyOptions with wrong type', () => {
-      let wrong = {};
-      assert.throws(()=>shape.applyOptions(wrong), TypeError, "Input wrong parameter.(Different class)");
     });
 
     it('resetOptions', () => {
@@ -490,9 +539,177 @@ describe('Shape', () => {
       assert.strictEqual(sketchbook._context.globalCompositeOperation, shape._defaultCanvasOpt.globalCompositeOperation);
     });
 
-    it('resetOptions with wrong type', () => {
-      let wrong = {};
-      assert.throws(()=>shape.resetOptions(wrong), TypeError, "Input wrong parameter.(Different class)");
+    it('call render with override', () => {
+      shape.render = () => {
+      };
+      assert.doesNotThrow(()=>shape.render());
     });
+
+    it('renderShape with visible is false', () => {
+      // If visible is false, not render.
+      let wrong = {};
+      shape.visible = false;
+      assert.doesNotThrow(()=>shape.renderShape(wrong));
+    });
+  });
+
+  describe('compare with svgMatrix', () => {
+    it('compare with svgMatrix - SRT', () => {
+      let radian = -10 * Math.PI / 180;
+
+      let canvasSvg = document.createElement('canvas');
+      let canvasSvgCtx = canvasSvg.getContext('2d');
+      trackTransforms(canvasSvgCtx);
+
+      canvasSvgCtx.scale(1, 2);
+      canvasSvgCtx.translate(30, 20);
+      canvasSvgCtx.rotate(radian);
+
+      shape.scale(1, 2);
+      shape.translate(30, 20);
+      shape.rotate(radian);
+
+      checkMatrix(canvasSvgCtx.getTransform(), shape._cs._basis);
+    });
+
+    it('compare with svgMatrix - TSR', () => {
+      let radian = -10 * Math.PI / 180;
+
+      let canvasSvg = document.createElement('canvas');
+      let canvasSvgCtx = canvasSvg.getContext('2d');
+      trackTransforms(canvasSvgCtx);
+
+      canvasSvgCtx.translate(30, 20);
+      canvasSvgCtx.scale(1, 2);
+      canvasSvgCtx.rotate(radian);
+
+      shape.translate(30, 20);
+      shape.scale(1, 2);
+      shape.rotate(radian);
+
+      checkMatrix(canvasSvgCtx.getTransform(), shape._cs._basis);
+    });
+
+    it('compare with svgMatrix - CRT', () => {
+      let radian = -10 * Math.PI / 180;
+
+      let canvasSvg = document.createElement('canvas');
+      let canvasSvgCtx = canvasSvg.getContext('2d');
+      trackTransforms(canvasSvgCtx);
+
+      canvasSvgCtx.scale(1, 2);
+      canvasSvgCtx.rotate(radian);
+      canvasSvgCtx.translate(30, 20);
+
+      shape.scale(1, 2);
+      shape.rotate(radian);
+      shape.translate(30, 20);
+
+      checkMatrix(canvasSvgCtx.getTransform(), shape._cs._basis);
+    });
+
+    it('compare with svgMatrix - pivot scale', () => {
+      let canvasSvg = document.createElement('canvas');
+      let canvasSvgCtx = canvasSvg.getContext('2d');
+      trackTransforms(canvasSvgCtx);
+
+      canvasSvgCtx.translate(30, 20);
+      canvasSvgCtx.scale(2, 3);
+      canvasSvgCtx.translate(-30, -20);
+
+      shape.scale(2, 3, new Point([30, 20]));
+
+      checkMatrix(canvasSvgCtx.getTransform(), shape._cs._basis);
+    });
+
+    it('compare with svgMatrix - pivot Rotate', () => {
+      let radian = -10 * Math.PI / 180;
+
+      let canvasSvg = document.createElement('canvas');
+      let canvasSvgCtx = canvasSvg.getContext('2d');
+      trackTransforms(canvasSvgCtx);
+
+      canvasSvgCtx.translate(30, 20);
+      canvasSvgCtx.rotate(radian);
+      canvasSvgCtx.translate(-30, -20);
+
+      shape.rotate(radian, new Point([30, 20]));
+
+      checkMatrix(canvasSvgCtx.getTransform(), shape._cs._basis);
+    });
+
+    function checkMatrix(svgMatrix, canvasMatrix) {
+      let closeTo = 1e-09;
+      assert.approximately(svgMatrix.a, canvasMatrix.a, closeTo);
+      assert.approximately(svgMatrix.b, canvasMatrix.b, closeTo);
+      assert.approximately(svgMatrix.c, canvasMatrix.c, closeTo);
+      assert.approximately(svgMatrix.d, canvasMatrix.d, closeTo);
+      assert.approximately(svgMatrix.e, canvasMatrix.e, closeTo);
+      assert.approximately(svgMatrix.f, canvasMatrix.f, closeTo);
+    }
+
+    function trackTransforms(ctx) {
+      let svg = document.createElementNS("http://www.w3.org/2000/svg", 'svg');
+      let xform = svg.createSVGMatrix();
+      ctx.getTransform = function () {
+        return xform;
+      };
+
+      let savedTransforms = [];
+      let save = ctx.save;
+      ctx.save = function () {
+        savedTransforms.push(xform.translate(0, 0));
+        return save.call(ctx);
+      };
+      let restore = ctx.restore;
+      ctx.restore = function () {
+        xform = savedTransforms.pop();
+        return restore.call(ctx);
+      };
+
+      let scale = ctx.scale;
+      ctx.scale = function (sx, sy) {
+        xform = xform.scaleNonUniform(sx, sy);
+        return scale.call(ctx, sx, sy);
+      };
+      let rotate = ctx.rotate;
+      ctx.rotate = function (radians) {
+        xform = xform.rotate(radians * 180 / Math.PI);
+        return rotate.call(ctx, radians);
+      };
+      let translate = ctx.translate;
+      ctx.translate = function (dx, dy) {
+        xform = xform.translate(dx, dy);
+        return translate.call(ctx, dx, dy);
+      };
+      let transform = ctx.transform;
+      ctx.transform = function (a, b, c, d, e, f) {
+        let m2 = svg.createSVGMatrix();
+        m2.a = a;
+        m2.b = b;
+        m2.c = c;
+        m2.d = d;
+        m2.e = e;
+        m2.f = f;
+        xform = xform.multiply(m2);
+        return transform.call(ctx, a, b, c, d, e, f);
+      };
+      let setTransform = ctx.setTransform;
+      ctx.setTransform = function (a, b, c, d, e, f) {
+        xform.a = a;
+        xform.b = b;
+        xform.c = c;
+        xform.d = d;
+        xform.e = e;
+        xform.f = f;
+        return setTransform.call(ctx, a, b, c, d, e, f);
+      };
+      let pt = svg.createSVGPoint();
+      ctx.transformedPoint = function (x, y) {
+        pt.x = x;
+        pt.y = y;
+        return pt.matrixTransform(xform.inverse());
+      };
+    }
   });
 });

@@ -40,34 +40,34 @@
       height: 10
     });
     sb.add(renderObj);
-    sb.render();
+    sb.renderAll();
 
     sb.translate(30, 20);
     sb.scale(1, 2);
     sb.rotate(radian);
-    sb.render();
+    sb.renderAll();
 
     sb.scale(1, 2);
     sb.translate(30, 20);
     sb.rotate(radian);
-    sb.render();
+    sb.renderAll();
 
     sb.scale(1, 2);
     sb.rotate(radian);
     sb.translate(30, 20);
-    sb.render();
+    sb.renderAll();
 
     sb.position = new sketchbook.Point([300, 300]);
 
     var leftTop = new sketchbook.Sketchbook('canvas_left_top');
     sb.setOption('origin', sketchbook.global.ORIGIN.LEFT_TOP);
     leftTop.add(sb);
-    leftTop.render();
+    leftTop.renderAll();
 
     var center = new sketchbook.Sketchbook('canvas_center');
     sb.setOption('origin', sketchbook.global.ORIGIN.CENTER);
     center.add(sb);
-    center.render();
+    center.renderAll();
   };
 </script>
 </body>

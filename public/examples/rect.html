@@ -34,7 +34,7 @@
       width: 10,
       height: 10
     });
-    addBox("Simple rect", rect);
+    addBox("Simple rect", [rect]);
 
     rect = new sketchbook.Rect({
       x: 10,
@@ -43,10 +43,198 @@
       height: 10,
       lineWidth: 3
     });
-    addBox("Line width rect", rect);
+    addBox("Line width rect", [rect]);
+
+    rect = new sketchbook.Rect({
+      x: 10,
+      y: 10,
+      width: 10,
+      height: 10,
+      isFilled: true,
+      fillStyle: '#FF0000'
+    });
+    addBox("Filled rect", [rect]);
+
+    addRow();
+
+    var xScale = 2;
+    var yScale = 3;
+    var scaledRect;
+    rect = new sketchbook.Rect({
+      x: 50,
+      y: 50,
+      width: 20,
+      height: 20
+    });
+    scaledRect = new sketchbook.Rect({
+      x: 50,
+      y: 50,
+      width: 20,
+      height: 20,
+      strokeStyle: '#FF0000',
+      origin: sketchbook.global.ORIGIN.LEFT_TOP
+    });
+    scaledRect.scale(xScale, yScale);
+    addBox("Left Top Scaled rect", [rect, scaledRect]);
+
+    rect = new sketchbook.Rect({
+      x: 50,
+      y: 50,
+      width: 20,
+      height: 20,
+      origin: sketchbook.global.ORIGIN.CENTER
+    });
+    scaledRect = new sketchbook.Rect({
+      x: 50,
+      y: 50,
+      width: 20,
+      height: 20,
+      strokeStyle: '#FF0000',
+      origin: sketchbook.global.ORIGIN.CENTER
+    });
+
+    scaledRect.scale(xScale, yScale);
+    addBox("Center Scaled rect", [rect, scaledRect]);
+
+    addRow();
+
+    var radian = 45 * Math.PI / 180;
+    var rotatedRect;
+    rect = new sketchbook.Rect({
+      x: 50,
+      y: 50,
+      width: 20,
+      height: 20
+    });
+    rotatedRect = new sketchbook.Rect({
+      x: 50,
+      y: 50,
+      width: 20,
+      height: 20,
+      strokeStyle: '#FF0000',
+      origin: sketchbook.global.ORIGIN.LEFT_TOP
+    });
+    rotatedRect.rotate(radian);
+    addBox("Left Top Rotated rect", [rect, rotatedRect]);
+
+    rect = new sketchbook.Rect({
+      x: 50,
+      y: 50,
+      width: 20,
+      height: 20,
+      origin: sketchbook.global.ORIGIN.CENTER
+    });
+    rotatedRect = new sketchbook.Rect({
+      x: 50,
+      y: 50,
+      width: 20,
+      height: 20,
+      strokeStyle: '#FF0000',
+      origin: sketchbook.global.ORIGIN.CENTER
+    });
+
+    rotatedRect.rotate(radian);
+    addBox("Center Rotated rect", [rect, rotatedRect]);
+
+    addRow();
+
+    var callback;
+    callback = function (sb) {
+      sb.rotate(10 * Math.PI / 180);
+      sb.add(new sketchbook.Rect({
+        x: 0,
+        y: 0,
+        width: sb.width,
+        height: sb.height,
+        strokeStyle: '#FF0000'
+      }));
+    };
+
+    rect = new sketchbook.Rect({
+      x: 50,
+      y: 50,
+      width: 20,
+      height: 20
+    });
+    rotatedRect = new sketchbook.Rect({
+      x: 50,
+      y: 50,
+      width: 20,
+      height: 20,
+      strokeStyle: '#FF0000',
+      origin: sketchbook.global.ORIGIN.LEFT_TOP
+    });
+    rotatedRect.rotate(radian);
+    addBox("LT R sb LT R rect", [rect, rotatedRect], callback);
+
+    rect = new sketchbook.Rect({
+      x: 50,
+      y: 50,
+      width: 20,
+      height: 20,
+      origin: sketchbook.global.ORIGIN.CENTER
+    });
+    rotatedRect = new sketchbook.Rect({
+      x: 50,
+      y: 50,
+      width: 20,
+      height: 20,
+      strokeStyle: '#FF0000',
+      origin: sketchbook.global.ORIGIN.CENTER
+    });
+
+    rotatedRect.rotate(radian);
+    addBox("LT R sb C R rect", [rect, rotatedRect], callback);
+
+    callback = function (sb) {
+      sb.rotate(radian, new sketchbook.Point([50, 50]));
+      sb.add(new sketchbook.Rect({
+        x: 0,
+        y: 0,
+        width: sb.width,
+        height: sb.height,
+        strokeStyle: '#FF0000'
+      }));
+    };
+
+    rect = new sketchbook.Rect({
+      x: 50,
+      y: 50,
+      width: 20,
+      height: 20
+    });
+    rotatedRect = new sketchbook.Rect({
+      x: 50,
+      y: 50,
+      width: 20,
+      height: 20,
+      strokeStyle: '#FF0000',
+      origin: sketchbook.global.ORIGIN.LEFT_TOP
+    });
+    rotatedRect.rotate(radian);
+    addBox("LT R sb LT R rect", [rect, rotatedRect], callback);
+
+    rect = new sketchbook.Rect({
+      x: 50,
+      y: 50,
+      width: 20,
+      height: 20,
+      origin: sketchbook.global.ORIGIN.CENTER
+    });
+    rotatedRect = new sketchbook.Rect({
+      x: 50,
+      y: 50,
+      width: 20,
+      height: 20,
+      strokeStyle: '#FF0000',
+      origin: sketchbook.global.ORIGIN.CENTER
+    });
+
+    rotatedRect.rotate(radian);
+    addBox("LT R sb C R rect", [rect, rotatedRect], callback);
   };
 
-  function addBox(name, rect) {
+  function addBox(name, rects, callback) {
     var box = document.createElement('div');
     box.className = 'box';
 
@@ -60,10 +248,22 @@
     var sb = new sketchbook.Sketchbook(canvas);
     sb.width = 150;
     sb.height = 150;
-    sb.add(rect);
-    sb.render();
+
+    if (callback) {
+      callback(sb);
+    }
+
+    for (var idx = 0; idx < rects.length; idx++) {
+      var rect = rects[idx];
+      sb.add(rect);
+    }
+    sb.renderAll();
 
     document.body.appendChild(box);
+  }
+
+  function addRow() {
+    document.body.appendChild(document.createElement('br'));
   }
 </script>
 </body>
