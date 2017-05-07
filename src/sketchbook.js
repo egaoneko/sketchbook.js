@@ -22,13 +22,13 @@ class Sketchbook extends Shape {
     // If param is canvas element
     let isTypeObject = typeCheck('object', param);
     if (isTypeObject) {
-      canvas = this._getCanvasByElement(param);
+      canvas = Sketchbook._getCanvasByElement(param);
     }
 
     // If param is canvas id
     let isTypeString = typeCheck('string', param);
     if (isTypeString) {
-      canvas = this._getCanvasById(param);
+      canvas = Sketchbook._getCanvasById(param);
     }
 
     if (canvas === null) {
@@ -51,11 +51,12 @@ class Sketchbook extends Shape {
   }
 
   /**
+   * @private
    * @description Get canvas by element/
    * @param {Object} canvas canvas element
    * @method _getCanvasByElement
    */
-  _getCanvasByElement(canvas) {
+  static _getCanvasByElement(canvas) {
     let isCanvas = canvas.nodeName && canvas.nodeName === 'CANVAS';
 
     if (!isCanvas) {
@@ -65,11 +66,12 @@ class Sketchbook extends Shape {
   }
 
   /**
+   * @private
    * @description Get canvas by element/
    * @param {String} id canvas id
    * @method _setCanvasById
    */
-  _getCanvasById(id) {
+  static _getCanvasById(id) {
     let canvas = document.getElementById(id);
 
     if (typeCheck('null', canvas)) {
