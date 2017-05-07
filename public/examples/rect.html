@@ -57,6 +57,37 @@
 
     addRow();
 
+    rect = new sketchbook.Rect({
+      x: 10,
+      y: 10,
+      width: 100,
+      height: 100,
+      isFilled: true,
+      fillStyle: function(ctx) {
+        let grd=ctx.createLinearGradient(0,0, this.width,0);
+        grd.addColorStop(0,"black");
+        grd.addColorStop(1,"white");
+        return grd;
+      }
+    });
+    addBox("Gradient Filled rect", [rect]);
+
+    rect = new sketchbook.Rect({
+      x: 10,
+      y: 10,
+      width: 100,
+      height: 100,
+      strokeStyle: function(ctx) {
+        let grd=ctx.createLinearGradient(0,0, this.width,0);
+        grd.addColorStop(0,"black");
+        grd.addColorStop(1,"white");
+        return grd;
+      }
+    });
+    addBox("Gradient stroked rect", [rect]);
+
+    addRow();
+
     var xScale = 2;
     var yScale = 3;
     var scaledRect;

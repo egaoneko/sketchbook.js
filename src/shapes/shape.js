@@ -1,7 +1,8 @@
 import _ from "lodash";
+import {typeCheck} from "../utils/base";
 import Point from "../objects/point";
 import CoordinateSystem from "../mixins/coordinate_system";
-import {ExtendingError} from "../errors/errors";
+import {ExtendingError, ArgumentError} from "../errors/errors";
 
 const CS_OPTIONS = ["orientation"];
 
@@ -47,7 +48,7 @@ class Shape {
 
   /**
    * @description Get fillStyle
-   * @type {String}
+   * @type {String|Function}
    * @member Shape#fillStyle
    */
   get fillStyle() {
@@ -56,7 +57,7 @@ class Shape {
 
   /**
    * @description Set fillStyle
-   * @type {String}
+   * @type {String|Function}
    * @member Shape#fillStyle
    */
   set fillStyle(fillStyle) {
@@ -65,7 +66,7 @@ class Shape {
 
   /**
    * @description Get strokeStyle
-   * @type {String}
+   * @type {String|Function}
    * @member Shape#strokeStyle
    */
   get strokeStyle() {
@@ -74,7 +75,7 @@ class Shape {
 
   /**
    * @description Set strokeStyle
-   * @type {String}
+   * @type {String|Function}
    * @member Shape#strokeStyle
    */
   set strokeStyle(strokeStyle) {
@@ -384,6 +385,17 @@ class Shape {
    * @member Shape#scale
    */
   scale(xScale, yScale, pivot = this._position) {
+    if (typeCheck('undefined', xScale) ||
+      typeCheck('null', xScale) ||
+      typeCheck('undefined', yScale) ||
+      typeCheck('null', yScale)) {
+      throw new ArgumentError("Both xScale and yScale must be needed.");
+    }
+
+    if (!typeCheck('number', xScale) || !typeCheck('number', yScale)) {
+      throw new TypeError("Both xScale and yScale must be numerical values.");
+    }
+
     if (xScale <= 0 || yScale <= 0) {
       return;
     }
@@ -400,6 +412,15 @@ class Shape {
    * @member Shape#rotate
    */
   rotate(radian, pivot = this._position) {
+    if (typeCheck('undefined', radian) ||
+      typeCheck('null', radian)) {
+      throw new ArgumentError("A radian must be needed.");
+    }
+
+    if (!typeCheck('number', radian)) {
+      throw new TypeError("A radian must be numerical values.");
+    }
+
     this.translate(pivot.x, pivot.y);
     this._cs.rotate(radian);
     this.translate(-pivot.x, -pivot.y);
@@ -412,6 +433,17 @@ class Shape {
    * @member Shape#translate
    */
   translate(x, y) {
+    if (typeCheck('undefined', x) ||
+      typeCheck('null', x) ||
+      typeCheck('undefined', y) ||
+      typeCheck('null', y)) {
+      throw new ArgumentError("Both x and y must be needed.");
+    }
+
+    if (!typeCheck('number', x) || !typeCheck('number', y)) {
+      throw new TypeError("Both x and y must be numerical values.");
+    }
+
     this._cs.translate(new Point([x, y]));
   }
 
@@ -508,7 +540,7 @@ class Shape {
    * @member Shape#beforeRender
    */
   beforeRender(sketchbook) {
-    let ctx = sketchbook._context;
+    let ctx = sketchbook.context;
     let basis = sketchbook._cs.basis.multiply(this._cs.basis);
     ctx.setTransform(basis.a, basis.b, basis.c, basis.d, basis.e, basis.f);
     this.applyOptions(sketchbook);
@@ -538,7 +570,14 @@ class Shape {
    */
   applyOptions(sketchbook) {
     _.each(this._defaultCanvasOpt, (value, key) => {
-      sketchbook._context[key] = this._opt[key];
+      value = this._opt[key];
+
+      if (typeCheck('function', value)) {
+        sketchbook.context[key] = value.call(this, sketchbook.context);
+        return;
+      }
+
+      sketchbook.context[key] = this._opt[key];
     });
   }
 
@@ -549,7 +588,7 @@ class Shape {
    */
   resetOptions(sketchbook) {
     _.each(this._defaultCanvasOpt, (value, key) => {
-      sketchbook._context[key] = value;
+      sketchbook.context[key] = value;
     });
   }
 }

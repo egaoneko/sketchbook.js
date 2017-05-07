@@ -421,6 +421,20 @@ describe('Shape', () => {
       assert.isTrue(shape._cs._basis.equal(matrix));
     });
 
+    it('scale without params', () => {
+      assert.throws(()=>shape.scale(), Error, "Both xScale and yScale must be needed.");
+      assert.throws(()=>shape.scale(10), Error, "Both xScale and yScale must be needed.");
+      assert.throws(()=>shape.scale(null), Error, "Both xScale and yScale must be needed.");
+      assert.throws(()=>shape.scale(null, null), Error, "Both xScale and yScale must be needed.");
+      assert.doesNotThrow(()=>shape.scale(10, 10));
+    });
+
+    it('scale with unnumerical param', () => {
+      assert.throws(()=>shape.scale('a', 10), TypeError, "Both xScale and yScale must be numerical values.");
+      assert.throws(()=>shape.scale(10, 'a'), TypeError, "Both xScale and yScale must be numerical values.");
+      assert.doesNotThrow(()=>shape.scale(10, 10));
+    });
+
     it('scale with minus', () => {
       let xScale = -2;
       let yScale = -2;
@@ -463,6 +477,17 @@ describe('Shape', () => {
       assert.isTrue(shape._cs._basis.equal(matrix));
     });
 
+    it('rotate without params', () => {
+      assert.throws(()=>shape.rotate(), Error, "A radian must be needed.");
+      assert.throws(()=>shape.rotate(null), Error, "A radian must be needed.");
+      assert.doesNotThrow(()=>shape.rotate(1));
+    });
+
+    it('rotate with unnumerical param', () => {
+      assert.throws(()=>shape.rotate('a'), TypeError, "A radian must be numerical values.");
+      assert.doesNotThrow(()=>shape.rotate(1));
+    });
+
     it('translate', () => {
       let position = new Point([3, 4]);
       let matrix = new CanvasMatrix(1, 0, 0, 1, position.x, position.y);
@@ -471,6 +496,20 @@ describe('Shape', () => {
       assert.strictEqual(shape._cs._position.x, position.x);
       assert.strictEqual(shape._cs._position.y, position.y);
       assert.isTrue(shape._cs._basis.equal(matrix));
+    });
+
+    it('translate without params', () => {
+      assert.throws(()=>shape.translate(), Error, "Both x and y must be needed.");
+      assert.throws(()=>shape.translate(10), Error, "Both x and y must be needed.");
+      assert.throws(()=>shape.translate(null), Error, "Both x and y must be needed.");
+      assert.throws(()=>shape.translate(null, null), Error, "Both x and y must be needed.");
+      assert.doesNotThrow(()=>shape.translate(10, 10));
+    });
+
+    it('translate with unnumerical param', () => {
+      assert.throws(()=>shape.translate('a', 10), TypeError, "Both x and y must be numerical values.");
+      assert.throws(()=>shape.translate(10, 'a'), TypeError, "Both x and y must be numerical values.");
+      assert.doesNotThrow(()=>shape.scale(10, 10));
     });
 
     it('call render without override', () => {
@@ -506,6 +545,46 @@ describe('Shape', () => {
       assert.strictEqual(sketchbook._context.miterLimit, 5);
       assert.strictEqual(sketchbook._context.globalAlpha, 0.0);
       assert.strictEqual(sketchbook._context.globalCompositeOperation, 'destination-over');
+    });
+
+    it('applyOptions with fillStyle callback', () => {
+      let canvas = document.createElement('canvas');
+      let ctx = canvas.getContext('2d');
+      let grd=ctx.createLinearGradient(0,0,10,10);
+      grd.addColorStop(0,"black");
+      grd.addColorStop(1,"white");
+
+      let sketchbook = new Sketchbook();
+      shape = new Shape({
+        fillStyle: (ctx) => {
+          let grd=ctx.createLinearGradient(0,0,10,10);
+          grd.addColorStop(0,"black");
+          grd.addColorStop(1,"white");
+          return grd;
+        }
+      });
+      shape.applyOptions(sketchbook);
+      assert.deepEqual(grd, sketchbook._context.fillStyle);
+    });
+
+    it('applyOptions with strokeStyle callback', () => {
+      let canvas = document.createElement('canvas');
+      let ctx = canvas.getContext('2d');
+      let grd=ctx.createLinearGradient(0,0,10,10);
+      grd.addColorStop(0,"black");
+      grd.addColorStop(1,"white");
+
+      let sketchbook = new Sketchbook();
+      shape = new Shape({
+        strokeStyle: (ctx) => {
+          let grd=ctx.createLinearGradient(0,0,10,10);
+          grd.addColorStop(0,"black");
+          grd.addColorStop(1,"white");
+          return grd;
+        }
+      });
+      shape.applyOptions(sketchbook);
+      assert.deepEqual(grd, sketchbook._context.strokeStyle);
     });
 
     it('resetOptions', () => {

@@ -87,6 +87,15 @@ class Sketchbook extends Shape {
   }
 
   /**
+   * @description Get canvas context
+   * @type {Object}
+   * @member Sketchbook#context
+   */
+  get context() {
+    return this._context;
+  }
+
+  /**
    * @description Get sketchbook width
    * @type {Number}
    * @member Sketchbook#width

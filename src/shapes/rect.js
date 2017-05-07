@@ -71,7 +71,7 @@ class Rect extends Shape {
    */
   render(sketchbook) {
     let origin = this._getOrigin();
-    let ctx = sketchbook._context;
+    let ctx = sketchbook.context;
 
     let x = origin.x;
     let y = origin.y;

@@ -82,6 +82,18 @@ describe('Sketchbook', () => {
   });
 
   describe('methods', () => {
+    it('get canvas', () => {
+      let canvas = document.createElement('canvas');
+      sketchbook = new Sketchbook(canvas);
+      assert.strictEqual(sketchbook.canvas, canvas);
+    });
+
+    it('get context', () => {
+      let canvas = document.createElement('canvas');
+      sketchbook = new Sketchbook(canvas);
+      assert.strictEqual(sketchbook.context, canvas.getContext('2d'));
+    });
+
     it('get width', () => {
       let width = 500;
       let canvasElement = document.createElement('canvas');
