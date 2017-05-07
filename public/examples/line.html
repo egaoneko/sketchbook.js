@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Origin</title>
+
+  <style>
+    html, body {
+      height: 100%;
+    }
+
+    .box {
+      position: relative;
+      display: inline-block;
+      margin: 10px;
+    }
+
+    .box > canvas {
+      border: solid 1px;
+    }
+  </style>
+</head>
+<body>
+<h1>Line</h1>
+<script src="../bundle.js"></script>
+<script>
+  window.onload = function () {
+
+    var line;
+
+    line = new sketchbook.Line({
+      x1: 10,
+      y1: 20,
+      x2: 130,
+      y2: 140
+    });
+    addBox("Simple line", [line]);
+
+    line = new sketchbook.Line({
+      x1: 10,
+      y1: 20,
+      x2: 130,
+      y2: 140,
+      lineWidth: 3
+    });
+    addBox("Line width line", [line]);
+
+    addRow();
+
+    line = new sketchbook.Line({
+      x1: 10,
+      y1: 20,
+      x2: 130,
+      y2: 140,
+      strokeStyle: function (ctx) {
+        let grd = ctx.createLinearGradient(0, 0, this.x2 - this.x1, 0);
+        grd.addColorStop(0, "black");
+        grd.addColorStop(1, "white");
+        return grd;
+      }
+    });
+    addBox("Gradient stroked line", [line]);
+
+    addRow();
+
+    var xScale = 2;
+    var yScale = 3;
+    var scaledLine;
+    line = new sketchbook.Line({
+      x1: 30,
+      y1: 40,
+      x2: 70,
+      y2: 80
+    });
+    scaledLine = new sketchbook.Line({
+      x1: 30,
+      y1: 40,
+      x2: 70,
+      y2: 80,
+      strokeStyle: '#FF0000',
+    });
+    scaledLine.scale(xScale, yScale);
+    addBox("Scaled line", [line, scaledLine]);
+
+    addRow();
+
+    var radian = 10 * Math.PI / 180;
+    var rotatedLine;
+    line = new sketchbook.Line({
+      x1: 10,
+      y1: 20,
+      x2: 130,
+      y2: 140
+    });
+    rotatedLine = new sketchbook.Line({
+      x1: 10,
+      y1: 20,
+      x2: 130,
+      y2: 140,
+      strokeStyle: '#FF0000'
+    });
+    rotatedLine.rotate(radian);
+    addBox("Rotated line", [line, rotatedLine]);
+
+    addRow();
+
+    var callback;
+    callback = function (sb) {
+      sb.rotate(10 * Math.PI / 180);
+      sb.add(new sketchbook.Rect({
+        x: 0,
+        y: 0,
+        width: sb.width,
+        height: sb.height,
+        strokeStyle: '#FF0000'
+      }));
+    };
+
+    line = new sketchbook.Line({
+      x1: 10,
+      y1: 20,
+      x2: 130,
+      y2: 140
+    });
+    rotatedLine = new sketchbook.Line({
+      x1: 10,
+      y1: 20,
+      x2: 130,
+      y2: 140,
+      strokeStyle: '#FF0000'
+    });
+    rotatedLine.rotate(radian);
+    addBox("R sb R line", [line, rotatedLine], callback);
+
+    callback = function (sb) {
+      sb.rotate(radian, new sketchbook.Point([70, 80]));
+      sb.add(new sketchbook.Rect({
+        x: 0,
+        y: 0,
+        width: sb.width,
+        height: sb.height,
+        strokeStyle: '#FF0000'
+      }));
+    };
+
+    line = new sketchbook.Line({
+      x1: 10,
+      y1: 20,
+      x2: 130,
+      y2: 140
+    });
+    rotatedLine = new sketchbook.Line({
+      x1: 10,
+      y1: 20,
+      x2: 130,
+      y2: 140,
+      strokeStyle: '#FF0000'
+    });
+    rotatedLine.rotate(radian);
+    addBox("R sb R line", [line, rotatedLine], callback);
+  };
+
+  function addBox(name, lines, callback) {
+    var box = document.createElement('div');
+    box.className = 'box';
+
+    var h2 = document.createElement('h2');
+    h2.innerText = name;
+    box.appendChild(h2);
+
+    var canvas = document.createElement('canvas');
+    box.appendChild(canvas);
+
+    var sb = new sketchbook.Sketchbook(canvas);
+    sb.width = 150;
+    sb.height = 150;
+
+    if (callback) {
+      callback(sb);
+    }
+
+    for (var idx = 0; idx < lines.length; idx++) {
+      var line = lines[idx];
+      sb.add(line);
+    }
+    sb.renderAll();
+
+    document.body.appendChild(box);
+  }
+
+  function addRow() {
+    document.body.appendChild(document.createElement('br'));
+  }
+</script>
+</body>
+</html>

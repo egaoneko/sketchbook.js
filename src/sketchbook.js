@@ -177,13 +177,22 @@ class Sketchbook extends Shape {
    * @param {Sketchbook} sketchbook Shape
    * @member Sketchbook#validateSketchbook
    */
-  validateSketchbook(sketchbook) {
+  static validateSketchbook(sketchbook) {
     if (sketchbook && !(sketchbook instanceof Sketchbook)) {
       throw new TypeError("Input wrong parameter.(Different class)");
     }
   }
 
   /**
+   * @description clear Sketchbook
+   * @member Sketchbook#clearContext
+   */
+  clear() {
+    this._context.clearRect(0, 0, this.width, this.height);
+  }
+
+  /**
+   * @private
    * @description render children
    * @method _renderChild
    */
@@ -197,14 +206,15 @@ class Sketchbook extends Shape {
   }
 
   /**
+   * @private
    * @description get origin
    * @return {Point} position
    * @method _getOrigin
    */
   _getOrigin() {
     if (this._opt.origin === ORIGIN.CENTER) {
-      let x = this._position.x - this._canvas.width * 0.5;
-      let y = this._position.y - this._canvas.height * 0.5;
+      let x = this.x - this.width * 0.5;
+      let y = this.y - this.height * 0.5;
       return new Point([x, y]);
     }
     return new Point(this._position);

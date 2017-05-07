@@ -10,20 +10,29 @@ describe('Rect', () => {
   let rect;
 
   beforeEach(function () {
-    rect = new Rect({
-      width: 10,
-      height: 10
-    });
+    rect = new Rect();
   });
 
   describe('initialized Rect', () => {
     it('initialized width', () => {
-      assert.strictEqual(rect._opt.width, 10);
-      assert.strictEqual(rect._opt.height, 10);
+      assert.strictEqual(rect._opt.width, 0);
+    });
+
+    it('initialized height', () => {
+      assert.strictEqual(rect._opt.height, 0);
     });
   });
 
   describe('options', () => {
+    it('initialized set options', () => {
+      rect = new Rect({
+        width: 10,
+        height: 20
+      });
+      assert.strictEqual(rect._opt.width, 10);
+      assert.strictEqual(rect._opt.height, 20);
+    });
+
     describe('origin', () => {
       it('initialized default origin', () => {
         assert.strictEqual(rect._opt.origin, ORIGIN.LEFT_TOP);
@@ -42,11 +51,11 @@ describe('Rect', () => {
 
   describe('methods', () => {
     it('get width', () => {
-      assert.strictEqual(rect.width, 10);
+      assert.strictEqual(rect.width, 0);
     });
 
     it('get height', () => {
-      assert.strictEqual(rect.height, 10);
+      assert.strictEqual(rect.height, 0);
     });
 
     it('set width', () => {

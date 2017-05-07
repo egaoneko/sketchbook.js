@@ -24,6 +24,12 @@ class Rect extends Shape {
    * @method _init
    */
   _init(options = {}) {
+    if (!('width' in options)) {
+      this._opt['width'] = 0;
+    }
+    if (!('height' in options)) {
+      this._opt['height'] = 0;
+    }
     if (!('origin' in options)) {
       this._opt['origin'] = ORIGIN.LEFT_TOP;
     }
@@ -76,8 +82,8 @@ class Rect extends Shape {
 
     let x = origin.x;
     let y = origin.y;
-    let w = this._opt.width;
-    let h = this._opt.height;
+    let w = this.width;
+    let h = this.height;
 
     ctx.beginPath();
     ctx.moveTo(x, y);
@@ -103,8 +109,8 @@ class Rect extends Shape {
    */
   _getOrigin() {
     if (this._opt.origin === ORIGIN.CENTER) {
-      let x = this._position.x - this._opt.width * 0.5;
-      let y = this._position.y - this._opt.height * 0.5;
+      let x = this.x - this.width * 0.5;
+      let y = this.y - this.height * 0.5;
       return new Point([x, y]);
     }
     return new Point(this._position);

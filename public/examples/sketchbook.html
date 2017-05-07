@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Origin</title>
+
+  <style>
+    html, body {
+      height: 100%;
+    }
+
+    .box {
+      position: relative;
+      display: inline-block;
+      margin: 10px;
+    }
+
+    .box > canvas {
+      border: solid 1px;
+    }
+  </style>
+</head>
+<body>
+<h1>Setchbook</h1>
+<script src="../bundle.js"></script>
+<script>
+  window.onload = function () {
+
+    var rect;
+    var sb;
+
+    rect = new sketchbook.Rect({
+      x: 50,
+      y: 50,
+      width: 100,
+      height: 100
+    });
+    sb = addBox("Draw");
+    sb.add(rect);
+    sb.renderAll();
+
+    var clearSb = addBox("Clear");
+    clearSb.add(rect);
+    var flag = true;
+    setInterval(function () {
+      if (flag) {
+        clearSb.renderAll();
+      } else {
+        clearSb.clear();
+      }
+
+      flag = !flag;
+    }, 1000);
+
+    addRow();
+
+    sb = addBox("Scale");
+    sb.add(rect);
+    sb.scale(0.5, 0.5);
+    sb.add(new sketchbook.Rect({
+      x: 0,
+      y: 0,
+      width: sb.width,
+      height: sb.height,
+      strokeStyle: '#FF0000'
+    }));
+    sb.renderAll();
+
+    sb = addBox("Scale pivot");
+    sb.add(rect);
+    sb.scale(0.5, 0.5, new sketchbook.Point([50, 50]));
+    sb.add(new sketchbook.Rect({
+      x: 0,
+      y: 0,
+      width: sb.width,
+      height: sb.height,
+      strokeStyle: '#FF0000'
+    }));
+    sb.renderAll();
+
+    addRow();
+
+    sb = addBox("Rotate");
+    sb.add(rect);
+    sb.rotate(30 * Math.PI / 180);
+    sb.add(new sketchbook.Rect({
+      x: 0,
+      y: 0,
+      width: sb.width,
+      height: sb.height,
+      strokeStyle: '#FF0000'
+    }));
+    sb.renderAll();
+
+    sb = addBox("Rotate pivot");
+    sb.add(rect);
+    sb.rotate(30 * Math.PI / 180, new sketchbook.Point([50, 50]));
+    sb.add(new sketchbook.Rect({
+      x: 0,
+      y: 0,
+      width: sb.width,
+      height: sb.height,
+      strokeStyle: '#FF0000'
+    }));
+    sb.renderAll();
+
+    addRow();
+
+    sb = addBox("Translate");
+    sb.add(rect);
+    sb.translate(25, 25);
+    sb.add(new sketchbook.Rect({
+      x: 0,
+      y: 0,
+      width: sb.width,
+      height: sb.height,
+      strokeStyle: '#FF0000'
+    }));
+    sb.renderAll();
+  };
+
+  function addBox(name) {
+    var box = document.createElement('div');
+    box.className = 'box';
+
+    var h2 = document.createElement('h2');
+    h2.innerText = name;
+    box.appendChild(h2);
+
+    var canvas = document.createElement('canvas');
+    box.appendChild(canvas);
+
+    var sb = new sketchbook.Sketchbook(canvas);
+    sb.width = 200;
+    sb.height = 200;
+
+    document.body.appendChild(box);
+    return sb;
+  }
+
+  function addRow() {
+    document.body.appendChild(document.createElement('br'));
+  }
+</script>
+</body>
+</html>

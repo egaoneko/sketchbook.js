@@ -90,20 +90,6 @@ describe('Shape', () => {
   });
 
   describe('options', () => {
-    it('get option', () => {
-      assert.strictEqual(shape.getOption('fillStyle'), "#000000");
-      shape = new Shape({
-        fillStyle: '#ffffff'
-      });
-      assert.strictEqual(shape.getOption('fillStyle'), "#ffffff");
-    });
-
-    it('set option', () => {
-      assert.strictEqual(shape.getOption('fillStyle'), "#000000");
-      shape.setOption('fillStyle', '#ffffff');
-      assert.strictEqual(shape.getOption('fillStyle'), "#ffffff");
-    });
-
     it('initialized set options', () => {
       shape = new Shape({
         fillStyle: '#ffffff',
@@ -141,6 +127,20 @@ describe('Shape', () => {
       assert.strictEqual(shape._opt.y, 20);
       assert.strictEqual(shape._opt.visible, false);
       assert.strictEqual(shape._cs._opt.orientation, ORIENTATION.CCW);
+    });
+
+    it('get option', () => {
+      assert.strictEqual(shape.getOption('fillStyle'), "#000000");
+      shape = new Shape({
+        fillStyle: '#ffffff'
+      });
+      assert.strictEqual(shape.getOption('fillStyle'), "#ffffff");
+    });
+
+    it('set option', () => {
+      assert.strictEqual(shape.getOption('fillStyle'), "#000000");
+      shape.setOption('fillStyle', '#ffffff');
+      assert.strictEqual(shape.getOption('fillStyle'), "#ffffff");
     });
 
     it('get options', () => {
@@ -550,16 +550,16 @@ describe('Shape', () => {
     it('applyOptions with fillStyle callback', () => {
       let canvas = document.createElement('canvas');
       let ctx = canvas.getContext('2d');
-      let grd=ctx.createLinearGradient(0,0,10,10);
-      grd.addColorStop(0,"black");
-      grd.addColorStop(1,"white");
+      let grd = ctx.createLinearGradient(0, 0, 10, 10);
+      grd.addColorStop(0, "black");
+      grd.addColorStop(1, "white");
 
       let sketchbook = new Sketchbook();
       shape = new Shape({
         fillStyle: (ctx) => {
-          let grd=ctx.createLinearGradient(0,0,10,10);
-          grd.addColorStop(0,"black");
-          grd.addColorStop(1,"white");
+          let grd = ctx.createLinearGradient(0, 0, 10, 10);
+          grd.addColorStop(0, "black");
+          grd.addColorStop(1, "white");
           return grd;
         }
       });
@@ -570,16 +570,16 @@ describe('Shape', () => {
     it('applyOptions with strokeStyle callback', () => {
       let canvas = document.createElement('canvas');
       let ctx = canvas.getContext('2d');
-      let grd=ctx.createLinearGradient(0,0,10,10);
-      grd.addColorStop(0,"black");
-      grd.addColorStop(1,"white");
+      let grd = ctx.createLinearGradient(0, 0, 10, 10);
+      grd.addColorStop(0, "black");
+      grd.addColorStop(1, "white");
 
       let sketchbook = new Sketchbook();
       shape = new Shape({
         strokeStyle: (ctx) => {
-          let grd=ctx.createLinearGradient(0,0,10,10);
-          grd.addColorStop(0,"black");
-          grd.addColorStop(1,"white");
+          let grd = ctx.createLinearGradient(0, 0, 10, 10);
+          grd.addColorStop(0, "black");
+          grd.addColorStop(1, "white");
           return grd;
         }
       });

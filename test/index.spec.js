@@ -26,6 +26,10 @@ describe('Index', () => {
     assert.property(sketchbook, "Rect");
   });
 
+  it('Line', () => {
+    assert.property(sketchbook, "Line");
+  });
+
   it('global', () => {
     assert.property(sketchbook, "global");
   });

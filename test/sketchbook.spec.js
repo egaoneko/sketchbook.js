@@ -175,12 +175,12 @@ describe('Sketchbook', () => {
 
     it('validateSketchbook with Sketchbook', () => {
       let sketchbook = new Sketchbook();
-      assert.doesNotThrow(()=>sketchbook.validateSketchbook(sketchbook));
+      assert.doesNotThrow(()=>Sketchbook.validateSketchbook(sketchbook));
     });
 
     it('validateSketchbook with wrong type', () => {
       let wrong = {};
-      assert.throws(()=>sketchbook.validateSketchbook(wrong), TypeError, "Input wrong parameter.(Different class)");
+      assert.throws(()=>Sketchbook.validateSketchbook(wrong), TypeError, "Input wrong parameter.(Different class)");
     });
   });
 });
