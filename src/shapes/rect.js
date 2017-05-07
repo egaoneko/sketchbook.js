@@ -18,6 +18,7 @@ class Rect extends Shape {
   }
 
   /**
+   * @private
    * @description Init
    * @return {Object} options
    * @method _init
@@ -95,6 +96,7 @@ class Rect extends Shape {
   }
 
   /**
+   * @private
    * @description get origin
    * @return {Point} position
    * @method _getOrigin

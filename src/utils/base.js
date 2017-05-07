@@ -19,6 +19,7 @@ function typeCheck(type, value) {
 }
 
 /**
+ * @private
  * @description check data type
  * @param {String} type string
  * @param {Object} value object

@@ -17,6 +17,7 @@ const ajax = {
 };
 
 /**
+ * @private
  * @description ajax call
  * @param {Object} inputOpts object
  * @method _ajax
@@ -111,6 +112,7 @@ function getXMLHttpRequest() {
 }
 
 /**
+ * @private
  * @description Get ajax by specific method
  * @param {String} method
  * @returns {function(*=, *=, *=, *=)} ajax

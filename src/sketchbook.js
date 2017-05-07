@@ -41,6 +41,7 @@ class Sketchbook extends Shape {
   }
 
   /**
+   * @private
    * @description Init
    * @method _init
    */
