@@ -177,6 +177,18 @@ class Sketchbook extends Shape {
   }
 
   /**
+   * @description before render
+   * @param {Sketchbook} sketchbook Sketchbook
+   * @member Shape#beforeRender
+   */
+  beforeRender(sketchbook) {
+    let ctx = sketchbook.context;
+    let basis = sketchbook._cs.basis;
+    ctx.setTransform(basis.a, basis.b, basis.c, basis.d, basis.e, basis.f);
+    this.applyOptions(sketchbook);
+  }
+
+  /**
    * @description render
    * @param {Sketchbook} sketchbook Sketchbook
    * @member Sketchbook#render
