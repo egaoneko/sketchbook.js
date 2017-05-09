@@ -18,7 +18,7 @@
 <body>
 <h1>Origin</h1>
 <div class="box">
-  <h2>Canvasp</h2>
+  <h2>Canvas</h2>
   <canvas width="300" height="300" style="border: solid 1px" id="canvas"></canvas>
 </div>
 <br>
@@ -62,7 +62,16 @@
     sb.translate(30, 20);
     sb.renderAll();
 
-    sb.position = new sketchbook.Point([300, 300]);
+//    sb.position = new sketchbook.Point([300, 300]);
+
+    sb.add(new sketchbook.Rect({
+      x: 0,
+      y: 0,
+      width: sb.width,
+      height: sb.height,
+      strokeStyle: '#FF0000'
+    }));
+    sb.renderAll();
 
     var leftTop = new sketchbook.Sketchbook('canvas_left_top');
     sb.setOption('origin', sketchbook.global.ORIGIN.LEFT_TOP);
