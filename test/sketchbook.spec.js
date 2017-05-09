@@ -70,6 +70,10 @@ describe('Sketchbook', () => {
     });
 
     describe('coordinateSystem', () => {
+      it('initialized default coordinateSystem', () => {
+        assert.strictEqual(sketchbook._opt.coordinateSystem, COORDINATE_SYSTEM.SCREEN);
+      });
+
       it('get option coordinateSystem', () => {
         assert.strictEqual(sketchbook.getOption("coordinateSystem"), COORDINATE_SYSTEM.SCREEN);
       });
@@ -173,14 +177,42 @@ describe('Sketchbook', () => {
       assert.strictEqual(position.y, 25);
     });
 
-    it('validateSketchbook with Sketchbook', () => {
-      let sketchbook = new Sketchbook();
-      assert.doesNotThrow(()=>Sketchbook.validateSketchbook(sketchbook));
+    it('convert position from Local CS to Screen with Point', () => {
+      let position = new Point([0, 0]);
+      assert.doesNotThrow(()=>sketchbook.convertPositionFromLocalCSToScreen(position));
     });
 
-    it('validateSketchbook with wrong type', () => {
-      let wrong = {};
-      assert.throws(()=>Sketchbook.validateSketchbook(wrong), TypeError, "Input wrong parameter.(Different class)");
+    it('convert position from Local CS to Screen with empty', () => {
+      assert.throws(()=>sketchbook.convertPositionFromLocalCSToScreen(), TypeError, "Input position is not Point.");
+    });
+
+    it('convert position from Local CS to Screen with not Point', () => {
+      let position = {};
+      assert.throws(()=>sketchbook.convertPositionFromLocalCSToScreen(position), TypeError, "Input position is not Point.");
+    });
+
+    it('convert position from Screen to Screen', () => {
+      sketchbook.width = 300;
+      sketchbook.height = 300;
+      sketchbook.setOption("coordinateSystem", COORDINATE_SYSTEM.SCREEN);
+      let position = new Point([100, 100]);
+      let actualPosition = sketchbook.convertPositionFromLocalCSToScreen(position);
+      let expectedPosition = new Point([100, 100]);
+
+      assert.strictEqual(actualPosition.x, expectedPosition.x);
+      assert.strictEqual(actualPosition.y, expectedPosition.y);
+    });
+
+    it('convert position from Cartesian to Screen', () => {
+      sketchbook.width = 300;
+      sketchbook.height = 300;
+      sketchbook.setOption("coordinateSystem", COORDINATE_SYSTEM.CARTESIAN);
+      let position = new Point([100, 100]);
+      let actualPosition = sketchbook.convertPositionFromLocalCSToScreen(position);
+      let expectedPosition = new Point([100, 300 - 100]);
+
+      assert.strictEqual(actualPosition.x, expectedPosition.x);
+      assert.strictEqual(actualPosition.y, expectedPosition.y);
     });
   });
 });

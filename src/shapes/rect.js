@@ -85,12 +85,17 @@ class Rect extends Shape {
     let w = this.width;
     let h = this.height;
 
+    let p1 = sketchbook.convertPositionFromLocalCSToScreen(new Point([x, y]));
+    let p2 = sketchbook.convertPositionFromLocalCSToScreen(new Point([x, y + h]));
+    let p3 = sketchbook.convertPositionFromLocalCSToScreen(new Point([x + w, y + h]));
+    let p4 = sketchbook.convertPositionFromLocalCSToScreen(new Point([x + w, y]));
+
     ctx.beginPath();
-    ctx.moveTo(x, y);
-    ctx.lineTo(x, y + h);
-    ctx.lineTo(x + w, y + h);
-    ctx.lineTo(x + w, y);
-    ctx.lineTo(x, y);
+    ctx.moveTo(p1.x, p1.y);
+    ctx.lineTo(p2.x, p2.y);
+    ctx.lineTo(p3.x, p3.y);
+    ctx.lineTo(p4.x, p4.y);
+    ctx.lineTo(p1.x, p1.y);
 
     if (this._opt.isStroked) {
       ctx.stroke();

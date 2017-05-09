@@ -18,6 +18,11 @@
 <body>
 <h1>Origin</h1>
 <div class="box">
+  <h2>Canvasp</h2>
+  <canvas width="300" height="300" style="border: solid 1px" id="canvas"></canvas>
+</div>
+<br>
+<div class="box">
   <h2>Left Top</h2>
   <canvas width="600" height="600" style="border: solid 1px" id="canvas_left_top"></canvas>
 </div>
@@ -30,7 +35,7 @@
   window.onload = function () {
     var radian = -10 * Math.PI / 180;
 
-    var sb = new sketchbook.Sketchbook();
+    var sb = new sketchbook.Sketchbook('canvas');
     sb.width = 300;
     sb.height = 300;
     var renderObj = new sketchbook.Rect({

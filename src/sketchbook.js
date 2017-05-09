@@ -163,35 +163,6 @@ class Sketchbook extends Shape {
   }
 
   /**
-   * @description render
-   * @param {Sketchbook} sketchbook Sketchbook
-   * @member Sketchbook#render
-   */
-  render(sketchbook) {
-    let origin = this._getOrigin();
-    sketchbook._context.drawImage(this._canvas, origin.x, origin.y);
-  }
-
-  /**
-   * @description validate Sketchbook
-   * @param {Sketchbook} sketchbook Shape
-   * @member Sketchbook#validateSketchbook
-   */
-  static validateSketchbook(sketchbook) {
-    if (sketchbook && !(sketchbook instanceof Sketchbook)) {
-      throw new TypeError("Input wrong parameter.(Different class)");
-    }
-  }
-
-  /**
-   * @description clear Sketchbook
-   * @member Sketchbook#clearContext
-   */
-  clear() {
-    this._context.clearRect(0, 0, this.width, this.height);
-  }
-
-  /**
    * @private
    * @description render children
    * @method _renderChild
@@ -203,6 +174,16 @@ class Sketchbook extends Shape {
       }
       renderObj.renderShape(this);
     });
+  }
+
+  /**
+   * @description render
+   * @param {Sketchbook} sketchbook Sketchbook
+   * @member Sketchbook#render
+   */
+  render(sketchbook) {
+    let origin = sketchbook.convertPositionFromLocalCSToScreen(this._getOrigin());
+    sketchbook._context.drawImage(this._canvas, origin.x, origin.y);
   }
 
   /**
@@ -219,6 +200,35 @@ class Sketchbook extends Shape {
     }
     return new Point(this._position);
   }
+
+  /**
+   * @description clear Sketchbook
+   * @member Sketchbook#clearContext
+   */
+  clear() {
+    this._context.clearRect(0, 0, this.width, this.height);
+  }
+
+
+  /**
+   * @description convert position to screen
+   * @param {Point} position position to convert
+   * @return {Point} converted position
+   * @member Sketchbook#convertPositionFromLocalCSToScreen
+   */
+  convertPositionFromLocalCSToScreen(position) {
+    if (!(position instanceof Point)) {
+      throw new TypeError("Input position is not Point.");
+    }
+
+    if (this._opt.coordinateSystem === COORDINATE_SYSTEM.CARTESIAN) {
+      let x = position.x;
+      let y = this.height - position.y;
+      return new Point([x, y]);
+    }
+    return new Point(position);
+  }
+
 }
 
 export default Sketchbook;

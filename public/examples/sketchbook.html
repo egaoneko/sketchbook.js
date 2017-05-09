@@ -117,6 +117,33 @@
       strokeStyle: '#FF0000'
     }));
     sb.renderAll();
+
+    addRow();
+
+    let csRect = new sketchbook.Rect({
+      x: 50,
+      y: 50,
+      width: 50,
+      height: 50
+    });
+    let csLine = new sketchbook.Line({
+      x1: 50,
+      y1: 50,
+      x2: 100,
+      y2: 100
+    });
+
+    sb = addBox("Screen");
+    sb.add(csRect);
+    sb.add(csLine);
+    sb.setOption("coordinateSystem", sketchbook.global.COORDINATE_SYSTEM.SCREEN);
+    sb.renderAll();
+
+    sb = addBox("Cartesian");
+    sb.add(csRect);
+    sb.add(csLine);
+    sb.setOption("coordinateSystem", sketchbook.global.COORDINATE_SYSTEM.CARTESIAN);
+    sb.renderAll();
   };
 
   function addBox(name) {

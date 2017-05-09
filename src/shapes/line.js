@@ -1,4 +1,5 @@
 import Shape from "./shape";
+import Point from "../objects/point";
 
 /**
  * @description Line Class
@@ -121,11 +122,13 @@ class Line extends Shape {
    */
   render(sketchbook) {
     let ctx = sketchbook.context;
+    let start = sketchbook.convertPositionFromLocalCSToScreen(new Point([this.x1, this.y1]));
+    let end = sketchbook.convertPositionFromLocalCSToScreen(new Point([this.x2, this.y2]));
 
-    let x1 = this._opt.x1;
-    let y1 = this._opt.y1;
-    let x2 = this._opt.x2;
-    let y2 = this._opt.y2;
+    let x1 = start.x;
+    let y1 = start.y;
+    let x2 = end.x;
+    let y2 = end.y;
 
     ctx.beginPath();
     ctx.moveTo(x1, y1);

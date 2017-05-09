@@ -2,7 +2,7 @@ import chai from "chai";
 import CoordinateSystem from "../../src/mixins/coordinate_system";
 import CanvasMatrix from "../../src/objects/canvas_matrix";
 import Point from "../../src/objects/point";
-import {ORIENTATION, COORDINATE_SYSTEM} from "../../src/global/global";
+import {ORIENTATION} from "../../src/global/global";
 
 
 let assert = chai.assert;
@@ -56,26 +56,6 @@ describe('CoordinateSystem', () => {
       it('set option orientation', () => {
         cs.setOption("orientation", ORIENTATION.CCW);
         assert.strictEqual(cs._opt.orientation, ORIENTATION.CCW);
-      });
-    });
-
-    describe('coordinateSystem', () => {
-      it('initialized default coordinateSystem', () => {
-        assert.strictEqual(cs._opt.coordinateSystem, COORDINATE_SYSTEM.SCREEN);
-      });
-
-      it('initialized set coordinateSystem', () => {
-        cs = new CoordinateSystem({coordinateSystem: COORDINATE_SYSTEM.CARTESIAN});
-        assert.strictEqual(cs._opt.coordinateSystem, COORDINATE_SYSTEM.CARTESIAN);
-      });
-
-      it('get option coordinateSystem', () => {
-        assert.strictEqual(cs.getOption("coordinateSystem"), COORDINATE_SYSTEM.SCREEN);
-      });
-
-      it('set option coordinateSystem', () => {
-        cs.setOption("coordinateSystem", COORDINATE_SYSTEM.CARTESIAN);
-        assert.strictEqual(cs._opt.coordinateSystem, COORDINATE_SYSTEM.CARTESIAN);
       });
     });
   });
