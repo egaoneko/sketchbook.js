@@ -120,6 +120,71 @@
 
     addRow();
 
+    sb = addBox("Scale twice");
+    sb.add(rect);
+    sb.scale(0.5, 0.5);
+    sb.add(new sketchbook.Rect({
+      x: 0,
+      y: 0,
+      width: sb.width,
+      height: sb.height,
+      strokeStyle: '#0000FF'
+    }));
+    sb.renderAll();
+    sb.scale(0.5, 0.5);
+    sb.add(new sketchbook.Rect({
+      x: 0,
+      y: 0,
+      width: sb.width,
+      height: sb.height,
+      strokeStyle: '#FF0000'
+    }));
+    sb.renderAll();
+
+    sb = addBox("Rotate twice");
+    sb.add(rect);
+    sb.rotate(30 * Math.PI / 180);
+    sb.add(new sketchbook.Rect({
+      x: 0,
+      y: 0,
+      width: sb.width,
+      height: sb.height,
+      strokeStyle: '#0000FF'
+    }));
+    sb.renderAll();
+    sb.rotate(30 * Math.PI / 180);
+    sb.add(new sketchbook.Rect({
+      x: 0,
+      y: 0,
+      width: sb.width,
+      height: sb.height,
+      strokeStyle: '#FF0000'
+    }));
+    sb.renderAll();
+
+    sb = addBox("Translate twice");
+    sb.add(rect);
+    sb.translate(25, 25);
+    sb.add(new sketchbook.Rect({
+      x: 0,
+      y: 0,
+      width: sb.width,
+      height: sb.height,
+      strokeStyle: '#0000FF'
+    }));
+    sb.renderAll();
+    sb.translate(25, 25);
+    sb.add(new sketchbook.Rect({
+      x: 0,
+      y: 0,
+      width: sb.width,
+      height: sb.height,
+      strokeStyle: '#FF0000'
+    }));
+    sb.renderAll();
+
+    addRow();
+
     let csRect = new sketchbook.Rect({
       x: 50,
       y: 50,

@@ -58,8 +58,8 @@ class CoordinateSystem {
   scale(xScale, yScale) {
     let scaleMatrix = new CanvasMatrix(xScale, 0, 0, yScale, 0, 0);
 
-    this._xScale = xScale;
-    this._yScale = yScale;
+    this._xScale *= xScale;
+    this._yScale *= yScale;
     this._basis = this._basis.multiply(scaleMatrix);
     this._isNeedToUpdate = true;
   }
@@ -84,7 +84,7 @@ class CoordinateSystem {
     }
     let rotateMatrix = new CanvasMatrix(a, b, c, d, 0, 0);
 
-    this._radian = radian;
+    this._radian += radian;
     this._basis = this._basis.multiply(rotateMatrix);
     this._isNeedToUpdate = true;
   }
@@ -97,7 +97,7 @@ class CoordinateSystem {
   translate(position) {
     let translateMatrix = new CanvasMatrix(1, 0, 0, 1, position.x, position.y);
 
-    this._position = new Point(position);
+    this._position = this._position.add(new Point(position));
     this._basis = this._basis.multiply(translateMatrix);
     this._isNeedToUpdate = true;
   }

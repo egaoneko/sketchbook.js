@@ -73,6 +73,31 @@ describe('CoordinateSystem', () => {
       assert.isTrue(cs._isNeedToUpdate);
     });
 
+    it('scale twice', () => {
+      let xScale = 3;
+      let yScale = 3;
+      let matrix = new CanvasMatrix(xScale, 0, 0, yScale, 0, 0);
+      matrix = matrix.multiply(new CanvasMatrix(xScale, 0, 0, yScale, 0, 0));
+
+      cs.scale(xScale, yScale);
+      cs.scale(xScale, yScale);
+      assert.strictEqual(cs._xScale, xScale * xScale);
+      assert.strictEqual(cs._yScale, yScale * xScale);
+      assert.isTrue(cs._basis.equal(matrix));
+      assert.isTrue(cs._isNeedToUpdate);
+    });
+
+    it('scale twice matrix', () => {
+      let xScale = 3;
+      let yScale = 3;
+      let twiceScaledCS = new CoordinateSystem();
+
+      cs.scale(xScale, yScale);
+      cs.scale(xScale, yScale);
+      twiceScaledCS.scale(xScale * xScale, yScale * yScale);
+      assert.isTrue(cs._basis.equal(twiceScaledCS._basis));
+    });
+
     it('rotate cw', () => {
       let radian = 90 * Math.PI / 180;
       let a = Math.cos(radian);
@@ -86,6 +111,33 @@ describe('CoordinateSystem', () => {
       assert.strictEqual(cs._radian, radian);
       assert.isTrue(cs._basis.equal(matrix));
       assert.isTrue(cs._isNeedToUpdate);
+    });
+
+    it('rotate cw twice', () => {
+      let radian = 90 * Math.PI / 180;
+      let a = Math.cos(radian);
+      let b = Math.sin(radian);
+      let c = -Math.sin(radian);
+      let d = Math.cos(radian);
+      let matrix = new CanvasMatrix(a, b, c, d, 0, 0);
+      matrix = matrix.multiply(new CanvasMatrix(a, b, c, d, 0, 0));
+
+      assert.strictEqual(cs._opt.orientation, ORIENTATION.CW);
+      cs.rotate(radian);
+      cs.rotate(radian);
+      assert.strictEqual(cs._radian, radian * 2);
+      assert.isTrue(cs._basis.equal(matrix));
+      assert.isTrue(cs._isNeedToUpdate);
+    });
+
+    it('rotate cw twice matrix', () => {
+      let radian = 90 * Math.PI / 180;
+      let twiceRotatedCS = new CoordinateSystem();
+
+      cs.rotate(radian);
+      cs.rotate(radian);
+      twiceRotatedCS.rotate(radian * 2);
+      assert.isTrue(cs._basis.equal(twiceRotatedCS._basis));
     });
 
     it('rotate ccw', () => {
@@ -104,6 +156,35 @@ describe('CoordinateSystem', () => {
       assert.isTrue(cs._isNeedToUpdate);
     });
 
+    it('rotate ccw twice', () => {
+      let radian = 90 * Math.PI / 180;
+      let a = Math.cos(radian);
+      let b = -Math.sin(radian);
+      let c = Math.sin(radian);
+      let d = Math.cos(radian);
+      let matrix = new CanvasMatrix(a, b, c, d, 0, 0);
+      matrix = matrix.multiply(new CanvasMatrix(a, b, c, d, 0, 0));
+      cs = new CoordinateSystem({orientation: ORIENTATION.CCW});
+
+      assert.strictEqual(cs._opt.orientation, ORIENTATION.CCW);
+      cs.rotate(radian);
+      cs.rotate(radian);
+      assert.strictEqual(cs._radian, radian * 2);
+      assert.isTrue(cs._basis.equal(matrix));
+      assert.isTrue(cs._isNeedToUpdate);
+    });
+
+    it('rotate ccw twice matrix', () => {
+      let radian = 90 * Math.PI / 180;
+      cs = new CoordinateSystem({orientation: ORIENTATION.CCW});
+      let twiceRotatedCS = new CoordinateSystem({orientation: ORIENTATION.CCW});
+
+      cs.rotate(radian);
+      cs.rotate(radian);
+      twiceRotatedCS.rotate(radian * 2);
+      assert.isTrue(cs._basis.equal(twiceRotatedCS._basis));
+    });
+
     it('translate', () => {
       let position = new Point([3, 4]);
       let matrix = new CanvasMatrix(1, 0, 0, 1, position.x, position.y);
@@ -113,6 +194,29 @@ describe('CoordinateSystem', () => {
       assert.strictEqual(cs._position.y, position.y);
       assert.isTrue(cs._basis.equal(matrix));
       assert.isTrue(cs._isNeedToUpdate);
+    });
+
+    it('translate twice', () => {
+      let position = new Point([3, 4]);
+      let matrix = new CanvasMatrix(1, 0, 0, 1, position.x, position.y);
+      matrix = matrix.multiply(new CanvasMatrix(1, 0, 0, 1, position.x, position.y));
+
+      cs.translate(position);
+      cs.translate(position);
+      assert.strictEqual(cs._position.x, position.x * 2);
+      assert.strictEqual(cs._position.y, position.y * 2);
+      assert.isTrue(cs._basis.equal(matrix));
+      assert.isTrue(cs._isNeedToUpdate);
+    });
+
+    it('translate twice matrix', () => {
+      let position = new Point([3, 4]);
+      let twiceTranslatedCS = new CoordinateSystem();
+
+      cs.translate(position);
+      cs.translate(position);
+      twiceTranslatedCS.translate(new Point([3 * 2, 4 * 2]));
+      assert.isTrue(cs._basis.equal(twiceTranslatedCS._basis));
     });
 
     it('get basis', () => {

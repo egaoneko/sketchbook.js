@@ -136,22 +136,35 @@ class Sketchbook extends Shape {
 
   /**
    * @description add Objects
-   * @param {Object} object added Object
+   * @param {Array|Shape} shapes added Shapes
    * @member Sketchbook#add
    */
-  add(object) {
-    if (!object) {
-      throw new CannotFoundError("Cannot found object.");
+  add(shapes) {
+    if (!shapes) {
+      throw new CannotFoundError("Cannot found shapes.");
     }
 
-    if (!('render' in object)) {
-      throw new ArgumentError("This object doesn't have render method.");
+    if (!typeCheck('array', shapes)) {
+      this._add(shapes);
+      return;
     }
 
-    if (!typeCheck('function', object.render)) {
-      throw new ArgumentError("The render method isn't a function.");
+    _.each(shapes, object => {
+      this._add(object);
+    });
+  }
+
+  /**
+   * @private
+   * @description add Objects
+   * @param {Shape} shape added shape
+   * @method _add
+   */
+  _add(shape) {
+    if (!(shape instanceof Shape)) {
+      throw new ArgumentError("This object isn't a instance of Shape.");
     }
-    this._renderList.push(object);
+    this._renderList.push(shape);
   }
 
   /**

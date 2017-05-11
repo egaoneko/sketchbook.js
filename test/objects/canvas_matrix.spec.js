@@ -71,6 +71,10 @@ describe('CanvasMatrix', () => {
         .multiply(new CanvasMatrix(0, 1, 2, 3, 4, 5));
       assert.isTrue(actual._matrix.eql(expected));
     });
+
+    it('multiply with wrong parameters', () => {
+      assert.throws(()=>new CanvasMatrix(0, 1, 2, 3, 4, 5).multiply({}), Error, "Multiplied by wrong parameter.(Different class)");
+    });
   });
 
   function checkRow3_001(canvasMatrix) {

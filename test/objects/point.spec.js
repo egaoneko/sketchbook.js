@@ -1,4 +1,5 @@
 import chai from "chai";
+import {Vector} from "sylvester-es6";
 import Point from "../../src/objects/point";
 
 let assert = chai.assert;
@@ -27,6 +28,17 @@ describe('Point', () => {
       assert.throws(()=>new Point(1), Error, "Initialized with wrong elements.");
       assert.throws(()=>new Point([0, 0, 0]), Error, "Initialized with wrong elements.");
       assert.throws(()=>new Point([0]), Error, "Initialized with wrong elements.");
+    });
+
+    it('add', () => {
+      let expected = new Vector([1, 2]).add(new Vector([3, 4]));
+      expected = new Vector([expected.e(1), expected.e(2), 1]);
+      let actual = new Point([1, 2]).add(new Point([3, 4]));
+      assert.isTrue(actual._vector.eql(expected));
+    });
+
+    it('add with wrong parameters', () => {
+      assert.throws(()=>new Point([1, 2]).add({}), Error, "Added by wrong parameter.(Different class)");
     });
   });
 });

@@ -1,5 +1,6 @@
 import chai from "chai";
 import Sketchbook from "../src/sketchbook";
+import Shape from "../src/shapes/shape";
 import Point from "../src/objects/point";
 import {ORIGIN, COORDINATE_SYSTEM} from "../src/global/global";
 
@@ -130,31 +131,47 @@ describe('Sketchbook', () => {
       assert.strictEqual(sketchbook._canvas.height, height);
     });
 
-    it('add', () => {
-      let object = {
-        render: ()=> {
-        }
-      };
+    it('_add', () => {
+      let shape = new Shape();
       let lenderList = sketchbook._renderList;
+      let oldListLength = lenderList.length;
 
-      sketchbook.add(object);
-      assert.strictEqual(lenderList[lenderList.length - 1], object);
+      sketchbook._add(shape);
+      assert.strictEqual(lenderList.length - oldListLength, 1);
+      assert.strictEqual(lenderList[lenderList.length - 1], shape);
     });
 
-    it('add without object', () => {
-      assert.throws(()=>sketchbook.add(), Error, "Cannot found object.");
-    });
-
-    it('add with empty object', () => {
+    it('_add with wrong', () => {
       let object = {};
-      assert.throws(()=>sketchbook.add(object), Error, "This object doesn't have render method.");
+      assert.throws(()=>sketchbook._add(object), Error, "This object isn't a instance of Shape.");
     });
 
-    it('add with render is not function', () => {
-      let object = {
-        render: 1
-      };
-      assert.throws(()=>sketchbook.add(object), Error, "The render method isn't a function.");
+    it('add with shapes', () => {
+      let shapes = [new Shape(), new Shape(), new Shape()];
+      let lenderList = sketchbook._renderList;
+      let oldListLength = lenderList.length;
+
+      sketchbook.add(shapes);
+      assert.strictEqual(lenderList.length - oldListLength, shapes.length);
+
+      let startIdx = lenderList.length - shapes.length;
+      for (let idx = startIdx; idx < shapes.length; idx++) {
+        assert.strictEqual(lenderList[idx], shapes[idx - startIdx]);
+      }
+    });
+
+    it('add with shape', () => {
+      let shape = new Shape();
+      let lenderList = sketchbook._renderList;
+      let oldListLength = lenderList.length;
+
+      sketchbook.add(shape);
+      assert.strictEqual(lenderList.length - oldListLength, 1);
+      assert.strictEqual(lenderList[lenderList.length - 1], shape);
+    });
+
+    it('add without shapes', () => {
+      assert.throws(()=>sketchbook.add(), Error, "Cannot found shapes.");
     });
 
     it('get origin with ORIGIN.LEFT_TOP option', () => {

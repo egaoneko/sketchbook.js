@@ -3,6 +3,7 @@ import Point from "./objects/point";
 import Shape from "./shapes/shape";
 import Rect from "./shapes/rect";
 import Line from "./shapes/line";
+import Group from "./shapes/group";
 import * as global from "./global/global";
 
 
@@ -13,6 +14,7 @@ export {
   Shape,
   Rect,
   Line,
+  Group,
 
   global
 };

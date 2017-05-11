@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Origin</title>
+
+  <style>
+    html, body {
+      height: 100%;
+    }
+
+    .box {
+      position: relative;
+      display: inline-block;
+      margin: 10px;
+    }
+
+    .box > canvas {
+      border: solid 1px;
+    }
+  </style>
+</head>
+<body>
+<h1>Group</h1>
+<script src="../bundle.js"></script>
+<script>
+  window.onload = function () {
+
+    var group;
+
+    group = new sketchbook.Group();
+    group.add(getRectList());
+
+    addBox("Simple group", [group]);
+
+    addRow();
+
+    group = new sketchbook.Group();
+    group.add(getRectList());
+
+    group.scale(2, 2);
+
+    addBox("Scale group", [group]);
+
+    var radian = 45 * Math.PI / 180;
+
+    group = new sketchbook.Group();
+    group.add(getRectList());
+
+    group.rotate(radian);
+
+    addBox("Rotate group", [group]);
+
+    group = new sketchbook.Group();
+    group.add(getRectList());
+
+    group.translate(30, 30);
+
+    addBox("Scale group", [group]);
+  };
+
+  function getRectList() {
+    return [
+      new sketchbook.Rect({
+        x: 10,
+        y: 10,
+        width: 10,
+        height: 10
+      }),
+      new sketchbook.Rect({
+        x: 40,
+        y: 40,
+        width: 10,
+        height: 10
+      }),
+      new sketchbook.Rect({
+        x: 70,
+        y: 70,
+        width: 10,
+        height: 10
+      })
+    ];
+  }
+
+  function addBox(name, groups, callback) {
+    var box = document.createElement('div');
+    box.className = 'box';
+
+    var h2 = document.createElement('h2');
+    h2.innerText = name;
+    box.appendChild(h2);
+
+    var canvas = document.createElement('canvas');
+    box.appendChild(canvas);
+
+    var sb = new sketchbook.Sketchbook(canvas);
+    sb.width = 150;
+    sb.height = 150;
+
+    if (callback) {
+      callback(sb);
+    }
+
+    for (var idx = 0; idx < groups.length; idx++) {
+      var group = groups[idx];
+      sb.add(group);
+    }
+    sb.renderAll();
+
+    document.body.appendChild(box);
+  }
+
+  function addRow() {
+    document.body.appendChild(document.createElement('br'));
+  }
+</script>
+</body>
+</html>

@@ -1,4 +1,5 @@
 import _ from "lodash";
+import uuidV4 from "uuid/v4";
 import {typeCheck} from "../utils/base";
 import Point from "../objects/point";
 import CoordinateSystem from "../objects/coordinate_system";
@@ -44,6 +45,7 @@ class Shape {
 
     this.setOptions(options);
     this._position = new Point([this._opt.x, this._opt.y]);
+    this._uuid = uuidV4();
   }
 
   /**

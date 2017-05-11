@@ -1,3 +1,4 @@
+import _ from "lodash";
 import chai from "chai";
 import Shape from "../../src/shapes/shape";
 import Point from "../../src/objects/point";
@@ -86,6 +87,17 @@ describe('Shape', () => {
 
     it('initialized isStroked', () => {
       assert.strictEqual(shape._opt.isStroked, true);
+    });
+
+    it('initialized uuid', () => {
+      let groupSizes = [8, 4, 4, 4, 12];
+      let uuid = shape._uuid;
+      let groups = uuid.split('-');
+      assert.strictEqual(groups.length, 5);
+
+      _.each(_.range(5), index => {
+        assert.strictEqual(groups[index].length, groupSizes[index]);
+      });
     });
   });
 
@@ -629,6 +641,10 @@ describe('Shape', () => {
       let wrong = {};
       shape.visible = false;
       assert.doesNotThrow(()=>shape.renderShape(wrong));
+    });
+
+    it('beforeRender', () => {
+      //TODO Add test after apply cache, parent
     });
   });
 

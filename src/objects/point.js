@@ -43,6 +43,20 @@ class Point {
   get y() {
     return this._vector.e(2);
   }
+
+  /**
+   * @description Add Point
+   * @param {Point} other object for add
+   * @return {Point} added object
+   * @member Point#add
+   */
+  add(other) {
+    if (!(other instanceof Point)) {
+      throw new ArgumentError("Added by wrong parameter.(Different class)");
+    }
+    let vector = this._vector.add(other._vector);
+    return new Point([vector.e(1), vector.e(2)]);
+  }
 }
 
 export default Point;
