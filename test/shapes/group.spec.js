@@ -61,5 +61,7 @@ describe('Group', () => {
     it('add without shapes', () => {
       assert.throws(()=>group.add(), Error, "Cannot found shapes.");
     });
+
+    // TODO Add test about group
   });
 });
