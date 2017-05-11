@@ -1,5 +1,5 @@
 import chai from "chai";
-import CoordinateSystem from "../../src/mixins/coordinate_system";
+import CoordinateSystem from "../../src/objects/coordinate_system";
 import CanvasMatrix from "../../src/objects/canvas_matrix";
 import Point from "../../src/objects/point";
 import {ORIENTATION} from "../../src/global/global";

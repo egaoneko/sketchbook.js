@@ -1,5 +1,5 @@
-import Point from "../objects/point";
-import CanvasMatrix from "../objects/canvas_matrix";
+import Point from "./point";
+import CanvasMatrix from "./canvas_matrix";
 import {ORIENTATION} from "../global/global";
 
 /**

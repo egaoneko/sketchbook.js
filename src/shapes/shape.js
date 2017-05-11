@@ -1,7 +1,7 @@
 import _ from "lodash";
 import {typeCheck} from "../utils/base";
 import Point from "../objects/point";
-import CoordinateSystem from "../mixins/coordinate_system";
+import CoordinateSystem from "../objects/coordinate_system";
 import {ExtendingError, ArgumentError} from "../errors/errors";
 
 const CS_OPTIONS = ["orientation"];
