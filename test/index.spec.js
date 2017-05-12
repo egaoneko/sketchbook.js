@@ -34,6 +34,10 @@ describe('Index', () => {
     assert.property(sketchbook, "Group");
   });
 
+  it('Geometry', () => {
+    assert.property(sketchbook, "Geometry");
+  });
+
   it('global', () => {
     assert.property(sketchbook, "global");
   });

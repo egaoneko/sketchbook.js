@@ -20,7 +20,7 @@ class Rect extends Shape {
   /**
    * @private
    * @description Init
-   * @return {Object} options
+   * @param {Object} options options
    * @method _init
    */
   _init(options = {}) {
