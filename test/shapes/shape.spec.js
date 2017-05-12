@@ -642,10 +642,6 @@ describe('Shape', () => {
       shape.visible = false;
       assert.doesNotThrow(()=>shape.renderShape(wrong));
     });
-
-    it('beforeRender', () => {
-      //TODO Add test after apply cache, parent
-    });
   });
 
   describe('compare with svgMatrix', () => {
