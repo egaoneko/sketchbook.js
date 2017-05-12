@@ -94,12 +94,11 @@ describe('Group', () => {
       }
     });
 
-    function checkScale (xScale, yScale, shape) {
+    function checkScale(xScale, yScale, shape) {
       let matrix = new CanvasMatrix(xScale, 0, 0, yScale, 0, 0);
       assert.strictEqual(shape._cs._xScale, xScale);
       assert.strictEqual(shape._cs._yScale, yScale);
       assert.isTrue(shape._cs._basis.equal(matrix));
-      assert.isTrue(shape._cs._isNeedToUpdate);
     }
 
     it('rotate each', () => {
@@ -130,7 +129,7 @@ describe('Group', () => {
       }
     });
 
-    function checkRotate (radian, shape) {
+    function checkRotate(radian, shape) {
       let a = Math.cos(radian);
       let b = Math.sin(radian);
       let c = -Math.sin(radian);
@@ -138,7 +137,6 @@ describe('Group', () => {
       let matrix = new CanvasMatrix(a, b, c, d, 0, 0);
       assert.strictEqual(shape._cs._radian, radian);
       assert.isTrue(shape._cs._basis.equal(matrix));
-      assert.isTrue(shape._cs._isNeedToUpdate);
     }
 
     it('translate each', () => {
@@ -169,12 +167,11 @@ describe('Group', () => {
       }
     });
 
-    function checkTranslate (position, shape) {
+    function checkTranslate(position, shape) {
       let matrix = new CanvasMatrix(1, 0, 0, 1, position.x, position.y);
       assert.strictEqual(shape._cs._position.x, position.x);
       assert.strictEqual(shape._cs._position.y, position.y);
       assert.isTrue(shape._cs._basis.equal(matrix));
-      assert.isTrue(shape._cs._isNeedToUpdate);
     }
   });
 });

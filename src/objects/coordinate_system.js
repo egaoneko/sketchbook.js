@@ -17,7 +17,6 @@ class CoordinateSystem {
     this._xScale = 1;
     this._yScale = 1;
     this._radian = 0.0;
-    this._isNeedToUpdate = false;
     this._opt = {
       orientation: ORIENTATION.CW
     };
@@ -61,7 +60,6 @@ class CoordinateSystem {
     this._xScale *= xScale;
     this._yScale *= yScale;
     this._basis = this._basis.multiply(scaleMatrix);
-    this._isNeedToUpdate = true;
   }
 
   /**
@@ -86,7 +84,6 @@ class CoordinateSystem {
 
     this._radian += radian;
     this._basis = this._basis.multiply(rotateMatrix);
-    this._isNeedToUpdate = true;
   }
 
   /**
@@ -99,7 +96,6 @@ class CoordinateSystem {
 
     this._position = this._position.add(new Point(position));
     this._basis = this._basis.multiply(translateMatrix);
-    this._isNeedToUpdate = true;
   }
 
   /**

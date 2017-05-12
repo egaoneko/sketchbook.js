@@ -70,7 +70,6 @@ describe('CoordinateSystem', () => {
       assert.strictEqual(cs._xScale, xScale);
       assert.strictEqual(cs._yScale, yScale);
       assert.isTrue(cs._basis.equal(matrix));
-      assert.isTrue(cs._isNeedToUpdate);
     });
 
     it('scale twice', () => {
@@ -84,7 +83,6 @@ describe('CoordinateSystem', () => {
       assert.strictEqual(cs._xScale, xScale * xScale);
       assert.strictEqual(cs._yScale, yScale * xScale);
       assert.isTrue(cs._basis.equal(matrix));
-      assert.isTrue(cs._isNeedToUpdate);
     });
 
     it('scale twice matrix', () => {
@@ -110,7 +108,6 @@ describe('CoordinateSystem', () => {
       cs.rotate(radian);
       assert.strictEqual(cs._radian, radian);
       assert.isTrue(cs._basis.equal(matrix));
-      assert.isTrue(cs._isNeedToUpdate);
     });
 
     it('rotate cw twice', () => {
@@ -127,7 +124,6 @@ describe('CoordinateSystem', () => {
       cs.rotate(radian);
       assert.strictEqual(cs._radian, radian * 2);
       assert.isTrue(cs._basis.equal(matrix));
-      assert.isTrue(cs._isNeedToUpdate);
     });
 
     it('rotate cw twice matrix', () => {
@@ -153,7 +149,6 @@ describe('CoordinateSystem', () => {
       cs.rotate(radian);
       assert.strictEqual(cs._radian, radian);
       assert.isTrue(cs._basis.equal(matrix));
-      assert.isTrue(cs._isNeedToUpdate);
     });
 
     it('rotate ccw twice', () => {
@@ -171,7 +166,6 @@ describe('CoordinateSystem', () => {
       cs.rotate(radian);
       assert.strictEqual(cs._radian, radian * 2);
       assert.isTrue(cs._basis.equal(matrix));
-      assert.isTrue(cs._isNeedToUpdate);
     });
 
     it('rotate ccw twice matrix', () => {
@@ -193,7 +187,6 @@ describe('CoordinateSystem', () => {
       assert.strictEqual(cs._position.x, position.x);
       assert.strictEqual(cs._position.y, position.y);
       assert.isTrue(cs._basis.equal(matrix));
-      assert.isTrue(cs._isNeedToUpdate);
     });
 
     it('translate twice', () => {
@@ -206,7 +199,6 @@ describe('CoordinateSystem', () => {
       assert.strictEqual(cs._position.x, position.x * 2);
       assert.strictEqual(cs._position.y, position.y * 2);
       assert.isTrue(cs._basis.equal(matrix));
-      assert.isTrue(cs._isNeedToUpdate);
     });
 
     it('translate twice matrix', () => {
