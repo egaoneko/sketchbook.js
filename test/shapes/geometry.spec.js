@@ -23,23 +23,15 @@ describe('Geometry', () => {
       assert.doesNotThrow(()=>new Geometry(corners, edges, camera));
     });
 
-    it('initialized points not array', () => {
-      assert.throws(()=>new Geometry(null, edges, camera), TypeError, "Corners must be an array.");
-    });
-
-    it('initialized edges not array', () => {
-      assert.throws(()=>new Geometry(corners, null, camera), TypeError, "Edges must be an array.");
-    });
-
-    it('initialized camera not array', () => {
-      assert.throws(()=>new Geometry(corners, edges, null), TypeError, "Camera must be an array.");
-    });
-
     it('initialized corners', () => {
       assert.strictEqual(geometry._corners.length, corners.length);
       _.each(_.range(corners.length), index => {
         assert.isTrue(geometry._corners[index].eql(corners[index]));
       });
+    });
+
+    it('initialized corners not array', () => {
+      assert.throws(()=>new Geometry(null, edges, camera), TypeError, "Corners must be an array.");
     });
 
     it('initialized corners with wrong corner', () => {
@@ -59,6 +51,10 @@ describe('Geometry', () => {
       });
     });
 
+    it('initialized edges not array', () => {
+      assert.throws(()=>new Geometry(corners, null, camera), TypeError, "Edges must be an array.");
+    });
+
     it('initialized edges with wrong edge', () => {
       edges = [{}];
       assert.throws(()=>new Geometry(corners, edges, camera), TypeError, "Edge must be an array.");
@@ -73,6 +69,10 @@ describe('Geometry', () => {
       assert.isTrue(geometry._camera.eql(camera));
     });
 
+    it('initialized camera not array', () => {
+      assert.throws(()=>new Geometry(corners, edges, null), TypeError, "Camera must be an array.");
+    });
+
     it('initialized camera with wrong camera dimension', () => {
       camera = [[0, 0]];
       assert.throws(()=>new Geometry(corners, edges, camera), Error, "Camera must be a 3D");
@@ -80,6 +80,33 @@ describe('Geometry', () => {
   });
 
   describe('methods', () => {
+    it('set corners', () => {
+      corners = [[-1, -1, -1], [1, -1, -1], [-1, 1, -1], [1, 1, -1], [-1, -1, 1], [1, -1, 1], [-1, 1, 1], [1, 1, 1]];
+      geometry.corners = corners;
+
+      assert.strictEqual(geometry._corners.length, corners.length);
+      _.each(_.range(corners.length), index => {
+        assert.isTrue(geometry._corners[index].eql(corners[index]));
+      });
+    });
+
+    it('set edges', () => {
+      edges = [[0, 1], [2, 3], [0, 2], [1, 3], [4, 5], [6, 7], [4, 6]];
+      geometry.edges = edges;
+
+      assert.strictEqual(geometry._edges.length, edges.length);
+      _.each(_.range(edges.length), index => {
+        assert.isTrue(geometry._edges[index].eql(edges[index]));
+      });
+    });
+
+    it('set camera', () => {
+      camera = [0, 0, 0];
+      geometry.camera = camera;
+
+      assert.isTrue(geometry._camera.eql(camera));
+    });
+
     it('_cornerScaleDown', () => {
       let corner = new Vector([3, 3, 3]);
       let expected = new Vector([1, 1, 1]);

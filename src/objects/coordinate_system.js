@@ -14,6 +14,7 @@ class CoordinateSystem {
    */
   constructor(options = {}) {
     this._position = new Point([0, 0]);
+    this._pivot = new Point([0, 0]);
     this._xScale = 1;
     this._yScale = 1;
     this._radian = 0.0;
@@ -24,6 +25,24 @@ class CoordinateSystem {
     this._basis = new CanvasMatrix();
 
     Object.assign(this._opt, options);
+  }
+
+  /**
+   * @description Get pivot
+   * @type {Point}
+   * @member CoordinateSystem#pivot
+   */
+  get pivot() {
+    return new Point(this._pivot);
+  }
+
+  /**
+   * @description Set pivot
+   * @type {Point}
+   * @member CoordinateSystem#pivot
+   */
+  set pivot(pivot) {
+    this._pivot = new Point(pivot);
   }
 
   /**
@@ -63,6 +82,18 @@ class CoordinateSystem {
   }
 
   /**
+   * @description setScale
+   * @param {Number} xScale xScale
+   * @param {Number} yScale yScale
+   * @member CoordinateSystem#setScale
+   */
+  setScale(xScale, yScale) {
+    this._xScale = xScale;
+    this._yScale = yScale;
+    this._basis = this.getAffineTransform(this._xScale, this._yScale, this._radian, this._position, this._pivot);
+  }
+
+  /**
    * @description rotate
    * @param {Number} radian radian
    * @member CoordinateSystem#rotate
@@ -87,6 +118,16 @@ class CoordinateSystem {
   }
 
   /**
+   * @description setRotate
+   * @param {Number} radian radian
+   * @member CoordinateSystem#setRotate
+   */
+  setRotate(radian) {
+    this._radian = radian;
+    this._basis = this.getAffineTransform(this._xScale, this._yScale, this._radian, this._position, this._pivot);
+  }
+
+  /**
    * @description translate
    * @param {Point} position position
    * @member CoordinateSystem#translate
@@ -96,6 +137,75 @@ class CoordinateSystem {
 
     this._position = this._position.add(new Point(position));
     this._basis = this._basis.multiply(translateMatrix);
+  }
+
+  /**
+   * @description setTranslate
+   * @param {Point} position position
+   * @member CoordinateSystem#setTranslate
+   */
+  setTranslate(position) {
+    this._position = new Point(position);
+    this._basis = this.getAffineTransform(this._xScale, this._yScale, this._radian, this._position, this._pivot);
+  }
+
+  /**
+   * @description getAffineTransform
+   * @param {Number} xScale xScale
+   * @param {Number} yScale yScale
+   * @param {Number} radian radian
+   * @param {Point} position position
+   * @param {Point} pivot pivot
+   * @return {CanvasMatrix} CanvasMatrix
+   * @member CoordinateSystem#getAffineTransform
+   */
+  getAffineTransform(xScale, yScale, radian, position, pivot) {
+    let a, b, c, d;
+    let matrix = new CanvasMatrix();
+
+    if (pivot) {
+      matrix = matrix.multiply(new CanvasMatrix(1, 0, 0, 1, pivot.x, pivot.y));
+      //
+    }
+
+    matrix = matrix.multiply(new CanvasMatrix(xScale, 0, 0, yScale, 0, 0));
+
+
+    if (this._opt.orientation === ORIENTATION.CCW) {
+      a = Math.cos(radian);
+      b = -Math.sin(radian);
+      c = Math.sin(radian);
+      d = Math.cos(radian);
+    } else {
+      a = Math.cos(radian);
+      b = Math.sin(radian);
+      c = -Math.sin(radian);
+      d = Math.cos(radian);
+    }
+
+    matrix = matrix.multiply(new CanvasMatrix(a, b, c, d, 0, 0));
+    matrix = matrix.multiply(new CanvasMatrix(1, 0, 0, 1, position.x, position.y));
+
+    if (pivot) {
+      matrix = matrix.multiply(new CanvasMatrix(1, 0, 0, 1, -pivot.x, -pivot.y));
+    }
+
+    return matrix;
+  }
+
+  /**
+   * @description getTransformedPoint
+   * @param {Point} point point
+   * @member Shape#getTransformedPoint
+   */
+  getTransformedPoint(point) {
+    let inverse = this.basis.inverse();
+
+    if (!inverse) {
+      return new Point([0, 0]);
+    }
+
+    return inverse.multiply(point);
   }
 
   /**
@@ -130,4 +240,6 @@ class CoordinateSystem {
   }
 }
 
-export default CoordinateSystem;
+export
+default
+CoordinateSystem;

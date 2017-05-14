@@ -131,6 +131,54 @@ describe('Sketchbook', () => {
       assert.strictEqual(sketchbook._canvas.height, height);
     });
 
+    it('translate screen', () => {
+      let position = new Point([3, 4]);
+      sketchbook.setOption("coordinateSystem", COORDINATE_SYSTEM.SCREEN);
+      sketchbook.translate(position.x, position.y);
+      assert.strictEqual(sketchbook._cs._position.x, position.x);
+      assert.strictEqual(sketchbook._cs._position.y, position.y);
+    });
+
+    it('translate cartesian', () => {
+      let position = new Point([3, 4]);
+      sketchbook.setOption("coordinateSystem", COORDINATE_SYSTEM.CARTESIAN);
+      sketchbook.translate(position.x, position.y);
+      assert.strictEqual(sketchbook._cs._position.x, position.x);
+      assert.strictEqual(sketchbook._cs._position.y, -position.y);
+    });
+
+    it('setTranslate screen', () => {
+      let position = new Point([3, 4]);
+      sketchbook.setOption("coordinateSystem", COORDINATE_SYSTEM.SCREEN);
+      sketchbook.setTranslate(position.x, position.y);
+      assert.strictEqual(sketchbook._cs._position.x, position.x);
+      assert.strictEqual(sketchbook._cs._position.y, position.y);
+    });
+
+    it('setTranslate cartesian', () => {
+      let position = new Point([3, 4]);
+      sketchbook.setOption("coordinateSystem", COORDINATE_SYSTEM.CARTESIAN);
+      sketchbook.setTranslate(position.x, position.y);
+      assert.strictEqual(sketchbook._cs._position.x, position.x);
+      assert.strictEqual(sketchbook._cs._position.y, -position.y);
+    });
+
+    it('_convertPositionOfCS screen', () => {
+      let position = new Point([3, 4]);
+      sketchbook.setOption("coordinateSystem", COORDINATE_SYSTEM.SCREEN);
+      let [x,y] = sketchbook._convertPositionOfCS(position.x, position.y);
+      assert.strictEqual(x, position.x);
+      assert.strictEqual(y, position.y);
+    });
+
+    it('_convertPositionOfCS cartesian', () => {
+      let position = new Point([3, 4]);
+      sketchbook.setOption("coordinateSystem", COORDINATE_SYSTEM.CARTESIAN);
+      let [x,y] = sketchbook._convertPositionOfCS(position.x, position.y);
+      assert.strictEqual(x, position.x);
+      assert.strictEqual(y, -position.y);
+    });
+
     it('_add', () => {
       let shape = new Shape();
       let lenderList = sketchbook._renderList;

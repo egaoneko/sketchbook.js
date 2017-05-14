@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Origin</title>
+  <title>Setchbook</title>
 
   <style>
     html, body {
@@ -35,6 +35,7 @@
       width: 100,
       height: 100
     });
+
     sb = addBox("Draw");
     sb.add(rect);
     sb.renderAll();
@@ -67,8 +68,33 @@
     sb.renderAll();
 
     sb = addBox("Scale pivot");
+
     sb.add(rect);
     sb.scale(0.5, 0.5, new sketchbook.Point([50, 50]));
+    sb.add(new sketchbook.Rect({
+      x: 0,
+      y: 0,
+      width: sb.width,
+      height: sb.height,
+      strokeStyle: '#FF0000'
+    }));
+    sb.renderAll();
+
+    sb = addBox("setScale");
+    sb.add(rect);
+    sb.setScale(0.5, 0.5);
+    sb.add(new sketchbook.Rect({
+      x: 0,
+      y: 0,
+      width: sb.width,
+      height: sb.height,
+      strokeStyle: '#FF0000'
+    }));
+    sb.renderAll();
+
+    sb = addBox("setScale pivot");
+    sb.add(rect);
+    sb.setScale(0.5, 0.5, new sketchbook.Point([50, 50]));
     sb.add(new sketchbook.Rect({
       x: 0,
       y: 0,
@@ -104,11 +130,47 @@
     }));
     sb.renderAll();
 
+    sb = addBox("setRotate");
+    sb.add(rect);
+    sb.setRotate(30 * Math.PI / 180);
+    sb.add(new sketchbook.Rect({
+      x: 0,
+      y: 0,
+      width: sb.width,
+      height: sb.height,
+      strokeStyle: '#FF0000'
+    }));
+    sb.renderAll();
+
+    sb = addBox("setRotate pivot");
+    sb.add(rect);
+    sb.setRotate(30 * Math.PI / 180, new sketchbook.Point([50, 50]));
+    sb.add(new sketchbook.Rect({
+      x: 0,
+      y: 0,
+      width: sb.width,
+      height: sb.height,
+      strokeStyle: '#FF0000'
+    }));
+    sb.renderAll();
+
     addRow();
 
     sb = addBox("Translate");
     sb.add(rect);
     sb.translate(25, 25);
+    sb.add(new sketchbook.Rect({
+      x: 0,
+      y: 0,
+      width: sb.width,
+      height: sb.height,
+      strokeStyle: '#FF0000'
+    }));
+    sb.renderAll();
+
+    sb = addBox("setTranslate");
+    sb.add(rect);
+    sb.setTranslate(25, 25);
     sb.add(new sketchbook.Rect({
       x: 0,
       y: 0,
@@ -141,6 +203,29 @@
     }));
     sb.renderAll();
 
+    sb = addBox("setScale twice");
+    sb.add(rect);
+    sb.setScale(0.5, 0.5);
+    sb.add(new sketchbook.Rect({
+      x: 0,
+      y: 0,
+      width: sb.width,
+      height: sb.height,
+      strokeStyle: '#0000FF'
+    }));
+    sb.renderAll();
+    sb.setScale(0.5, 0.5);
+    sb.add(new sketchbook.Rect({
+      x: 0,
+      y: 0,
+      width: sb.width,
+      height: sb.height,
+      strokeStyle: '#FF0000'
+    }));
+    sb.renderAll();
+
+    addRow();
+
     sb = addBox("Rotate twice");
     sb.add(rect);
     sb.rotate(30 * Math.PI / 180);
@@ -162,6 +247,29 @@
     }));
     sb.renderAll();
 
+    sb = addBox("setRotate twice");
+    sb.add(rect);
+    sb.setRotate(30 * Math.PI / 180);
+    sb.add(new sketchbook.Rect({
+      x: 0,
+      y: 0,
+      width: sb.width,
+      height: sb.height,
+      strokeStyle: '#0000FF'
+    }));
+    sb.renderAll();
+    sb.setRotate(30 * Math.PI / 180);
+    sb.add(new sketchbook.Rect({
+      x: 0,
+      y: 0,
+      width: sb.width,
+      height: sb.height,
+      strokeStyle: '#FF0000'
+    }));
+    sb.renderAll();
+
+    addRow();
+
     sb = addBox("Translate twice");
     sb.add(rect);
     sb.translate(25, 25);
@@ -174,6 +282,27 @@
     }));
     sb.renderAll();
     sb.translate(25, 25);
+    sb.add(new sketchbook.Rect({
+      x: 0,
+      y: 0,
+      width: sb.width,
+      height: sb.height,
+      strokeStyle: '#FF0000'
+    }));
+    sb.renderAll();
+
+    sb = addBox("setTranslate twice");
+    sb.add(rect);
+    sb.setTranslate(25, 25);
+    sb.add(new sketchbook.Rect({
+      x: 0,
+      y: 0,
+      width: sb.width,
+      height: sb.height,
+      strokeStyle: '#0000FF'
+    }));
+    sb.renderAll();
+    sb.setTranslate(25, 25);
     sb.add(new sketchbook.Rect({
       x: 0,
       y: 0,

@@ -135,6 +135,43 @@ class Sketchbook extends Shape {
   }
 
   /**
+   * @description translate
+   * @param {Number} x position x
+   * @param {Number} y position y
+   * @member Sketchbook#translate
+   */
+  translate(x, y) {
+    [x, y] = this._convertPositionOfCS(x, y);
+    super.translate(x, y);
+  }
+
+  /**
+   * @description setTranslate
+   * @param {Number} x position x
+   * @param {Number} y position y
+   * @member Sketchbook#setTranslate
+   */
+  setTranslate(x, y) {
+    [x, y] = this._convertPositionOfCS(x, y);
+    super.setTranslate(x, y);
+  }
+
+  /**
+   * @private
+   * @description convert position of coordinate system
+   * @param {Number} x position x
+   * @param {Number} y position y
+   * @return {Array} converted position
+   * @method _add
+   */
+  _convertPositionOfCS(x, y) {
+    if (this._opt.coordinateSystem === COORDINATE_SYSTEM.CARTESIAN) {
+      return [x, -y];
+    }
+    return [x, y];
+  }
+
+  /**
    * @description add Objects
    * @param {Array|Shape} shapes added Shapes
    * @member Sketchbook#add
@@ -231,9 +268,11 @@ class Sketchbook extends Shape {
    * @member Sketchbook#clearContext
    */
   clear() {
+    this._context.save();
+    this._context.setTransform(1, 0, 0, 1, 0, 0);
     this._context.clearRect(0, 0, this.width, this.height);
+    this._context.restore();
   }
-
 
   /**
    * @description convert position to screen

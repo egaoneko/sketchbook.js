@@ -387,6 +387,36 @@ class Shape {
    * @member Shape#scale
    */
   scale(xScale, yScale, pivot = this._position) {
+    this._checkScaleValidate(xScale, yScale, pivot);
+
+    this.translate(pivot.x, pivot.y);
+    this._cs.scale(xScale, yScale);
+    this.translate(-pivot.x, -pivot.y);
+  }
+
+  /**
+   * @description setScale
+   * @param {Number} xScale xScale
+   * @param {Number} yScale yScale
+   * @param {Point} [pivot] pivot point
+   * @member Shape#setScale
+   */
+  setScale(xScale, yScale, pivot = this._position) {
+    this._checkScaleValidate(xScale, yScale, pivot);
+
+    this._cs.pivot = pivot;
+    this._cs.setScale(xScale, yScale);
+  }
+
+  /**
+   * @private
+   * @description check scale validate
+   * @param {Number} xScale xScale
+   * @param {Number} yScale yScale
+   * @param {Point} pivot point
+   * @method isScaleValidate
+   */
+  _checkScaleValidate(xScale, yScale, pivot) {
     if (typeCheck('undefined', xScale) ||
       typeCheck('null', xScale) ||
       typeCheck('undefined', yScale) ||
@@ -399,12 +429,12 @@ class Shape {
     }
 
     if (xScale <= 0 || yScale <= 0) {
-      return;
+      throw new ArgumentError("Both xScale and yScale must be larger than 0.");
     }
 
-    this.translate(pivot.x, pivot.y);
-    this._cs.scale(xScale, yScale);
-    this.translate(-pivot.x, -pivot.y);
+    if (!(pivot instanceof Point)) {
+      throw new TypeError("The pivot must be Point.");
+    }
   }
 
   /**
@@ -414,6 +444,34 @@ class Shape {
    * @member Shape#rotate
    */
   rotate(radian, pivot = this._position) {
+    this._checkRotateValidate(radian, pivot);
+
+    this.translate(pivot.x, pivot.y);
+    this._cs.rotate(radian);
+    this.translate(-pivot.x, -pivot.y);
+  }
+
+  /**
+   * @description setRotate
+   * @param {Number} radian radian
+   * @param {Point} [pivot] pivot point
+   * @member Shape#setRotate
+   */
+  setRotate(radian, pivot = this._position) {
+    this._checkRotateValidate(radian, pivot);
+
+    this._cs.pivot = pivot;
+    this._cs.setRotate(radian);
+  }
+
+  /**
+   * @private
+   * @description check rotate validate
+   * @param {Number} radian radian
+   * @param {Point} pivot point
+   * @method _checkRotateValidate
+   */
+  _checkRotateValidate(radian, pivot) {
     if (typeCheck('undefined', radian) ||
       typeCheck('null', radian)) {
       throw new ArgumentError("A radian must be needed.");
@@ -423,9 +481,9 @@ class Shape {
       throw new TypeError("A radian must be numerical values.");
     }
 
-    this.translate(pivot.x, pivot.y);
-    this._cs.rotate(radian);
-    this.translate(-pivot.x, -pivot.y);
+    if (!(pivot instanceof Point)) {
+      throw new TypeError("The pivot must be Point.");
+    }
   }
 
   /**
@@ -435,6 +493,29 @@ class Shape {
    * @member Shape#translate
    */
   translate(x, y) {
+    this._checkTranslateValidate(x, y);
+    this._cs.translate(new Point([x, y]));
+  }
+
+  /**
+   * @description setTranslate
+   * @param {Number} x position x
+   * @param {Number} y position y
+   * @member Shape#setTranslate
+   */
+  setTranslate(x, y) {
+    this._checkTranslateValidate(x, y);
+    this._cs.setTranslate(new Point([x, y]));
+  }
+
+  /**
+   * @private
+   * @description check translate validate
+   * @param {Number} x position x
+   * @param {Number} y position y
+   * @method _checkTranslateValidate
+   */
+  _checkTranslateValidate(x, y) {
     if (typeCheck('undefined', x) ||
       typeCheck('null', x) ||
       typeCheck('undefined', y) ||
@@ -445,8 +526,6 @@ class Shape {
     if (!typeCheck('number', x) || !typeCheck('number', y)) {
       throw new TypeError("Both x and y must be numerical values.");
     }
-
-    this._cs.translate(new Point([x, y]));
   }
 
   /**

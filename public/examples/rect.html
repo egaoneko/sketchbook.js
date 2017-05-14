@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Origin</title>
+  <title>Rect</title>
 
   <style>
     html, body {
@@ -63,10 +63,10 @@
       width: 100,
       height: 100,
       isFilled: true,
-      fillStyle: function(ctx) {
-        let grd=ctx.createLinearGradient(0,0, this.width,0);
-        grd.addColorStop(0,"black");
-        grd.addColorStop(1,"white");
+      fillStyle: function (ctx) {
+        let grd = ctx.createLinearGradient(0, 0, this.width, 0);
+        grd.addColorStop(0, "black");
+        grd.addColorStop(1, "white");
         return grd;
       }
     });
@@ -77,10 +77,10 @@
       y: 10,
       width: 100,
       height: 100,
-      strokeStyle: function(ctx) {
-        let grd=ctx.createLinearGradient(0,0, this.width,0);
-        grd.addColorStop(0,"black");
-        grd.addColorStop(1,"white");
+      strokeStyle: function (ctx) {
+        let grd = ctx.createLinearGradient(0, 0, this.width, 0);
+        grd.addColorStop(0, "black");
+        grd.addColorStop(1, "white");
         return grd;
       }
     });
@@ -127,6 +127,42 @@
     scaledRect.scale(xScale, yScale);
     addBox("Center Scaled rect", [rect, scaledRect]);
 
+    rect = new sketchbook.Rect({
+      x: 50,
+      y: 50,
+      width: 20,
+      height: 20
+    });
+    scaledRect = new sketchbook.Rect({
+      x: 50,
+      y: 50,
+      width: 20,
+      height: 20,
+      strokeStyle: '#FF0000',
+      origin: sketchbook.global.ORIGIN.LEFT_TOP
+    });
+    scaledRect.setScale(xScale, yScale);
+    addBox("Left Top setScale rect", [rect, scaledRect]);
+
+    rect = new sketchbook.Rect({
+      x: 50,
+      y: 50,
+      width: 20,
+      height: 20,
+      origin: sketchbook.global.ORIGIN.CENTER
+    });
+    scaledRect = new sketchbook.Rect({
+      x: 50,
+      y: 50,
+      width: 20,
+      height: 20,
+      strokeStyle: '#FF0000',
+      origin: sketchbook.global.ORIGIN.CENTER
+    });
+
+    scaledRect.setScale(xScale, yScale);
+    addBox("Center setScale rect", [rect, scaledRect]);
+
     addRow();
 
     var radian = 45 * Math.PI / 180;
@@ -166,6 +202,42 @@
 
     rotatedRect.rotate(radian);
     addBox("Center Rotated rect", [rect, rotatedRect]);
+
+    rect = new sketchbook.Rect({
+      x: 50,
+      y: 50,
+      width: 20,
+      height: 20
+    });
+    rotatedRect = new sketchbook.Rect({
+      x: 50,
+      y: 50,
+      width: 20,
+      height: 20,
+      strokeStyle: '#FF0000',
+      origin: sketchbook.global.ORIGIN.LEFT_TOP
+    });
+    rotatedRect.setRotate(radian);
+    addBox("Left Top setRotated rect", [rect, rotatedRect]);
+
+    rect = new sketchbook.Rect({
+      x: 50,
+      y: 50,
+      width: 20,
+      height: 20,
+      origin: sketchbook.global.ORIGIN.CENTER
+    });
+    rotatedRect = new sketchbook.Rect({
+      x: 50,
+      y: 50,
+      width: 20,
+      height: 20,
+      strokeStyle: '#FF0000',
+      origin: sketchbook.global.ORIGIN.CENTER
+    });
+
+    rotatedRect.setRotate(radian);
+    addBox("Center setRotated rect", [rect, rotatedRect]);
 
     addRow();
 

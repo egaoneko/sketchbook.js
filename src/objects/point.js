@@ -52,10 +52,20 @@ class Point {
    */
   add(other) {
     if (!(other instanceof Point)) {
-      throw new ArgumentError("Added by wrong parameter.(Different class)");
+      throw new TypeError("Added by wrong parameter.(Different class)");
     }
     let vector = this._vector.add(other._vector);
     return new Point([vector.e(1), vector.e(2)]);
+  }
+
+  /**
+   * @description Is equal Point
+   * @param {Point} other vector for compare
+   * @return {Boolean} is equal
+   * @member Point#equal
+   */
+  equal(other) {
+    return this._vector.eql(other._vector);
   }
 }
 

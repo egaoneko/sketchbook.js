@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Origin</title>
+  <title>Geometry</title>
 
   <style>
     html, body {
@@ -23,23 +23,112 @@
 <body>
 <h1>Geometry</h1>
 <div class="box">
-  <h2>Canvas</h2>
+  <h2>Perspective Rendering</h2>
+  <p>
+    <span style="color:#ff0000">x(red)</span>,
+    <span style="color:#0000ff">y(blue)</span>,
+    <span style="color:#00ff00">z(green)</span>
+  </p>
   <canvas width="300" height="300" style="border: solid 1px" id="canvas"></canvas>
 </div>
+<script type="text/javascript" src="../lib/dat.gui.min.js"></script>
 <script src="../bundle.js"></script>
 <script>
   window.onload = function () {
 
-    var corners = [[-1, -1, -1], [1, -1, -1], [-1, 1, -1], [1, 1, -1], [-1, -1, 1], [1, -1, 1], [-1, 1, 1], [1, 1, 1]];
-//    var corners = [[0, 0, 0], [1, 0, 0], [0, 1, 0], [1, 1, 0], [0, 0, 1], [1, 0, 1], [0, 1, 1], [1, 1, 1]];
-    var edges = [[0, 1], [2, 3], [0, 2], [1, 3], [4, 5], [6, 7], [4, 6], [5, 7], [0, 4], [1, 5], [2, 6], [3, 7]];
-    var camera = [2, 2, 10];
-    var geometry = new sketchbook.Geometry(corners, edges, camera);
+    var gui = new dat.GUI();
     var sb = new sketchbook.Sketchbook('canvas');
-    sb.translate(100, -100);
     sb.setOption("coordinateSystem", sketchbook.global.COORDINATE_SYSTEM.CARTESIAN);
-    sb.add(geometry);
-    sb.renderAll();
+
+    var cameraProps = {
+      x: 0,
+      y: 0,
+      z: 5
+    };
+    var cubeProps = {
+      size: 1
+    };
+
+    var canvasProps = {
+      x: sb.width * 0.5,
+      y: sb.width * 0.5
+    };
+
+    var cameraFolder = gui.addFolder('Camera');
+    setEvent(cameraFolder.add(cameraProps, 'x', -10, 10));
+    setEvent(cameraFolder.add(cameraProps, 'y', -10, 10));
+    setEvent(cameraFolder.add(cameraProps, 'z', -10, 10));
+    cameraFolder.open();
+
+    var cubeFolder = gui.addFolder('Cube');
+    setEvent(cubeFolder.add(cubeProps, 'size', 0, 10));
+    cubeFolder.open();
+
+    var canvasFolder = gui.addFolder('Canvas');
+    setEvent(canvasFolder.add(canvasProps, 'x', 0, sb.width));
+    setEvent(canvasFolder.add(canvasProps, 'y', 0, sb.height));
+
+    var cube;
+    var cs;
+    var corners = [];
+    var edges = [[0, 1], [2, 3], [0, 2], [1, 3], [4, 5], [6, 7], [4, 6], [5, 7], [0, 4], [1, 5], [2, 6], [3, 7]];
+    var camera = [];
+
+    setParams();
+    cube = new sketchbook.Geometry(corners, edges, camera);
+    sb.add(cube);
+
+    var csCorners;
+    var csEdges;
+    var csX;
+    var csY;
+    var csZ;
+
+    csCorners = [[0, 0, 0], [1, 0, 0]];
+    csEdges = [[0, 1]];
+    csX = new sketchbook.Geometry(csCorners, csEdges, camera, {strokeStyle: '#ff0000'});
+    sb.add(csX);
+
+    csCorners = [[0, 0, 0], [0, 1, 0]];
+    csEdges = [[0, 1]];
+    csY = new sketchbook.Geometry(csCorners, csEdges, camera, {strokeStyle: '#0000ff'});
+    sb.add(csY);
+
+    csCorners = [[0, 0, 0], [0, 0, 1]];
+    csEdges = [[0, 1]];
+    csZ = new sketchbook.Geometry(csCorners, csEdges, camera, {strokeStyle: '#00ff00'});
+    sb.add(csZ);
+
+
+    render();
+
+    function setParams() {
+      camera = [cameraProps.x, cameraProps.y, cameraProps.z];
+
+      var size = cubeProps.size;
+      corners = [
+        [-size, -size, -size], [size, -size, -size], [-size, size, -size], [size, size, -size],
+        [-size, -size, size], [size, -size, size], [-size, size, size], [size, size, size]
+      ];
+    }
+
+    function render() {
+      sb.setTranslate(canvasProps.x, canvasProps.y);
+      sb.clear();
+      setParams();
+      cube.corners = corners;
+      cube.camera = camera;
+      csX.camera = camera;
+      csY.camera = camera;
+      csZ.camera = camera;
+      sb.renderAll();
+    }
+
+    function setEvent(controller) {
+      controller.onChange(function () {
+        render();
+      });
+    }
   };
 </script>
 </body>

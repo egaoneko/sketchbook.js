@@ -16,23 +16,40 @@ class Geometry extends Shape {
    * @constructs Geometry
    */
   constructor(corners, edges, camera, options = {}) {
-    if (!typeCheck('array', corners)) {
-      throw new TypeError("Corners must be an array.");
-    }
-
-    if (!typeCheck('array', edges)) {
-      throw new TypeError("Edges must be an array.");
-    }
-
-    if (!typeCheck('array', camera)) {
-      throw new TypeError("Camera must be an array.");
-    }
-
     super(options);
     this._corners = [];
     this._edges = [];
     this._camera = null;
     this._init(corners, edges, camera);
+  }
+
+  /**
+   * @description Set corners
+   * @type {Array}
+   * @member Geometry#corners
+   */
+  set corners(corners) {
+    this._corners = [];
+    this._initCorners(corners);
+  }
+
+  /**
+   * @description Set edges
+   * @type {Array}
+   * @member Geometry#edges
+   */
+  set edges(edges) {
+    this._edges = [];
+    this._initEdges(edges);
+  }
+
+  /**
+   * @description Set camera
+   * @type {Array}
+   * @member Geometry#camera
+   */
+  set camera(camera) {
+    this._initCamera(camera);
   }
 
   /**
@@ -56,6 +73,10 @@ class Geometry extends Shape {
    * @method _initCorners
    */
   _initCorners(corners) {
+    if (!typeCheck('array', corners)) {
+      throw new TypeError("Corners must be an array.");
+    }
+
     _.each(corners, corner => {
       if (!typeCheck('array', corner)) {
         throw new TypeError("Corner must be an array.");
@@ -76,6 +97,10 @@ class Geometry extends Shape {
    * @method _initEdges
    */
   _initEdges(edges) {
+    if (!typeCheck('array', edges)) {
+      throw new TypeError("Edges must be an array.");
+    }
+
     _.each(edges, edge => {
       if (!typeCheck('array', edge)) {
         throw new TypeError("Edge must be an array.");
@@ -96,6 +121,10 @@ class Geometry extends Shape {
    * @method _initCamera
    */
   _initCamera(camera) {
+    if (!typeCheck('array', camera)) {
+      throw new TypeError("Camera must be an array.");
+    }
+
     if (camera.length !== 3) {
       throw new ArgumentError("Camera must be a 3D.");
     }
@@ -112,6 +141,7 @@ class Geometry extends Shape {
     let halfWidth = sketchbook.width * 0.5;
     let halfHeight = sketchbook.height * 0.5;
 
+    // Projection
     let shfitedCorners = _.map(this._corners, corner => {
       return corner.add(this._camera);
     });

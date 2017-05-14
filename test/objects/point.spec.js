@@ -38,7 +38,19 @@ describe('Point', () => {
     });
 
     it('add with wrong parameters', () => {
-      assert.throws(()=>new Point([1, 2]).add({}), Error, "Added by wrong parameter.(Different class)");
+      assert.throws(()=>new Point([1, 2]).add({}), TypeError, "Added by wrong parameter.(Different class)");
+    });
+
+    it('equal true', () => {
+      let a = new Point([1, 2]);
+      let b = new Point([1, 2]);
+      assert.isTrue(a.equal(b));
+    });
+
+    it('equal false', () => {
+      let a = new Point([1, 2]);
+      let b = new Point([1, 3]);
+      assert.isFalse(a.equal(b));
     });
   });
 });

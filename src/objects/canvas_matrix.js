@@ -1,6 +1,7 @@
-import {Matrix} from "sylvester-es6";
+import {Matrix as SylvesterMatrix} from "sylvester-es6";
 import {ArgumentError} from "../errors/errors";
 import Point from "./point";
+import Matrix from "./matrix";
 
 /**
  * @description CanvasMatrix Class
@@ -27,7 +28,7 @@ class CanvasMatrix {
     }
 
     if (params.length === 6) {
-      this._matrix = new Matrix([
+      this._matrix = new SylvesterMatrix([
         [params[0], params[2], params[4]],
         [params[1], params[3], params[5]],
         [0, 0, 1]
@@ -36,7 +37,7 @@ class CanvasMatrix {
     }
 
     if (params.length === 1 && !(params[0] instanceof CanvasMatrix)) {
-      throw new ArgumentError("Initialized with wrong parameter.(Different class)");
+      throw new TypeError("Initialized with wrong parameter.(Different class)");
     }
 
     if (params.length === 1) {
@@ -44,7 +45,7 @@ class CanvasMatrix {
       return;
     }
 
-    this._matrix = Matrix.I(3);
+    this._matrix = SylvesterMatrix.I(3);
   }
 
   /**
@@ -130,6 +131,26 @@ class CanvasMatrix {
   }
 
   /**
+   * @description Add CanvasMatrix
+   * @param {CanvasMatrix} other matrix for multiply
+   * @return {CanvasMatrix} multiplied matrix
+   * @member CanvasMatrix#add
+   */
+  add(other) {
+    if (!(other instanceof CanvasMatrix)) {
+      throw new TypeError("Added by wrong parameter.(Different class)");
+    }
+    let addedMatrix = this._matrix.add(other._matrix);
+    let a = addedMatrix.e(1, 1);
+    let b = addedMatrix.e(2, 1);
+    let c = addedMatrix.e(1, 2);
+    let d = addedMatrix.e(2, 2);
+    let e = addedMatrix.e(1, 3);
+    let f = addedMatrix.e(2, 3);
+    return new CanvasMatrix(a, b, c, d, e, f);
+  }
+
+  /**
    * @description Multiply CanvasMatrix
    * @param {CanvasMatrix|Point} other object for multiply
    * @return {CanvasMatrix|Point} multiplied object
@@ -154,7 +175,20 @@ class CanvasMatrix {
       return new Point([x, y]);
     }
 
-    throw new ArgumentError("Multiplied by wrong parameter.(Different class)");
+    throw new TypeError("Multiplied by wrong parameter.(Different class)");
+  }
+
+  /**
+   * @description Inverse CanvasMatrix
+   * @return {Matrix} inverse
+   * @member CanvasMatrix#multiply
+   */
+  inverse() {
+    let inverse = this._matrix.inverse();
+    if (!inverse) {
+      return inverse;
+    }
+    return new Matrix(inverse);
   }
 }
 
