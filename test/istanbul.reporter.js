@@ -1,6 +1,7 @@
 const instanbul = require('istanbul');
 const MochaSpecReporter = require('mocha/lib/reporters/spec');
 
+/* global module, global, process */
 module.exports = function (runner) {
   const collector = new instanbul.Collector();
   const reporter = new instanbul.Reporter();
