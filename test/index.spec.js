@@ -26,6 +26,10 @@ describe('Index', () => {
     assert.property(sketchbook, "Rect");
   });
 
+  it('Circle', () => {
+    assert.property(sketchbook, "Circle");
+  });
+
   it('Line', () => {
     assert.property(sketchbook, "Line");
   });

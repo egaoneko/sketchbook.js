@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Circle</title>
+
+  <style>
+    html, body {
+      height: 100%;
+    }
+
+    .box {
+      position: relative;
+      display: inline-block;
+      margin: 10px;
+    }
+
+    .box > canvas {
+      border: solid 1px;
+    }
+  </style>
+</head>
+<body>
+<h1>Circle</h1>
+<script src="../sketchbook.js"></script>
+<script>
+  window.onload = function () {
+
+    var circle;
+
+    circle = new sketchbook.Circle({
+      x: 10,
+      y: 10,
+      radius: 10,
+      sAngle: 0,
+      eAngle: 1.5
+    });
+    addBox("Simple circle", [circle]);
+
+    circle = new sketchbook.Circle({
+      x: 10,
+      y: 10,
+      radius: 10,
+      sAngle: 0,
+      eAngle: 1.5,
+      lineWidth: 3
+    });
+    addBox("Line width circle", [circle]);
+
+    circle = new sketchbook.Circle({
+      x: 10,
+      y: 10,
+      radius: 10,
+      sAngle: 0,
+      eAngle: 1.5,
+      isFilled: true,
+      fillStyle: '#FF0000'
+    });
+    addBox("Filled circle", [circle]);
+
+    addRow();
+
+    circle = new sketchbook.Circle({
+      x: 10,
+      y: 10,
+      radius: 10,
+      sAngle: 0,
+      eAngle: 1.5,
+      isFilled: true,
+      fillStyle: function (ctx) {
+        let grd = ctx.createLinearGradient(0, 0, this.radius * 2, 0);
+        grd.addColorStop(0, "black");
+        grd.addColorStop(1, "white");
+        return grd;
+      }
+    });
+    addBox("Gradient Filled circle", [circle]);
+
+    circle = new sketchbook.Circle({
+      x: 10,
+      y: 10,
+      radius: 10,
+      sAngle: 0,
+      eAngle: 1.5,
+      strokeStyle: function (ctx) {
+        let grd = ctx.createLinearGradient(0, 0, this.radius * 2, 0);
+        grd.addColorStop(0, "black");
+        grd.addColorStop(1, "white");
+        return grd;
+      }
+    });
+    addBox("Gradient stroked circle", [circle]);
+
+    addRow();
+
+    var xScale = 2;
+    var yScale = 3;
+    var scaledCircle;
+    circle = new sketchbook.Circle({
+      x: 50,
+      y: 50,
+      radius: 10,
+      sAngle: 0,
+      eAngle: 1.5
+    });
+    scaledCircle = new sketchbook.Circle({
+      x: 50,
+      y: 50,
+      radius: 10,
+      sAngle: 0,
+      eAngle: 1.5,
+      strokeStyle: '#FF0000'
+    });
+    scaledCircle.scale(xScale, yScale);
+    addBox("Scaled circle", [circle, scaledCircle]);
+
+    circle = new sketchbook.Circle({
+      x: 50,
+      y: 50,
+      radius: 10,
+      sAngle: 0,
+      eAngle: 1.5
+    });
+    scaledCircle = new sketchbook.Circle({
+      x: 50,
+      y: 50,
+      radius: 10,
+      sAngle: 0,
+      eAngle: 1.5,
+      strokeStyle: '#FF0000'
+    });
+    scaledCircle.setScale(xScale, yScale);
+    addBox("setScale circle", [circle, scaledCircle]);
+
+    addRow();
+
+    var radian = 45 * Math.PI / 180;
+    var rotatedCircle;
+    circle = new sketchbook.Circle({
+      x: 50,
+      y: 50,
+      radius: 10,
+      sAngle: 0,
+      eAngle: 1.5
+    });
+    rotatedCircle = new sketchbook.Circle({
+      x: 50,
+      y: 50,
+      radius: 10,
+      sAngle: 0,
+      eAngle: 1.5,
+      strokeStyle: '#FF0000'
+    });
+    rotatedCircle.rotate(radian);
+    addBox("Rotated circle", [circle, rotatedCircle]);
+
+    circle = new sketchbook.Circle({
+      x: 50,
+      y: 50,
+      radius: 10,
+      sAngle: 0,
+      eAngle: 1.5
+    });
+    rotatedCircle = new sketchbook.Circle({
+      x: 50,
+      y: 50,
+      radius: 10,
+      sAngle: 0,
+      eAngle: 1.5,
+      strokeStyle: '#FF0000'
+    });
+    rotatedCircle.setRotate(radian);
+    addBox("setRotated circle", [circle, rotatedCircle]);
+
+    addRow();
+
+    var callback;
+    callback = function (sb) {
+      sb.rotate(10 * Math.PI / 180);
+      sb.add(new sketchbook.Rect({
+        x: 0,
+        y: 0,
+        width: sb.width,
+        height: sb.height,
+        strokeStyle: '#FF0000'
+      }));
+    };
+
+    circle = new sketchbook.Circle({
+      x: 50,
+      y: 50,
+      radius: 10,
+      sAngle: 0,
+      eAngle: 1.5
+    });
+    rotatedCircle = new sketchbook.Circle({
+      x: 50,
+      y: 50,
+      radius: 10,
+      sAngle: 0,
+      eAngle: 1.5,
+      strokeStyle: '#FF0000'
+    });
+    rotatedCircle.rotate(radian);
+    addBox("LT R sb R circle", [circle, rotatedCircle], callback);
+
+    callback = function (sb) {
+      sb.rotate(radian, new sketchbook.Point([50, 50]));
+      sb.add(new sketchbook.Rect({
+        x: 0,
+        y: 0,
+        width: sb.width,
+        height: sb.height,
+        strokeStyle: '#FF0000'
+      }));
+    };
+
+    circle = new sketchbook.Circle({
+      x: 50,
+      y: 50,
+      radius: 10,
+      sAngle: 0,
+      eAngle: 1.5
+    });
+    rotatedCircle = new sketchbook.Circle({
+      x: 50,
+      y: 50,
+      radius: 10,
+      sAngle: 0,
+      eAngle: 1.5,
+      strokeStyle: '#FF0000'
+    });
+    rotatedCircle.rotate(radian);
+    addBox("LT R sb R circle", [circle, rotatedCircle], callback);
+  };
+
+  function addBox (name, circles, callback) {
+    var box = document.createElement('div');
+    box.className = 'box';
+
+    var h2 = document.createElement('h2');
+    h2.innerText = name;
+    box.appendChild(h2);
+
+    var canvas = document.createElement('canvas');
+    box.appendChild(canvas);
+
+    var sb = new sketchbook.Sketchbook(canvas);
+    sb.width = 150;
+    sb.height = 150;
+
+    if (callback) {
+      callback(sb);
+    }
+
+    for (var idx = 0; idx < circles.length; idx++) {
+      var circle = circles[idx];
+      sb.add(circle);
+    }
+    sb.renderAll();
+
+    document.body.appendChild(box);
+  }
+
+  function addRow () {
+    document.body.appendChild(document.createElement('br'));
+  }
+</script>
+</body>
+</html>
