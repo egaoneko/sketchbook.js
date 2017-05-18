@@ -1,7 +1,6 @@
-import _ from "lodash";
 import Shape from "./shape";
-import {typeCheck} from "../utils/base";
-import {CannotFoundError, ArgumentError} from "../errors/errors";
+import GroupHelper from "../helper/group_helper";
+import {ArgumentError} from "../errors/errors";
 
 /**
  * @description Group Class
@@ -15,7 +14,13 @@ class Group extends Shape {
    */
   constructor(options = {}) {
     super(options);
-    this._objects = [];
+    this._groupHelper = new GroupHelper();
+    this._groupHelper.distinct = true;
+    this._groupHelper.validator = shape => {
+      if (!(shape instanceof Shape)) {
+        throw new ArgumentError("This object isn't a instance of Shape.");
+      }
+    };
   }
 
   /**
@@ -26,7 +31,7 @@ class Group extends Shape {
    * @member Group#scale
    */
   scale(xScale, yScale, pivot) {
-    _.each(this._objects, renderObj=> {
+    this._groupHelper.iterate(renderObj => {
       if (!('render' in renderObj)) {
         return;
       }
@@ -41,7 +46,7 @@ class Group extends Shape {
    * @member Group#rotate
    */
   rotate(radian, pivot) {
-    _.each(this._objects, renderObj=> {
+    this._groupHelper.iterate(renderObj => {
       if (!('render' in renderObj)) {
         return;
       }
@@ -56,7 +61,7 @@ class Group extends Shape {
    * @member Group#translate
    */
   translate(x, y) {
-    _.each(this._objects, renderObj=> {
+    this._groupHelper.iterate(renderObj => {
       if (!('render' in renderObj)) {
         return;
       }
@@ -70,33 +75,8 @@ class Group extends Shape {
    * @member Group#add
    */
   add(shapes) {
-    if (!shapes) {
-      throw new CannotFoundError("Cannot found shapes.");
-    }
-
-    if (!typeCheck('array', shapes)) {
-      this._add(shapes);
-      return;
-    }
-
-    _.each(shapes, object => {
-      this._add(object);
-    });
+    this._groupHelper.add(shapes);
   }
-
-  /**
-   * @private
-   * @description add Objects
-   * @param {Shape} shape added shape
-   * @method _add
-   */
-  _add(shape) {
-    if (!(shape instanceof Shape)) {
-      throw new ArgumentError("This object isn't a instance of Shape.");
-    }
-    this._objects.push(shape);
-  }
-
 
   /**
    * @description renderShape
@@ -128,7 +108,7 @@ class Group extends Shape {
    * @method _renderChild
    */
   _renderChild(sketchbook) {
-    _.each(this._objects, renderObj=> {
+    this._groupHelper.iterate(renderObj => {
       if (!('render' in renderObj)) {
         return;
       }

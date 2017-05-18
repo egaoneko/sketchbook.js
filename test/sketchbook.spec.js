@@ -1,7 +1,7 @@
 import chai from "chai";
 import Sketchbook from "../src/sketchbook";
-import Shape from "../src/shapes/shape";
 import Point from "../src/objects/point";
+import GroupHelper from "../src/helper/group_helper";
 import {ORIGIN, COORDINATE_SYSTEM} from "../src/global/global";
 
 let assert = chai.assert;
@@ -51,6 +51,10 @@ describe('Sketchbook', () => {
       let position = sketchbook._position;
       assert.strictEqual(position.x, 0);
       assert.strictEqual(position.y, 0);
+    });
+
+    it('initialized GroupHelper', () => {
+      assert.isTrue(sketchbook._groupHelper instanceof GroupHelper);
     });
   });
 
@@ -179,47 +183,9 @@ describe('Sketchbook', () => {
       assert.strictEqual(y, -position.y);
     });
 
-    it('_add', () => {
-      let shape = new Shape();
-      let lenderList = sketchbook._renderList;
-      let oldListLength = lenderList.length;
-
-      sketchbook._add(shape);
-      assert.strictEqual(lenderList.length - oldListLength, 1);
-      assert.strictEqual(lenderList[lenderList.length - 1], shape);
-    });
-
-    it('_add with wrong', () => {
+    it('add with wrong', () => {
       let object = {};
-      assert.throws(()=>sketchbook._add(object), Error, "This object isn't a instance of Shape.");
-    });
-
-    it('add with shapes', () => {
-      let shapes = [new Shape(), new Shape(), new Shape()];
-      let lenderList = sketchbook._renderList;
-      let oldListLength = lenderList.length;
-
-      sketchbook.add(shapes);
-      assert.strictEqual(lenderList.length - oldListLength, shapes.length);
-
-      let startIdx = lenderList.length - shapes.length;
-      for (let idx = startIdx; idx < shapes.length; idx++) {
-        assert.strictEqual(lenderList[idx], shapes[idx - startIdx]);
-      }
-    });
-
-    it('add with shape', () => {
-      let shape = new Shape();
-      let lenderList = sketchbook._renderList;
-      let oldListLength = lenderList.length;
-
-      sketchbook.add(shape);
-      assert.strictEqual(lenderList.length - oldListLength, 1);
-      assert.strictEqual(lenderList[lenderList.length - 1], shape);
-    });
-
-    it('add without shapes', () => {
-      assert.throws(()=>sketchbook.add(), Error, "Cannot found shapes.");
+      assert.throws(()=>sketchbook.add(object), Error, "This object isn't a instance of Shape.");
     });
 
     it('get origin with ORIGIN.LEFT_TOP option', () => {

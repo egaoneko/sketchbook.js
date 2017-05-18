@@ -1,6 +1,6 @@
-import _ from "lodash";
 import Shape from "./shapes/shape";
 import Point from "./objects/point";
+import GroupHelper from "./helper/group_helper";
 import {typeCheck} from "./utils/base";
 import {CannotFoundError, ArgumentError} from "./errors/errors";
 import {ORIGIN, COORDINATE_SYSTEM} from "./global/global";
@@ -36,7 +36,13 @@ class Sketchbook extends Shape {
     }
     this._canvas = canvas;
     this._context = canvas.getContext('2d');
-    this._renderList = [];
+    this._groupHelper = new GroupHelper();
+    this._groupHelper.distinct = true;
+    this._groupHelper.validator = shape => {
+      if (!(shape instanceof Shape)) {
+        throw new ArgumentError("This object isn't a instance of Shape.");
+      }
+    };
     this._init();
   }
 
@@ -177,31 +183,7 @@ class Sketchbook extends Shape {
    * @member Sketchbook#add
    */
   add(shapes) {
-    if (!shapes) {
-      throw new CannotFoundError("Cannot found shapes.");
-    }
-
-    if (!typeCheck('array', shapes)) {
-      this._add(shapes);
-      return;
-    }
-
-    _.each(shapes, object => {
-      this._add(object);
-    });
-  }
-
-  /**
-   * @private
-   * @description add Objects
-   * @param {Shape} shape added shape
-   * @method _add
-   */
-  _add(shape) {
-    if (!(shape instanceof Shape)) {
-      throw new ArgumentError("This object isn't a instance of Shape.");
-    }
-    this._renderList.push(shape);
+    this._groupHelper.add(shapes);
   }
 
   /**
@@ -218,7 +200,7 @@ class Sketchbook extends Shape {
    * @method _renderChild
    */
   _renderChild() {
-    _.each(this._renderList, renderObj=> {
+    this._groupHelper.iterate(renderObj=> {
       if (!('render' in renderObj)) {
         return;
       }

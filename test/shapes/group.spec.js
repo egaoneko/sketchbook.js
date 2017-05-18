@@ -2,6 +2,7 @@ import chai from "chai";
 import Shape from "../../src/shapes/shape";
 import Point from "../../src/objects/point";
 import Group from "../../src/shapes/group";
+import GroupHelper from "../../src/helper/group_helper";
 import CanvasMatrix from "../../src/objects/canvas_matrix";
 
 
@@ -15,58 +16,20 @@ describe('Group', () => {
   });
 
   describe('initialized Group', () => {
-    it('initialized ', () => {
-      assert.deepEqual(group._objects, []);
+    it('initialized GroupHelper', () => {
+      assert.isTrue(group._groupHelper instanceof GroupHelper);
     });
   });
 
   describe('methods', () => {
-    it('_add', () => {
-      let shape = new Shape();
-      let objects = group._objects;
-      let oldObjectsSize = objects.length;
-
-      group._add(shape);
-      assert.strictEqual(objects.length - oldObjectsSize, 1);
-      assert.strictEqual(objects[objects.length - 1], shape);
-    });
-
-    it('_add with wrong', () => {
+    it('add with wrong', () => {
       let object = {};
-      assert.throws(()=>group._add(object), Error, "This object isn't a instance of Shape.");
-    });
-
-    it('add with shapes', () => {
-      let shapes = [new Shape(), new Shape(), new Shape()];
-      let objects = group._objects;
-      let oldObjectsSize = objects.length;
-
-      group.add(shapes);
-      assert.strictEqual(objects.length - oldObjectsSize, shapes.length);
-
-      let startIdx = objects.length - shapes.length;
-      for (let idx = startIdx; idx < shapes.length; idx++) {
-        assert.strictEqual(objects[idx], shapes[idx - startIdx]);
-      }
-    });
-
-    it('add with shape', () => {
-      let shape = new Shape();
-      let objects = group._objects;
-      let oldObjectsSize = objects.length;
-
-      group.add(shape);
-      assert.strictEqual(objects.length - oldObjectsSize, 1);
-      assert.strictEqual(objects[objects.length - 1], shape);
-    });
-
-    it('add without shapes', () => {
-      assert.throws(()=>group.add(), Error, "Cannot found shapes.");
+      assert.throws(()=>group.add(object), Error, "This object isn't a instance of Shape.");
     });
 
     it('scale each', () => {
       let shape = new Shape();
-      let objects = group._objects;
+      let objects = group._groupHelper._objects;
 
       group.add(shape);
 
@@ -80,7 +43,7 @@ describe('Group', () => {
 
     it('scale list', () => {
       let shapes = [new Shape(), new Shape(), new Shape()];
-      let objects = group._objects;
+      let objects = group._groupHelper._objects;
 
       group.add(shapes);
 
@@ -103,7 +66,7 @@ describe('Group', () => {
 
     it('rotate each', () => {
       let shape = new Shape();
-      let objects = group._objects;
+      let objects = group._groupHelper._objects;
 
       group.add(shape);
 
@@ -116,7 +79,7 @@ describe('Group', () => {
 
     it('rotate list', () => {
       let shapes = [new Shape(), new Shape(), new Shape()];
-      let objects = group._objects;
+      let objects = group._groupHelper._objects;
 
       group.add(shapes);
 
@@ -141,7 +104,7 @@ describe('Group', () => {
 
     it('translate each', () => {
       let shape = new Shape();
-      let objects = group._objects;
+      let objects = group._groupHelper._objects;
 
       group.add(shape);
 
@@ -154,7 +117,7 @@ describe('Group', () => {
 
     it('translate list', () => {
       let shapes = [new Shape(), new Shape(), new Shape()];
-      let objects = group._objects;
+      let objects = group._groupHelper._objects;
 
       group.add(shapes);
 

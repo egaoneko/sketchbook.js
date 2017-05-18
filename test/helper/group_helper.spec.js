@@ -91,6 +91,16 @@ describe('GroupHelper', () => {
       assert.notStrictEqual(objects[objects.length - 2], object);
     });
 
+    it('_add with validator and shape', () => {
+      let shape = new Shape();
+      groupHelper._validator = function (shape) {
+        if (!(shape instanceof Shape)) {
+          throw new ArgumentError("This object isn't a instance of Shape.");
+        }
+      };
+      assert.doesNotThrow(()=>groupHelper._add(shape));
+    });
+
     it('_add with validator and wrong object', () => {
       let object = {};
       groupHelper._validator = function (shape) {
