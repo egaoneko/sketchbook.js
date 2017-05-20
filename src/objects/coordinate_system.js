@@ -150,7 +150,7 @@ class CoordinateSystem {
   }
 
   /**
-   * @description getAffineTransform
+   * @description getAffineTransform using SRT
    * @param {Number} xScale xScale
    * @param {Number} yScale yScale
    * @param {Number} radian radian
@@ -163,14 +163,15 @@ class CoordinateSystem {
     let a, b, c, d;
     let matrix = new CanvasMatrix();
 
+    // origin to pivot
     if (pivot) {
       matrix = matrix.multiply(new CanvasMatrix(1, 0, 0, 1, pivot.x, pivot.y));
-      //
     }
 
+    // Scale
     matrix = matrix.multiply(new CanvasMatrix(xScale, 0, 0, yScale, 0, 0));
 
-
+    // Rotate
     if (this._opt.orientation === ORIENTATION.CCW) {
       a = Math.cos(radian);
       b = -Math.sin(radian);
@@ -182,10 +183,12 @@ class CoordinateSystem {
       c = -Math.sin(radian);
       d = Math.cos(radian);
     }
-
     matrix = matrix.multiply(new CanvasMatrix(a, b, c, d, 0, 0));
+
+    // Translate
     matrix = matrix.multiply(new CanvasMatrix(1, 0, 0, 1, position.x, position.y));
 
+    // pivot to origin'
     if (pivot) {
       matrix = matrix.multiply(new CanvasMatrix(1, 0, 0, 1, -pivot.x, -pivot.y));
     }
