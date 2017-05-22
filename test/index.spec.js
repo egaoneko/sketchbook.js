@@ -42,6 +42,10 @@ describe('Index', () => {
     assert.property(sketchbook, "Geometry");
   });
 
+  it('Geometry3D', () => {
+    assert.property(sketchbook, "Geometry3D");
+  });
+
   it('global', () => {
     assert.property(sketchbook, "global");
   });

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Geometry</title>
+  <title>Geometry3D</title>
 
   <style>
     html, body {
@@ -21,7 +21,7 @@
   </style>
 </head>
 <body>
-<h1>Geometry</h1>
+<h1>Geometry3D</h1>
 <div class="box">
   <h2>Perspective Rendering</h2>
   <p>
@@ -75,7 +75,7 @@
     var camera = [];
 
     setParams();
-    cube = new sketchbook.Geometry(corners, edges, camera);
+    cube = new sketchbook.Geometry3D(corners, edges, camera);
     sb.add(cube);
 
     var csCorners;
@@ -86,17 +86,17 @@
 
     csCorners = [[0, 0, 0], [1, 0, 0]];
     csEdges = [[0, 1]];
-    csX = new sketchbook.Geometry(csCorners, csEdges, camera, {strokeStyle: '#ff0000'});
+    csX = new sketchbook.Geometry3D(csCorners, csEdges, camera, {strokeStyle: '#ff0000'});
     sb.add(csX);
 
     csCorners = [[0, 0, 0], [0, 1, 0]];
     csEdges = [[0, 1]];
-    csY = new sketchbook.Geometry(csCorners, csEdges, camera, {strokeStyle: '#0000ff'});
+    csY = new sketchbook.Geometry3D(csCorners, csEdges, camera, {strokeStyle: '#0000ff'});
     sb.add(csY);
 
     csCorners = [[0, 0, 0], [0, 0, 1]];
     csEdges = [[0, 1]];
-    csZ = new sketchbook.Geometry(csCorners, csEdges, camera, {strokeStyle: '#00ff00'});
+    csZ = new sketchbook.Geometry3D(csCorners, csEdges, camera, {strokeStyle: '#00ff00'});
     sb.add(csZ);
 
 

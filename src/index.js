@@ -6,6 +6,7 @@ import Circle from "./shapes/circle";
 import Line from "./shapes/line";
 import Group from "./shapes/group";
 import Geometry from "./shapes/geometry";
+import Geometry3D from "./shapes/geometry_3d";
 import * as global from "./global/global";
 
 
@@ -20,6 +21,7 @@ export {
   Group,
 
   Geometry,
+  Geometry3D,
 
   global
 };

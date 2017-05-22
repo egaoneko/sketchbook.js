@@ -15,4 +15,8 @@ describe('Global', () => {
   it('COORDINATE_SYSTEM', () => {
     assert.property(global, "COORDINATE_SYSTEM");
   });
+
+  it('GEOMETRY_TYPE', () => {
+    assert.property(global, "GEOMETRY_TYPE");
+  });
 });
