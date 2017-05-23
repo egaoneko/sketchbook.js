@@ -10,17 +10,15 @@ let assert = chai.assert;
 describe('Geometry', () => {
   let geometry;
   let corners;
-  let edges;
 
   beforeEach(function () {
     corners = [[0, 0], [1, 0], [0, 1], [1, 1]];
-    edges = [[0, 1], [1, 2], [2, 3]];
-    geometry = new Geometry(corners, edges);
+    geometry = new Geometry(corners);
   });
 
   describe('initialized Geometry', () => {
     it('initialized without error', () => {
-      assert.doesNotThrow(()=>new Geometry(corners, edges));
+      assert.doesNotThrow(()=>new Geometry(corners));
     });
 
     it('_initCorners', () => {
@@ -64,29 +62,6 @@ describe('Geometry', () => {
       assert.strictEqual(geometry._corners[oldLength].x, corner.x);
       assert.strictEqual(geometry._corners[oldLength].y, corner.y);
     });
-
-    it('_initEdges edges', () => {
-      edges = [[2, 3], [1, 2], [0, 1]];
-      geometry._initEdges(edges);
-      assert.strictEqual(geometry._edges.length, edges.length);
-      _.each(_.range(edges.length), index => {
-        assert.deepEqual(geometry._edges[index], edges[index]);
-      });
-    });
-
-    it('_initEdges edges not array', () => {
-      assert.throws(()=>geometry._initEdges(null), TypeError, "Edges must be an array.");
-    });
-
-    it('_initEdges edges with wrong edge', () => {
-      edges = [{}];
-      assert.throws(()=>geometry._initEdges(edges), TypeError, "Edge must be an array.");
-    });
-
-    it('_initEdges edges with wrong edge dimension', () => {
-      edges = [[0]];
-      assert.throws(()=>geometry._initEdges(edges), Error, "Edge must be a 2D.");
-    });
   });
 
   describe('options', () => {
@@ -124,24 +99,6 @@ describe('Geometry', () => {
       _.each(_.range(corners.length), index => {
         assert.strictEqual(geometry._corners[index].x, corners[index][0]);
         assert.strictEqual(geometry._corners[index].y, corners[index][1]);
-      });
-    });
-
-    it('get edges', () => {
-      let getEdges = geometry.edges;
-      _.each(_.range(edges.length), index => {
-        assert.notStrictEqual(getEdges[index], geometry._edges[index]);
-        assert.deepEqual(getEdges[index], edges[index]);
-      });
-    });
-
-    it('set edges', () => {
-      edges = [[0, 1], [2, 3], [0, 2], [1, 3], [4, 5], [6, 7], [4, 6]];
-      geometry.edges = edges;
-
-      assert.strictEqual(geometry._edges.length, edges.length);
-      _.each(_.range(edges.length), index => {
-        assert.deepEqual(geometry._edges[index], edges[index]);
       });
     });
   });

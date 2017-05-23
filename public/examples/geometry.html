@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Geometry</title>
+
+  <style>
+    html, body {
+      height: 100%;
+    }
+
+    .box {
+      position: relative;
+      display: ingeometry-block;
+      margin: 10px;
+    }
+
+    .box > canvas {
+      border: solid 1px;
+    }
+  </style>
+</head>
+<body>
+<h1>Geometry</h1>
+<script src="../sketchbook.js"></script>
+<script>
+  window.onload = function () {
+
+    var geometry;
+
+    var corners = [[10, 10], [30, 10], [50, 70], [10, 40]];
+
+    geometry = new sketchbook.Geometry(corners, {
+      geometryType: sketchbook.global.GEOMETRY_TYPE.POLYGON
+    });
+    addBox("Polygon geometry", [geometry]);
+
+    geometry = new sketchbook.Geometry(corners, {
+      geometryType: sketchbook.global.GEOMETRY_TYPE.POLYLINE
+    });
+    addBox("Polyline geometry", [geometry]);
+
+    addRow();
+
+    function addBox(name, geometries, callback) {
+      var box = document.createElement('div');
+      box.className = 'box';
+
+      var h2 = document.createElement('h2');
+      h2.innerText = name;
+      box.appendChild(h2);
+
+      var canvas = document.createElement('canvas');
+      box.appendChild(canvas);
+
+      var sb = new sketchbook.Sketchbook(canvas);
+      sb.width = 150;
+      sb.height = 150;
+
+      if (callback) {
+        callback(sb);
+      }
+
+      for (var idx = 0; idx < geometries.length; idx++) {
+        var geometry = geometries[idx];
+        sb.add(geometry);
+      }
+      sb.renderAll();
+
+      document.body.appendChild(box);
+    }
+
+    function addRow() {
+      document.body.appendChild(document.createElement('br'));
+    }
+  }
+</script>
+</body>
+</html>

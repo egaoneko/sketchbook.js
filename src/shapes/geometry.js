@@ -3,7 +3,6 @@ import {typeCheck} from "../utils/base";
 import Shape from "./shape";
 import Point from "../objects/point";
 import {GEOMETRY_TYPE} from "../global/global";
-import {ArgumentError} from "../errors/errors";
 
 /**
  * @description Geometry Class
@@ -15,11 +14,10 @@ class Geometry extends Shape {
    * @description Geometry constructor.
    * @constructs Geometry
    */
-  constructor(corners, edges, options = {}) {
+  constructor(corners, options = {}) {
     super(options);
     this._corners = [];
-    this._edges = [];
-    this._init(corners, edges);
+    this._init(corners, options);
     // TODO bound box, example
   }
 
@@ -27,13 +25,11 @@ class Geometry extends Shape {
    * @private
    * @description Init
    * @param {Array} corners corners
-   * @param {Array} edges edges
    * @param {Object} options options
    * @method _init
    */
-  _init(corners, edges, options = {}) {
+  _init(corners, options = {}) {
     this._initCorners(corners);
-    this._initEdges(edges);
     if (!('geometryType' in options)) {
       this._opt['geometryType'] = GEOMETRY_TYPE.POLYGON;
     }
@@ -77,31 +73,6 @@ class Geometry extends Shape {
   }
 
   /**
-   * @private
-   * @description Init edges
-   * @param {Array} edges edges
-   * @method _initEdges
-   */
-  _initEdges(edges) {
-    this._edges = [];
-    if (!typeCheck('array', edges)) {
-      throw new TypeError("Edges must be an array.");
-    }
-
-    _.each(edges, edge => {
-      if (!typeCheck('array', edge)) {
-        throw new TypeError("Edge must be an array.");
-      }
-
-      if (edge.length !== 2) {
-        throw new ArgumentError("Edge must be a 2D.");
-      }
-
-      this._edges.push(edge.slice());
-    });
-  }
-
-  /**
    * @description Get corners
    * @type {Array}
    * @member Geometry#corners
@@ -124,34 +95,32 @@ class Geometry extends Shape {
   }
 
   /**
-   * @description Get edges
-   * @type {Array}
-   * @member Geometry#edges
-   */
-  get edges() {
-    let edges = [];
-    _.each(this._edges, edge => {
-      edges.push(edge.slice());
-    });
-    return edges;
-  }
-
-  /**
-   * @description Set edges
-   * @type {Array}
-   * @member Geometry#edges
-   */
-  set edges(edges) {
-    this._initEdges(edges);
-  }
-
-  /**
    * @description render
    * @param {Sketchbook} sketchbook Sketchbook
    * @member Geometry#render
    */
   render(sketchbook) {
+    let ctx = sketchbook.context;
 
+    let convertedCorners = _.map(this._corners, corner=> {
+      return sketchbook.convertPositionFromLocalCSToScreen(corner);
+    });
+
+    ctx.beginPath();
+    _.each(convertedCorners, (corner, index) => {
+      if (index === 0) {
+        ctx.moveTo(corner.x, corner.y);
+      }
+      ctx.lineTo(corner.x, corner.y);
+    });
+
+    if (this._opt.geometryType === GEOMETRY_TYPE.POLYGON) {
+      ctx.closePath();
+    }
+
+    if (this._opt.isStroked) {
+      ctx.stroke();
+    }
   }
 }
 
