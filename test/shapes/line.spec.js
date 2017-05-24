@@ -29,7 +29,7 @@ describe('Line', () => {
         x1: 10,
         y1: 20,
         x2: 30,
-        y2: 40,
+        y2: 40
       });
       assert.strictEqual(line._opt.x1, 10);
       assert.strictEqual(line._opt.y1, 20);
