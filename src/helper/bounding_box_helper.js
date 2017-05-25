@@ -20,6 +20,17 @@ class BoundingBoxHelper {
   }
 
   /**
+   * @description Get center
+   * @type {Point}
+   * @member BoundingBoxHelper#center
+   */
+  get center () {
+    let x = (this._minX + this._maxX) * 0.5;
+    let y = (this._minY + this._maxY) * 0.5;
+    return new Point([x, y]);
+  }
+
+  /**
    * @description add Point
    * @param {Array|Point} points added points
    * @member BoundingBoxHelper#add
@@ -51,6 +62,17 @@ class BoundingBoxHelper {
     this._minY = Math.min(this._minY, point.y);
     this._maxX = Math.max(this._maxX, point.x);
     this._maxY = Math.max(this._maxY, point.y);
+  }
+
+  /**
+   * @description clear min max
+   * @member BoundingBoxHelper#clear
+   */
+  clear () {
+    this._minX = +Infinity;
+    this._minY = +Infinity;
+    this._maxX = -Infinity;
+    this._maxY = -Infinity;
   }
 }
 

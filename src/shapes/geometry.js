@@ -2,6 +2,7 @@ import _ from "lodash";
 import {typeCheck} from "../utils/base";
 import Shape from "./shape";
 import Point from "../objects/point";
+import BoundingBoxHelper from "../helper/bounding_box_helper";
 import {GEOMETRY_TYPE} from "../global/global";
 
 /**
@@ -17,6 +18,7 @@ class Geometry extends Shape {
   constructor(corners, options = {}) {
     super(options);
     this._corners = [];
+    this._boundingBoxHelper = new BoundingBoxHelper();
     this._init(corners, options);
     // TODO bound box, example
   }
@@ -43,6 +45,7 @@ class Geometry extends Shape {
    */
   _initCorners(corners) {
     this._corners = [];
+    this._boundingBoxHelper.clear();
     if (!typeCheck('array', corners)) {
       throw new TypeError("Corners must be an array.");
     }
@@ -59,17 +62,20 @@ class Geometry extends Shape {
       }
       throw new TypeError("Add wrong corner type.");
     });
+    this.position = this._boundingBoxHelper.center;
   }
 
   _addArrayCorner(corner) {
     if (corner.length !== 2) {
       throw new TypeError("Corner must be a 2D.");
     }
-    this._corners.push(new Point(corner));
+    this._addPointCorner(new Point(corner));
   }
 
   _addPointCorner(corner) {
-    this._corners.push(new Point(corner));
+    let cornerPoint = new Point(corner);
+    this._corners.push(cornerPoint);
+    this._boundingBoxHelper.add(cornerPoint);
   }
 
   /**

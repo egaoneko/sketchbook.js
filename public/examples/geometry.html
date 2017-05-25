@@ -42,6 +42,54 @@
 
     addRow();
 
+    geometry = new sketchbook.Geometry(corners, {
+      geometryType: sketchbook.global.GEOMETRY_TYPE.POLYGON
+    });
+    geometry.scale(2, 2);
+
+    addBox("Scale polygon geometry", [geometry]);
+
+    var radian = 45 * Math.PI / 180;
+
+    geometry = new sketchbook.Geometry(corners, {
+      geometryType: sketchbook.global.GEOMETRY_TYPE.POLYGON
+    });
+    geometry.rotate(radian);
+
+    addBox("Rotate polygon geometry", [geometry]);
+
+    geometry = new sketchbook.Geometry(corners, {
+      geometryType: sketchbook.global.GEOMETRY_TYPE.POLYGON
+    });
+    geometry.translate(30, 30);
+
+    addBox("Translate polygon geometry", [geometry]);
+
+    addRow();
+
+    geometry = new sketchbook.Geometry(corners, {
+      geometryType: sketchbook.global.GEOMETRY_TYPE.POLYLINE
+    });
+    geometry.scale(2, 2);
+
+    addBox("Scale polyline geometry", [geometry]);
+
+    var radian = 45 * Math.PI / 180;
+
+    geometry = new sketchbook.Geometry(corners, {
+      geometryType: sketchbook.global.GEOMETRY_TYPE.POLYLINE
+    });
+    geometry.rotate(radian);
+
+    addBox("Rotate polyline geometry", [geometry]);
+
+    geometry = new sketchbook.Geometry(corners, {
+      geometryType: sketchbook.global.GEOMETRY_TYPE.POLYLINE
+    });
+    geometry.translate(30, 30);
+
+    addBox("Translate polyline geometry", [geometry]);
+
     function addBox(name, geometries, callback) {
       var box = document.createElement('div');
       box.className = 'box';
