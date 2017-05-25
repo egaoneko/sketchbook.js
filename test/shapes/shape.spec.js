@@ -384,6 +384,18 @@ describe('Shape', () => {
       assert.strictEqual(shape.position.y, 4);
     });
 
+    it('get xScale', () => {
+      assert.strictEqual(shape.xScale, 1);
+    });
+
+    it('get yScale', () => {
+      assert.strictEqual(shape.yScale, 1);
+    });
+
+    it('get radian', () => {
+      assert.strictEqual(shape.radian, 0);
+    });
+
     it('set position with wrong input', () => {
       assert.throws(()=>shape.position = "wrong input", TypeError, "Input position is not Point.");
     });

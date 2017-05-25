@@ -338,7 +338,43 @@
     sb.add(csLine);
     sb.setOption("coordinateSystem", sketchbook.global.COORDINATE_SYSTEM.CARTESIAN);
     sb.renderAll();
-  };
+
+    addRow();
+
+    sb = addBox("Draw");
+
+    sb.canvas.addEventListener('mousewheel', wheelEvent.bind(sb));
+
+    function wheelEvent(ev) {
+      console.log((this));
+      var delta = 0;
+      if (ev.wheelDelta !== undefined) {
+        // WebKit / Opera / Explorer 9
+        delta = ev.wheelDelta;
+
+      } else if (ev.detail !== undefined) {
+        // Firefox
+        delta = -ev.detail * 2;
+      }
+
+      var xScale = this.xScale + (this.xScale * delta * 0.0002);
+      var yScale = this.yScale + (this.yScale * delta * 0.0002);
+
+      var lastX = ev.offsetX || (ev.pageX - this.canvas.offsetLeft);
+      var lastY = ev.offsetY || (ev.pageY - this.canvas.offsetTop);
+
+      var pivot = this._cs.basis.inverse().multiply(new sketchbook.Point([lastX, lastY]));
+
+      this.setScale(xScale, yScale, pivot);
+      sb.clear();
+      sb.renderAll();
+      ev.stopPropagation();
+      ev.preventDefault();
+    }
+
+    sb.add(rect);
+    sb.renderAll();
+  }
 
   function addBox(name) {
     var box = document.createElement('div');

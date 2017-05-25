@@ -317,12 +317,40 @@ class Shape {
    * @member Shape#position
    */
   set position(position) {
+    // TODO move to cs
     if (!(position instanceof Point)) {
       throw new TypeError("Input position is not Point.");
     }
     this._opt.x = position.x;
     this._opt.y = position.y;
     this._position = new Point(position);
+  }
+
+  /**
+   * @description Get xScale
+   * @type {Number}
+   * @member Shape#xScale
+   */
+  get xScale() {
+    return this._cs._xScale;
+  }
+
+  /**
+   * @description Get yScale
+   * @type {Number}
+   * @member Shape#yScale
+   */
+  get yScale() {
+    return this._cs._yScale;
+  }
+
+  /**
+   * @description Get radian
+   * @type {Number}
+   * @member Shape#radian
+   */
+  get radian() {
+    return this._cs._radian;
   }
 
   /**
