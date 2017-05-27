@@ -400,6 +400,10 @@ describe('Shape', () => {
       assert.throws(()=>shape.position = "wrong input", TypeError, "Input position is not Point.");
     });
 
+    it('get basis', () => {
+      assert.isTrue(shape.basis.equal(shape._cs.basis));
+    });
+
     it('get visible', () => {
       assert.strictEqual(shape.visible, true);
     });
@@ -543,19 +547,19 @@ describe('Shape', () => {
     });
 
     it('_checkRotateValidate without params', () => {
-      assert.throws(()=>shape._checkRotateValidate(), Error, "A radian must be needed.");
-      assert.throws(()=>shape._checkRotateValidate(null, pivot), Error, "A radian must be needed.");
-      assert.doesNotThrow(()=>shape._checkRotateValidate(1, pivot));
+      assert.throws(()=>Shape._checkRotateValidate(), Error, "A radian must be needed.");
+      assert.throws(()=>Shape._checkRotateValidate(null, pivot), Error, "A radian must be needed.");
+      assert.doesNotThrow(()=>Shape._checkRotateValidate(1, pivot));
     });
 
     it('_checkRotateValidate with unnumerical param', () => {
-      assert.throws(()=>shape._checkRotateValidate('a', pivot), TypeError, "A radian must be numerical values.");
-      assert.doesNotThrow(()=>shape._checkRotateValidate(1, pivot));
+      assert.throws(()=>Shape._checkRotateValidate('a', pivot), TypeError, "A radian must be numerical values.");
+      assert.doesNotThrow(()=>Shape._checkRotateValidate(1, pivot));
     });
 
     it('_checkRotateValidate with wrong type pivot', () => {
-      assert.throws(()=>shape._checkRotateValidate(1, {}), Error, "The pivot must be Point.");
-      assert.doesNotThrow(()=>shape._checkRotateValidate(1, pivot));
+      assert.throws(()=>Shape._checkRotateValidate(1, {}), Error, "The pivot must be Point.");
+      assert.doesNotThrow(()=>Shape._checkRotateValidate(1, pivot));
     });
 
     it('translate', () => {
@@ -579,17 +583,17 @@ describe('Shape', () => {
     });
 
     it('_checkTranslateValidate without params', () => {
-      assert.throws(()=>shape._checkTranslateValidate(), Error, "Both x and y must be needed.");
-      assert.throws(()=>shape._checkTranslateValidate(10), Error, "Both x and y must be needed.");
-      assert.throws(()=>shape._checkTranslateValidate(null), Error, "Both x and y must be needed.");
-      assert.throws(()=>shape._checkTranslateValidate(null, null), Error, "Both x and y must be needed.");
-      assert.doesNotThrow(()=>shape._checkTranslateValidate(10, 10));
+      assert.throws(()=>Shape._checkTranslateValidate(), Error, "Both x and y must be needed.");
+      assert.throws(()=>Shape._checkTranslateValidate(10), Error, "Both x and y must be needed.");
+      assert.throws(()=>Shape._checkTranslateValidate(null), Error, "Both x and y must be needed.");
+      assert.throws(()=>Shape._checkTranslateValidate(null, null), Error, "Both x and y must be needed.");
+      assert.doesNotThrow(()=>Shape._checkTranslateValidate(10, 10));
     });
 
     it('_checkTranslateValidate with unnumerical param', () => {
-      assert.throws(()=>shape._checkTranslateValidate('a', 10), TypeError, "Both x and y must be numerical values.");
-      assert.throws(()=>shape._checkTranslateValidate(10, 'a'), TypeError, "Both x and y must be numerical values.");
-      assert.doesNotThrow(()=>shape._checkTranslateValidate(10, 10));
+      assert.throws(()=>Shape._checkTranslateValidate('a', 10), TypeError, "Both x and y must be numerical values.");
+      assert.throws(()=>Shape._checkTranslateValidate(10, 'a'), TypeError, "Both x and y must be numerical values.");
+      assert.doesNotThrow(()=>Shape._checkTranslateValidate(10, 10));
     });
 
     it('call render without override', () => {

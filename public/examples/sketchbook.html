@@ -343,10 +343,11 @@
 
     sb = addBox("Draw");
 
+    sb.canvas.addEventListener('click', moveEvent.bind(sb));
     sb.canvas.addEventListener('mousewheel', wheelEvent.bind(sb));
+    sb.canvas.addEventListener('mousemove', moveEvent.bind(sb));
 
     function wheelEvent(ev) {
-      console.log((this));
       var delta = 0;
       if (ev.wheelDelta !== undefined) {
         // WebKit / Opera / Explorer 9
@@ -363,11 +364,25 @@
       var lastX = ev.offsetX || (ev.pageX - this.canvas.offsetLeft);
       var lastY = ev.offsetY || (ev.pageY - this.canvas.offsetTop);
 
-      var pivot = this._cs.basis.inverse().multiply(new sketchbook.Point([lastX, lastY]));
+      var pivot = this.basis.inverse().multiply(new sketchbook.Point([lastX, lastY]));
+//      var pivot = new sketchbook.Point([sb.width * 0.5, sb.height * 0.5]);
+
+      console.log(this.basis.a, this.basis.b, this.basis.c, this.basis.d, this.basis.e, this.basis.f, pivot.x, pivot.y);
 
       this.setScale(xScale, yScale, pivot);
       sb.clear();
       sb.renderAll();
+      ev.stopPropagation();
+      ev.preventDefault();
+    }
+
+    function moveEvent(ev) {
+      var lastX = ev.offsetX || (ev.pageX - this.canvas.offsetLeft);
+      var lastY = ev.offsetY || (ev.pageY - this.canvas.offsetTop);
+
+      var pivot = this.basis.inverse().multiply(new sketchbook.Point([lastX, lastY]));
+      console.log(this.basis.a, this.basis.b, this.basis.c, this.basis.d, this.basis.e, this.basis.f, pivot.x, pivot.y);
+
       ev.stopPropagation();
       ev.preventDefault();
     }

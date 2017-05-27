@@ -354,6 +354,15 @@ class Shape {
   }
 
   /**
+   * @description Get basis
+   * @type {CanvasMatrix}
+   * @member Shape#basis
+   */
+  get basis() {
+    return this._cs.basis;
+  }
+
+  /**
    * @description Get visible
    * @type {Boolean}
    * @member Shape#visible
@@ -472,7 +481,7 @@ class Shape {
    * @member Shape#rotate
    */
   rotate(radian, pivot = this._position) {
-    this._checkRotateValidate(radian, pivot);
+    Shape._checkRotateValidate(radian, pivot);
 
     this.translate(pivot.x, pivot.y);
     this._cs.rotate(radian);
@@ -486,7 +495,7 @@ class Shape {
    * @member Shape#setRotate
    */
   setRotate(radian, pivot = this._position) {
-    this._checkRotateValidate(radian, pivot);
+    Shape._checkRotateValidate(radian, pivot);
 
     this._cs.pivot = pivot;
     this._cs.setRotate(radian);
@@ -499,7 +508,7 @@ class Shape {
    * @param {Point} pivot point
    * @method _checkRotateValidate
    */
-  _checkRotateValidate(radian, pivot) {
+  static _checkRotateValidate(radian, pivot) {
     if (typeCheck('undefined', radian) ||
       typeCheck('null', radian)) {
       throw new ArgumentError("A radian must be needed.");
@@ -521,7 +530,7 @@ class Shape {
    * @member Shape#translate
    */
   translate(x, y) {
-    this._checkTranslateValidate(x, y);
+    Shape._checkTranslateValidate(x, y);
     this._cs.translate(new Point([x, y]));
   }
 
@@ -532,7 +541,7 @@ class Shape {
    * @member Shape#setTranslate
    */
   setTranslate(x, y) {
-    this._checkTranslateValidate(x, y);
+    Shape._checkTranslateValidate(x, y);
     this._cs.setTranslate(new Point([x, y]));
   }
 
@@ -543,7 +552,7 @@ class Shape {
    * @param {Number} y position y
    * @method _checkTranslateValidate
    */
-  _checkTranslateValidate(x, y) {
+  static _checkTranslateValidate(x, y) {
     if (typeCheck('undefined', x) ||
       typeCheck('null', x) ||
       typeCheck('undefined', y) ||
