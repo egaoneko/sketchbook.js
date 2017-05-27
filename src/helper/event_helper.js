@@ -21,20 +21,56 @@ class EventHelper {
 
   /**
    * @description add event listener
-   * @param {Function} baseEvent base event
-   * @param {Event|String} event base event
-   * @param {Function} customEvent custom event
-   * @param {Boolean} useCapture capture boolean
+   * @param {Event|String} type type
+   * @param {Function} listener listener
+   * @param {Boolean} [useCapture] capture boolean
+   * @return {Function} listener
    * @member EventHelper#addEventListener
    */
-  addEventListener(baseEvent, event, customEvent, useCapture) {
-    this._element.addEventListener(event, ()=> {
-      baseEvent();
-      customEvent();
-    }, useCapture);
+  addEventListener(type, listener, useCapture) {
+    this._element.addEventListener(type, listener, useCapture);
+    return listener;
   }
 
-  // TODO removeEventListener
+  /**
+   * @description add base event listener
+   * @param {Function} baseListener base listener
+   * @param {Event|String} type type
+   * @param {Function} listener listener
+   * @param {Boolean} [useCapture] capture boolean
+   * @return {Function} merged listener
+   * @member EventHelper#addBaseEventListener
+   */
+  addBaseEventListener(baseListener, type, listener, useCapture) {
+    let mergedListener = (...args)=> {
+      baseListener(...args);
+      return listener(...args);
+    };
+    this.addEventListener(type, mergedListener, useCapture);
+    return mergedListener;
+  }
+
+  /**
+   * @description remove event listener
+   * @param {Event|String} type type
+   * @param {Function} listener listener
+   * @param {Boolean} [useCapture] capture boolean
+   * @member EventHelper#removeEventListener
+   */
+  removeEventListener(type, listener, useCapture) {
+    this._element.removeEventListener(type, listener, useCapture);
+  }
+
+  /**
+   * @description remove base event listener
+   * @param {Event|String} type type
+   * @param {Function} listener listener
+   * @param {Boolean} [useCapture] capture boolean
+   * @member EventHelper#removeBaseEventListener
+   */
+  removeBaseEventListener(type, listener, useCapture) {
+    this.removeEventListener(type, listener, useCapture);
+  }
 }
 
 export default EventHelper;

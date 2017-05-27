@@ -29,68 +29,146 @@ describe('EventHelper', () => {
   });
 
   describe('methods', () => {
-    it('addEventListener base event closer', () => {
-      let baseEventExpected = "test base";
-      let baseEventActual = null;
+    it('addEventListener listener', () => {
+      let listenerExpected = "test";
+      let listenerActual = null;
 
-      let baseEvent = () => {
-        baseEventActual = baseEventExpected;
-      };
-      let customEvent = () => {
+      let listener = () => {
+        listenerActual = listenerExpected;
       };
 
-      eventHelper.addEventListener(baseEvent, 'test', customEvent);
+      eventHelper.addEventListener('test', listener);
       element.dispatchEvent(testEvent);
 
-      assert.strictEqual(baseEventActual, baseEventExpected);
+      assert.strictEqual(listenerActual, listenerExpected);
     });
 
-    it('addEventListener base event bind', () => {
-      let baseEventExpected = {test: "test base"};
-      let baseEventActual = null;
+    it('removeEventListener listener', () => {
+      let listenerExpected = "test";
+      let listenerActual = "test";
 
-      let baseEvent = function () {
-        baseEventActual = this.test;
-      }.bind(baseEventExpected);
-      let customEvent = () => {
+      let listener = () => {
+        listenerActual = "";
       };
 
-      eventHelper.addEventListener(baseEvent, 'test', customEvent);
+      element.addEventListener('test', listener);
+      eventHelper.removeEventListener('test', listener);
       element.dispatchEvent(testEvent);
 
-      assert.strictEqual(baseEventActual, baseEventExpected.test);
+      assert.strictEqual(listenerActual, listenerExpected);
     });
 
-    it('addEventListener custom event closer', () => {
-      let customEventExpected = "test custom";
-      let customEventActual = null;
+    it('removeEventListener listener by return value', () => {
+      let listenerExpected = "test";
+      let listenerActual = "test";
 
-      let baseEvent = () => {
-      };
-      let customEvent = () => {
-        customEventActual = customEventExpected;
+      let listener = () => {
+        listenerActual = "";
       };
 
-      eventHelper.addEventListener(baseEvent, 'test', customEvent);
+      let returnListener = eventHelper.addEventListener('test', listener);
+      eventHelper.removeEventListener('test', returnListener);
       element.dispatchEvent(testEvent);
 
-      assert.strictEqual(customEventActual, customEventExpected);
+      assert.strictEqual(listenerActual, listenerExpected);
     });
 
-    it('addEventListener custom event bind', () => {
-      let customEventExpected = {test: "test base"};
-      let customEventActual = null;
+    it('addBaseEventListener base listener closer', () => {
+      let baseListenerExpected = "test base";
+      let baseListenerActual = null;
 
-      let baseEvent = () => {
+      let baseListener = () => {
+        baseListenerActual = baseListenerExpected;
       };
-      let customEvent = function () {
-        customEventActual = this.test;
-      }.bind(customEventExpected);
+      let listener = () => {
+      };
 
-      eventHelper.addEventListener(baseEvent, 'test', customEvent);
+      eventHelper.addBaseEventListener(baseListener, 'test', listener);
       element.dispatchEvent(testEvent);
 
-      assert.strictEqual(customEventActual, customEventExpected.test);
+      assert.strictEqual(baseListenerActual, baseListenerExpected);
+    });
+
+    it('addBaseEventListener base listener bind', () => {
+      let baseListenerExpected = {test: "test base"};
+      let baseListenerActual = null;
+
+      let baseListener = function () {
+        baseListenerActual = this.test;
+      }.bind(baseListenerExpected);
+      let listener = () => {
+      };
+
+      eventHelper.addBaseEventListener(baseListener, 'test', listener);
+      element.dispatchEvent(testEvent);
+
+      assert.strictEqual(baseListenerActual, baseListenerExpected.test);
+    });
+
+    it('addBaseEventListener listener closer', () => {
+      let listenerExpected = "test";
+      let listenerActual = null;
+
+      let baseListener = () => {
+      };
+      let listener = () => {
+        listenerActual = listenerExpected;
+      };
+
+      eventHelper.addBaseEventListener(baseListener, 'test', listener);
+      element.dispatchEvent(testEvent);
+
+      assert.strictEqual(listenerActual, listenerExpected);
+    });
+
+    it('addBaseEventListener listener bind', () => {
+      let listenerExpected = {test: "test"};
+      let listenerActual = null;
+
+      let baseListener = () => {
+      };
+      let listener = function () {
+        listenerActual = this.test;
+      }.bind(listenerExpected);
+
+      eventHelper.addBaseEventListener(baseListener, 'test', listener);
+      element.dispatchEvent(testEvent);
+
+      assert.strictEqual(listenerActual, listenerExpected.test);
+    });
+
+    it('removeBaseEventListener base listener closer', () => {
+      let baseListenerExpected = "test base";
+      let baseListenerActual = "test base";
+
+      let baseListener = () => {
+        baseListenerActual = null;
+      };
+      let listener = () => {
+      };
+
+      let mergedListener = eventHelper.addBaseEventListener(baseListener, 'test', listener);
+      eventHelper.removeBaseEventListener('test', mergedListener);
+      element.dispatchEvent(testEvent);
+
+      assert.strictEqual(baseListenerActual, baseListenerExpected);
+    });
+
+    it('removeBaseEventListener listener closer', () => {
+      let listenerExpected = "test";
+      let listenerActual = "test";
+
+      let baseListener = () => {
+      };
+      let listener = () => {
+        listenerActual = "";
+      };
+
+      let mergedListener = eventHelper.addBaseEventListener(baseListener, 'test', listener);
+      eventHelper.removeBaseEventListener('test', mergedListener);
+      element.dispatchEvent(testEvent);
+
+      assert.strictEqual(listenerActual, listenerExpected);
     });
   });
 });
