@@ -9,7 +9,7 @@ let assert = chai.assert;
 describe('Sketchbook', () => {
   let sketchbook;
 
-  beforeEach(function () {
+  beforeEach(() => {
     sketchbook = new Sketchbook();
   });
 

@@ -12,7 +12,7 @@ describe('Shape', () => {
   let shape;
   let pivot;
 
-  beforeEach(function () {
+  beforeEach(() => {
     shape = new Shape();
     pivot = new Point([3, 4]);
   });

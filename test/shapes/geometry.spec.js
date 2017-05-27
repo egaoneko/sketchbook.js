@@ -11,7 +11,7 @@ describe('Geometry', () => {
   let geometry;
   let corners;
 
-  beforeEach(function () {
+  beforeEach(() => {
     corners = [[0, 0], [1, 0], [0, 1], [1, 1]];
     geometry = new Geometry(corners);
   });

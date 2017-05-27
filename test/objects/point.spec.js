@@ -7,7 +7,7 @@ let assert = chai.assert;
 describe('Point', () => {
   let point = null;
 
-  beforeEach(function () {
+  beforeEach(() => {
     point = new Point([0, 0]);
   });
 

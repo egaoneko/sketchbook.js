@@ -8,7 +8,7 @@ let assert = chai.assert;
 describe('Matrix', () => {
   let matrix = null;
 
-  beforeEach(function () {
+  beforeEach(() => {
     matrix = new Matrix([[1, 2, 3]]);
   });
 

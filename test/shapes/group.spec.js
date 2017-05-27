@@ -11,7 +11,7 @@ let assert = chai.assert;
 describe('Group', () => {
   let group;
 
-  beforeEach(function () {
+  beforeEach(() => {
     group = new Group();
   });
 

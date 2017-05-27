@@ -8,7 +8,7 @@ let assert = chai.assert;
 describe('CanvasMatrix', () => {
   let canvasMatrix = null;
 
-  beforeEach(function () {
+  beforeEach(() => {
     canvasMatrix = new CanvasMatrix();
   });
 

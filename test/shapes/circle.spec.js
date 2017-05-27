@@ -7,7 +7,7 @@ let assert = chai.assert;
 describe('Circle', () => {
   let circle;
 
-  beforeEach(function () {
+  beforeEach(() => {
     circle = new Circle();
   });
 

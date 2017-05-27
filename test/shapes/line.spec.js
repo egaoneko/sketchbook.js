@@ -7,7 +7,7 @@ let assert = chai.assert;
 describe('Line', () => {
   let line;
 
-  beforeEach(function () {
+  beforeEach(() => {
     line = new Line();
   });
 

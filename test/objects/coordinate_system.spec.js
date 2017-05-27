@@ -10,7 +10,7 @@ let assert = chai.assert;
 describe('CoordinateSystem', () => {
   let cs = null;
 
-  beforeEach(function () {
+  beforeEach(() => {
     cs = new CoordinateSystem();
   });
 

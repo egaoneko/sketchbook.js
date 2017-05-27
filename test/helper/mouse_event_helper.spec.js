@@ -8,7 +8,7 @@ describe('MouseEventHelper', () => {
   let mouseEventHelper;
   let element = document.createElement('div');
 
-  beforeEach(function () {
+  beforeEach(() => {
     mouseEventHelper = new MouseEventHelper(element);
   });
 

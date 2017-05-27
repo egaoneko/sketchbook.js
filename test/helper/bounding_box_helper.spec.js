@@ -9,7 +9,7 @@ describe('BoundingBoxHelper', () => {
   let boundingBoxHelper;
   let points = [new Point([5, 10]), new Point([0, 30]), new Point([15, 15]), new Point([20, 50])];
 
-  beforeEach(function () {
+  beforeEach(() => {
     boundingBoxHelper = new BoundingBoxHelper();
   });
 

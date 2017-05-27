@@ -9,12 +9,12 @@ describe('EventHelper', () => {
   let element = document.createElement('div');
   let testEvent = null;
 
-  before(function () {
+  before(() => {
     testEvent = document.createEvent('Event');
     testEvent.initEvent('test', true, true);
   });
 
-  beforeEach(function () {
+  beforeEach(() => {
     eventHelper = new EventHelper(element);
   });
 

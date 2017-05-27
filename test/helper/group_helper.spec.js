@@ -9,7 +9,7 @@ let assert = chai.assert;
 describe('GroupHelper', () => {
   let groupHelper;
 
-  beforeEach(function () {
+  beforeEach(() => {
     groupHelper = new GroupHelper();
   });
 
