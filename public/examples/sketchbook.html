@@ -343,11 +343,51 @@
 
     sb = addBox("Draw");
 
-    sb.canvas.addEventListener('click', moveEvent.bind(sb));
+    document.addEventListener("keydown", keyDownEvent.bind(sb));
+    sb.canvas.addEventListener('click', clickEvent.bind(sb));
     sb.canvas.addEventListener('mousewheel', wheelEvent.bind(sb));
+    sb.canvas.addEventListener('mousedown', downEvent.bind(sb));
     sb.canvas.addEventListener('mousemove', moveEvent.bind(sb));
+    sb.canvas.addEventListener('mouseup', upEvent.bind(sb));
 
-    function wheelEvent(ev) {
+    var pivot = null;
+
+    function keyDownEvent (ev) {
+      var delta = 0;
+      if (ev.keyCode === 38) {
+        delta = 100;
+      } else if (ev.keyCode === 40) {
+        delta = -100;
+      } else {
+        return;
+      }
+
+      if (!pivot) {
+        alert("Pivot is null");
+        return;
+      }
+
+      console.log(this.basis.a, this.basis.b, this.basis.c, this.basis.d, this.basis.e, this.basis.f, pivot.x, pivot.y);
+
+      var xScale = this.xScale + (this.xScale * delta * 0.0002);
+      var yScale = this.yScale + (this.yScale * delta * 0.0002);
+
+      this.setScale(xScale, yScale, pivot);
+      sb.clear();
+      sb.renderAll();
+      ev.stopPropagation();
+      ev.preventDefault();
+    }
+
+    function clickEvent (ev) {
+      var lastX = ev.offsetX || (ev.pageX - this.canvas.offsetLeft);
+      var lastY = ev.offsetY || (ev.pageY - this.canvas.offsetTop);
+
+      pivot = this.basis.inverse().multiply(new sketchbook.Point([lastX, lastY]));
+      console.log(this.basis.a, this.basis.b, this.basis.c, this.basis.d, this.basis.e, this.basis.f, pivot.x, pivot.y);
+    }
+
+    function wheelEvent (ev) {
       var delta = 0;
       if (ev.wheelDelta !== undefined) {
         // WebKit / Opera / Explorer 9
@@ -365,9 +405,8 @@
       var lastY = ev.offsetY || (ev.pageY - this.canvas.offsetTop);
 
       var pivot = this.basis.inverse().multiply(new sketchbook.Point([lastX, lastY]));
-//      var pivot = new sketchbook.Point([sb.width * 0.5, sb.height * 0.5]);
-
-      console.log(this.basis.a, this.basis.b, this.basis.c, this.basis.d, this.basis.e, this.basis.f, pivot.x, pivot.y);
+      //      var pivot = new sketchbook.Point([sb.width * 0.5, sb.height * 0.5]);
+      //      console.log(this.basis.a, this.basis.b, this.basis.c, this.basis.d, this.basis.e, this.basis.f, pivot.x, pivot.y);
 
       this.setScale(xScale, yScale, pivot);
       sb.clear();
@@ -376,22 +415,40 @@
       ev.preventDefault();
     }
 
-    function moveEvent(ev) {
+    var start = null;
+
+    function downEvent (ev) {
       var lastX = ev.offsetX || (ev.pageX - this.canvas.offsetLeft);
       var lastY = ev.offsetY || (ev.pageY - this.canvas.offsetTop);
 
-      var pivot = this.basis.inverse().multiply(new sketchbook.Point([lastX, lastY]));
-      console.log(this.basis.a, this.basis.b, this.basis.c, this.basis.d, this.basis.e, this.basis.f, pivot.x, pivot.y);
+      start = this.basis.inverse().multiply(new sketchbook.Point([lastX, lastY]));
+    }
 
-      ev.stopPropagation();
-      ev.preventDefault();
+    function moveEvent (ev) {
+      var lastX = ev.offsetX || (ev.pageX - this.canvas.offsetLeft);
+      var lastY = ev.offsetY || (ev.pageY - this.canvas.offsetTop);
+      pivot = this.basis.inverse().multiply(new sketchbook.Point([lastX, lastY]));
+
+      if (!start) {
+        return;
+      }
+      var pt = this.basis.inverse().multiply(new sketchbook.Point([lastX, lastY]));
+      //      console.log(this.basis.a, this.basis.b, this.basis.c, this.basis.d, this.basis.e, this.basis.f, pivot.x, pivot.y);
+
+      this.translate(pt.x - start.x, pt.y - start.y);
+      sb.clear();
+      sb.renderAll();
+    }
+
+    function upEvent () {
+      start = null;
     }
 
     sb.add(rect);
     sb.renderAll();
   }
 
-  function addBox(name) {
+  function addBox (name) {
     var box = document.createElement('div');
     box.className = 'box';
 
@@ -410,7 +467,7 @@
     return sb;
   }
 
-  function addRow() {
+  function addRow () {
     document.body.appendChild(document.createElement('br'));
   }
 </script>
