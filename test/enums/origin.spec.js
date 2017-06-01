@@ -1,4 +1,4 @@
-import ORIGIN from "../../src/global/origin";
+import ORIGIN from "../../src/enums/origin";
 import chai from "chai";
 
 let assert = chai.assert;

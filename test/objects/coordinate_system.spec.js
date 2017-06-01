@@ -2,7 +2,7 @@ import chai from "chai";
 import CoordinateSystem from "../../src/objects/coordinate_system";
 import CanvasMatrix from "../../src/objects/canvas_matrix";
 import Point from "../../src/objects/point";
-import {ORIENTATION} from "../../src/global/global";
+import {ORIENTATION} from "../../src/enums/global";
 
 
 let assert = chai.assert;
@@ -434,7 +434,7 @@ describe('CoordinateSystem', () => {
     });
   });
 
-  function checkMatrix(matrix) {
+  function checkMatrix (matrix) {
     assert.strictEqual(matrix.a, 1);
     assert.strictEqual(matrix.b, 0);
     assert.strictEqual(matrix.c, 0);

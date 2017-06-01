@@ -1,4 +1,4 @@
-import COORDINATE_SYSTEM from "../../src/global/coordinate_system";
+import COORDINATE_SYSTEM from "../../src/enums/coordinate_system";
 import chai from "chai";
 
 let assert = chai.assert;

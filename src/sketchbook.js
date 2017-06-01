@@ -1,9 +1,9 @@
 import Shape from "./shapes/shape";
 import Point from "./objects/point";
-import GroupHelper from "./helper/group_helper";
+import GroupHelper from "./helpers/group_helper";
 import {typeCheck} from "./utils/base";
 import {CannotFoundError, ArgumentError} from "./errors/errors";
-import {ORIGIN, COORDINATE_SYSTEM} from "./global/global";
+import {ORIGIN, COORDINATE_SYSTEM} from "./enums/global";
 
 /**
  * @description Sketchbook Class
@@ -15,7 +15,7 @@ class Sketchbook extends Shape {
    * @description Sketchbook constructor.
    * @constructs Sketchbook
    */
-  constructor(param) {
+  constructor (param) {
     super();
     let canvas = null;
 
@@ -51,7 +51,7 @@ class Sketchbook extends Shape {
    * @description Init
    * @method _init
    */
-  _init() {
+  _init () {
     this._opt['origin'] = ORIGIN.LEFT_TOP;
     this._opt['coordinateSystem'] = COORDINATE_SYSTEM.SCREEN;
   }
@@ -62,7 +62,7 @@ class Sketchbook extends Shape {
    * @param {Object} canvas canvas element
    * @method _getCanvasByElement
    */
-  static _getCanvasByElement(canvas) {
+  static _getCanvasByElement (canvas) {
     let isCanvas = canvas.nodeName && canvas.nodeName === 'CANVAS';
 
     if (!isCanvas) {
@@ -77,7 +77,7 @@ class Sketchbook extends Shape {
    * @param {String} id canvas id
    * @method _setCanvasById
    */
-  static _getCanvasById(id) {
+  static _getCanvasById (id) {
     let canvas = document.getElementById(id);
 
     if (typeCheck('null', canvas)) {
@@ -91,7 +91,7 @@ class Sketchbook extends Shape {
    * @type {Object}
    * @member Sketchbook#canvas
    */
-  get canvas() {
+  get canvas () {
     return this._canvas;
   }
 
@@ -100,7 +100,7 @@ class Sketchbook extends Shape {
    * @type {Object}
    * @member Sketchbook#context
    */
-  get context() {
+  get context () {
     return this._context;
   }
 
@@ -109,7 +109,7 @@ class Sketchbook extends Shape {
    * @type {Number}
    * @member Sketchbook#width
    */
-  get width() {
+  get width () {
     return this._canvas.width;
   }
 
@@ -118,7 +118,7 @@ class Sketchbook extends Shape {
    * @type {Number}
    * @member Sketchbook#width
    */
-  set width(width) {
+  set width (width) {
     this._canvas.width = width;
   }
 
@@ -127,7 +127,7 @@ class Sketchbook extends Shape {
    * @type {Number}
    * @member Sketchbook#height
    */
-  get height() {
+  get height () {
     return this._canvas.height;
   }
 
@@ -136,7 +136,7 @@ class Sketchbook extends Shape {
    * @type {Number}
    * @member Sketchbook#height
    */
-  set height(height) {
+  set height (height) {
     this._canvas.height = height;
   }
 
@@ -146,7 +146,7 @@ class Sketchbook extends Shape {
    * @param {Number} y position y
    * @member Sketchbook#translate
    */
-  translate(x, y) {
+  translate (x, y) {
     [x, y] = this._convertPositionOfCS(x, y);
     super.translate(x, y);
   }
@@ -157,7 +157,7 @@ class Sketchbook extends Shape {
    * @param {Number} y position y
    * @member Sketchbook#setTranslate
    */
-  setTranslate(x, y) {
+  setTranslate (x, y) {
     [x, y] = this._convertPositionOfCS(x, y);
     super.setTranslate(x, y);
   }
@@ -170,7 +170,7 @@ class Sketchbook extends Shape {
    * @return {Array} converted position
    * @method _add
    */
-  _convertPositionOfCS(x, y) {
+  _convertPositionOfCS (x, y) {
     if (this._opt.coordinateSystem === COORDINATE_SYSTEM.CARTESIAN) {
       return [x, -y];
     }
@@ -182,7 +182,7 @@ class Sketchbook extends Shape {
    * @param {Array|Shape} shapes added Shapes
    * @member Sketchbook#add
    */
-  add(shapes) {
+  add (shapes) {
     this._groupHelper.add(shapes);
   }
 
@@ -190,7 +190,7 @@ class Sketchbook extends Shape {
    * @description renderAll
    * @member Sketchbook#renderAll
    */
-  renderAll() {
+  renderAll () {
     this._renderChild();
   }
 
@@ -199,7 +199,7 @@ class Sketchbook extends Shape {
    * @description render children
    * @method _renderChild
    */
-  _renderChild() {
+  _renderChild () {
     this._groupHelper.iterate(renderObj=> {
       if (!('render' in renderObj)) {
         return;
@@ -213,7 +213,7 @@ class Sketchbook extends Shape {
    * @param {Sketchbook} sketchbook Sketchbook
    * @member Shape#beforeRender
    */
-  beforeRender(sketchbook) {
+  beforeRender (sketchbook) {
     let ctx = sketchbook.context;
     let basis = sketchbook._cs.basis;
     ctx.setTransform(basis.a, basis.b, basis.c, basis.d, basis.e, basis.f);
@@ -225,7 +225,7 @@ class Sketchbook extends Shape {
    * @param {Sketchbook} sketchbook Sketchbook
    * @member Sketchbook#render
    */
-  render(sketchbook) {
+  render (sketchbook) {
     let origin = sketchbook.convertPositionFromLocalCSToScreen(this._getOrigin());
     sketchbook._context.drawImage(this._canvas, origin.x, origin.y);
   }
@@ -236,7 +236,7 @@ class Sketchbook extends Shape {
    * @return {Point} position
    * @method _getOrigin
    */
-  _getOrigin() {
+  _getOrigin () {
     if (this._opt.origin === ORIGIN.CENTER) {
       let x = this.x - this.width * 0.5;
       let y = this.y - this.height * 0.5;
@@ -249,7 +249,7 @@ class Sketchbook extends Shape {
    * @description clear Sketchbook
    * @member Sketchbook#clearContext
    */
-  clear() {
+  clear () {
     this._context.save();
     this._context.setTransform(1, 0, 0, 1, 0, 0);
     this._context.clearRect(0, 0, this.width, this.height);
@@ -262,7 +262,7 @@ class Sketchbook extends Shape {
    * @return {Point} converted position
    * @member Sketchbook#convertPositionFromLocalCSToScreen
    */
-  convertPositionFromLocalCSToScreen(position) {
+  convertPositionFromLocalCSToScreen (position) {
     if (!(position instanceof Point)) {
       throw new TypeError("Input position is not Point.");
     }

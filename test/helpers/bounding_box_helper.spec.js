@@ -1,5 +1,5 @@
 import chai from "chai";
-import BoundingBoxHelper from "../../src/helper/bounding_box_helper";
+import BoundingBoxHelper from "../../src/helpers/bounding_box_helper";
 import Point from "../../src/objects/point";
 
 

@@ -2,7 +2,7 @@ import chai from "chai";
 import _ from "lodash";
 import Geometry from "../../src/shapes/geometry";
 import Point from "../../src/objects/point";
-import {GEOMETRY_TYPE} from "../../src/global/global";
+import {GEOMETRY_TYPE} from "../../src/enums/global";
 
 
 let assert = chai.assert;

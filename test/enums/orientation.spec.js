@@ -1,4 +1,4 @@
-import ORIENTATION from "../../src/global/orientation";
+import ORIENTATION from "../../src/enums/orientation";
 import chai from "chai";
 
 let assert = chai.assert;

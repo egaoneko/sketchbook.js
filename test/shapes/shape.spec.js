@@ -4,7 +4,7 @@ import Shape from "../../src/shapes/shape";
 import Point from "../../src/objects/point";
 import CanvasMatrix from "../../src/objects/canvas_matrix";
 import Sketchbook from "../../src/sketchbook";
-import {ORIENTATION} from "../../src/global/global";
+import {ORIENTATION} from "../../src/enums/global";
 
 let assert = chai.assert;
 
@@ -801,7 +801,7 @@ describe('Shape', () => {
       checkMatrix(canvasSvgCtx.getTransform(), shape._cs._basis);
     });
 
-    function checkMatrix(svgMatrix, canvasMatrix) {
+    function checkMatrix (svgMatrix, canvasMatrix) {
       let closeTo = 1e-09;
       assert.approximately(svgMatrix.a, canvasMatrix.a, closeTo);
       assert.approximately(svgMatrix.b, canvasMatrix.b, closeTo);
@@ -811,7 +811,7 @@ describe('Shape', () => {
       assert.approximately(svgMatrix.f, canvasMatrix.f, closeTo);
     }
 
-    function trackTransforms(ctx) {
+    function trackTransforms (ctx) {
       let svg = document.createElementNS("http://www.w3.org/2000/svg", 'svg');
       let xform = svg.createSVGMatrix();
       ctx.getTransform = function () {

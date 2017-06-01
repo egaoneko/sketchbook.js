@@ -46,7 +46,7 @@ class EventHelper {
       baseListener(...args);
       return listener(...args);
     };
-    this.addEventListener(type, mergedListener, useCapture);
+    this._element.addEventListener(type, mergedListener, useCapture);
     return mergedListener;
   }
 

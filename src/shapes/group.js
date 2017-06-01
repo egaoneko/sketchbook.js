@@ -1,5 +1,5 @@
 import Shape from "./shape";
-import GroupHelper from "../helper/group_helper";
+import GroupHelper from "../helpers/group_helper";
 import {ArgumentError} from "../errors/errors";
 
 /**
@@ -12,7 +12,7 @@ class Group extends Shape {
    * @description Group constructor.
    * @constructs Group
    */
-  constructor(options = {}) {
+  constructor (options = {}) {
     super(options);
     this._groupHelper = new GroupHelper();
     this._groupHelper.distinct = true;
@@ -30,7 +30,7 @@ class Group extends Shape {
    * @param {Point} [pivot] pivot point
    * @member Group#scale
    */
-  scale(xScale, yScale, pivot) {
+  scale (xScale, yScale, pivot) {
     this._groupHelper.iterate(renderObj => {
       if (!('render' in renderObj)) {
         return;
@@ -45,7 +45,7 @@ class Group extends Shape {
    * @param {Point} [pivot] pivot point
    * @member Group#rotate
    */
-  rotate(radian, pivot) {
+  rotate (radian, pivot) {
     this._groupHelper.iterate(renderObj => {
       if (!('render' in renderObj)) {
         return;
@@ -60,7 +60,7 @@ class Group extends Shape {
    * @param {Number} y position y
    * @member Group#translate
    */
-  translate(x, y) {
+  translate (x, y) {
     this._groupHelper.iterate(renderObj => {
       if (!('render' in renderObj)) {
         return;
@@ -74,7 +74,7 @@ class Group extends Shape {
    * @param {Array|Shape} shapes added Shapes
    * @member Group#add
    */
-  add(shapes) {
+  add (shapes) {
     this._groupHelper.add(shapes);
   }
 
@@ -83,7 +83,7 @@ class Group extends Shape {
    * @param {Sketchbook} sketchbook Sketchbook
    * @member Group#renderShape
    */
-  renderShape(sketchbook) {
+  renderShape (sketchbook) {
     if (!this.visible) {
       return;
     }
@@ -97,7 +97,7 @@ class Group extends Shape {
    * @param {Sketchbook} sketchbook Sketchbook
    * @method _render
    */
-  _render(sketchbook) {
+  _render (sketchbook) {
     this._renderChild(sketchbook);
   }
 
@@ -107,7 +107,7 @@ class Group extends Shape {
    * @param {Sketchbook} sketchbook Sketchbook
    * @method _renderChild
    */
-  _renderChild(sketchbook) {
+  _renderChild (sketchbook) {
     this._groupHelper.iterate(renderObj => {
       if (!('render' in renderObj)) {
         return;

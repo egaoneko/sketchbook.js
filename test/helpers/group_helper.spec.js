@@ -1,5 +1,5 @@
 import chai from "chai";
-import GroupHelper from "../../src/helper/group_helper";
+import GroupHelper from "../../src/helpers/group_helper";
 import Shape from "../../src/shapes/shape";
 import {ArgumentError} from "../../src/errors/errors";
 

@@ -1,6 +1,6 @@
 import Shape from "./shape";
 import Point from "../objects/point";
-import {ORIGIN} from "../global/global";
+import {ORIGIN} from "../enums/global";
 
 /**
  * @description Rect Class
@@ -12,7 +12,7 @@ class Rect extends Shape {
    * @description Rect constructor.
    * @constructs Rect
    */
-  constructor(options = {}) {
+  constructor (options = {}) {
     super(options);
     this._init(options);
   }
@@ -23,7 +23,7 @@ class Rect extends Shape {
    * @param {Object} options options
    * @method _init
    */
-  _init(options = {}) {
+  _init (options = {}) {
     if (!('width' in options)) {
       this._opt['width'] = 0;
     }
@@ -40,7 +40,7 @@ class Rect extends Shape {
    * @type {Number}
    * @member Rect#width
    */
-  get width() {
+  get width () {
     return this._opt.width;
   }
 
@@ -49,7 +49,7 @@ class Rect extends Shape {
    * @type {Number}
    * @member Rect#width
    */
-  set width(width) {
+  set width (width) {
     this._opt.width = width;
   }
 
@@ -58,7 +58,7 @@ class Rect extends Shape {
    * @type {Number}
    * @member Rect#height
    */
-  get height() {
+  get height () {
     return this._opt.height;
   }
 
@@ -67,7 +67,7 @@ class Rect extends Shape {
    * @type {Number}
    * @member Rect#height
    */
-  set height(height) {
+  set height (height) {
     this._opt.height = height;
   }
 
@@ -76,7 +76,7 @@ class Rect extends Shape {
    * @param {Sketchbook} sketchbook Sketchbook
    * @member Rect#render
    */
-  render(sketchbook) {
+  render (sketchbook) {
     let origin = this._getOrigin();
     let ctx = sketchbook.context;
 
@@ -112,7 +112,7 @@ class Rect extends Shape {
    * @return {Point} position
    * @method _getOrigin
    */
-  _getOrigin() {
+  _getOrigin () {
     if (this._opt.origin === ORIGIN.CENTER) {
       let x = this.x - this.width * 0.5;
       let y = this.y - this.height * 0.5;

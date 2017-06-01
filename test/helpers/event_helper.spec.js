@@ -1,5 +1,5 @@
 import chai from "chai";
-import EventHelper from "../../src/helper/event_helper";
+import EventHelper from "../../src/helpers/event_helper";
 
 
 let assert = chai.assert;

@@ -1,7 +1,7 @@
 import chai from "chai";
 import Rect from "../../src/shapes/rect";
 import Point from "../../src/objects/point";
-import {ORIGIN} from "../../src/global/global";
+import {ORIGIN} from "../../src/enums/global";
 
 
 let assert = chai.assert;

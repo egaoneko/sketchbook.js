@@ -1,4 +1,4 @@
-import * as global from "../../src/global/global";
+import * as global from "../../src/enums/global";
 import chai from "chai";
 
 let assert = chai.assert;

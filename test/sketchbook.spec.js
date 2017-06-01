@@ -1,8 +1,8 @@
 import chai from "chai";
 import Sketchbook from "../src/sketchbook";
 import Point from "../src/objects/point";
-import GroupHelper from "../src/helper/group_helper";
-import {ORIGIN, COORDINATE_SYSTEM} from "../src/global/global";
+import GroupHelper from "../src/helpers/group_helper";
+import {ORIGIN, COORDINATE_SYSTEM} from "../src/enums/global";
 
 let assert = chai.assert;
 

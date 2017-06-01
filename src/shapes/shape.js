@@ -317,7 +317,6 @@ class Shape {
    * @member Shape#position
    */
   set position(position) {
-    // TODO move to cs
     if (!(position instanceof Point)) {
       throw new TypeError("Input position is not Point.");
     }

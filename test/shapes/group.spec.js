@@ -2,7 +2,7 @@ import chai from "chai";
 import Shape from "../../src/shapes/shape";
 import Point from "../../src/objects/point";
 import Group from "../../src/shapes/group";
-import GroupHelper from "../../src/helper/group_helper";
+import GroupHelper from "../../src/helpers/group_helper";
 import CanvasMatrix from "../../src/objects/canvas_matrix";
 
 
@@ -57,7 +57,7 @@ describe('Group', () => {
       }
     });
 
-    function checkScale(xScale, yScale, shape) {
+    function checkScale (xScale, yScale, shape) {
       let matrix = new CanvasMatrix(xScale, 0, 0, yScale, 0, 0);
       assert.strictEqual(shape._cs._xScale, xScale);
       assert.strictEqual(shape._cs._yScale, yScale);
@@ -92,7 +92,7 @@ describe('Group', () => {
       }
     });
 
-    function checkRotate(radian, shape) {
+    function checkRotate (radian, shape) {
       let a = Math.cos(radian);
       let b = Math.sin(radian);
       let c = -Math.sin(radian);
@@ -130,7 +130,7 @@ describe('Group', () => {
       }
     });
 
-    function checkTranslate(position, shape) {
+    function checkTranslate (position, shape) {
       let matrix = new CanvasMatrix(1, 0, 0, 1, position.x, position.y);
       assert.strictEqual(shape._cs._position.x, position.x);
       assert.strictEqual(shape._cs._position.y, position.y);

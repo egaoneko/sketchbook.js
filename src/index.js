@@ -7,7 +7,7 @@ import Line from "./shapes/line";
 import Group from "./shapes/group";
 import Geometry from "./shapes/geometry";
 import Geometry3D from "./shapes/geometry_3d";
-import * as global from "./global/global";
+import * as global from "./enums/global";
 
 
 export {

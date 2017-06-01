@@ -1,6 +1,6 @@
 import Point from "./point";
 import CanvasMatrix from "./canvas_matrix";
-import {ORIENTATION} from "../global/global";
+import {ORIENTATION} from "../enums/global";
 
 /**
  * @description Coordinate System Class
@@ -12,7 +12,7 @@ class CoordinateSystem {
    * @description CoordinateSystem constructor.
    * @constructs CoordinateSystem
    */
-  constructor(options = {}) {
+  constructor (options = {}) {
     this._position = new Point([0, 0]);
     this._pivot = new Point([0, 0]);
     this._xScale = 1;
@@ -32,7 +32,7 @@ class CoordinateSystem {
    * @type {Point}
    * @member CoordinateSystem#pivot
    */
-  get pivot() {
+  get pivot () {
     return new Point(this._pivot);
   }
 
@@ -41,7 +41,7 @@ class CoordinateSystem {
    * @type {Point}
    * @member CoordinateSystem#pivot
    */
-  set pivot(pivot) {
+  set pivot (pivot) {
     this._pivot = new Point(pivot);
   }
 
@@ -50,7 +50,7 @@ class CoordinateSystem {
    * @type {CanvasMatrix}
    * @member CoordinateSystem#basis
    */
-  get basis() {
+  get basis () {
     return new CanvasMatrix(this._basis);
   }
 
@@ -59,7 +59,7 @@ class CoordinateSystem {
    * @type {CanvasMatrix}
    * @member CoordinateSystem#basis
    */
-  set basis(basis) {
+  set basis (basis) {
     if (!(basis instanceof CanvasMatrix)) {
       throw new TypeError("Input basis is not CanvasMatrix.");
     }
@@ -73,7 +73,7 @@ class CoordinateSystem {
    * @param {Number} yScale yScale
    * @member CoordinateSystem#scale
    */
-  scale(xScale, yScale) {
+  scale (xScale, yScale) {
     let scaleMatrix = new CanvasMatrix(xScale, 0, 0, yScale, 0, 0);
 
     this._xScale *= xScale;
@@ -87,7 +87,7 @@ class CoordinateSystem {
    * @param {Number} yScale yScale
    * @member CoordinateSystem#setScale
    */
-  setScale(xScale, yScale) {
+  setScale (xScale, yScale) {
     this._xScale = xScale;
     this._yScale = yScale;
     this._basis = this.getAffineTransform(this._xScale, this._yScale, this._radian, this._position, this._pivot);
@@ -98,7 +98,7 @@ class CoordinateSystem {
    * @param {Number} radian radian
    * @member CoordinateSystem#rotate
    */
-  rotate(radian) {
+  rotate (radian) {
     let a, b, c, d;
     if (this._opt.orientation === ORIENTATION.CCW) {
       a = Math.cos(radian);
@@ -122,7 +122,7 @@ class CoordinateSystem {
    * @param {Number} radian radian
    * @member CoordinateSystem#setRotate
    */
-  setRotate(radian) {
+  setRotate (radian) {
     this._radian = radian;
     this._basis = this.getAffineTransform(this._xScale, this._yScale, this._radian, this._position, this._pivot);
   }
@@ -132,7 +132,7 @@ class CoordinateSystem {
    * @param {Point} position position
    * @member CoordinateSystem#translate
    */
-  translate(position) {
+  translate (position) {
     let translateMatrix = new CanvasMatrix(1, 0, 0, 1, position.x, position.y);
 
     this._position = this._position.add(new Point(position));
@@ -144,7 +144,7 @@ class CoordinateSystem {
    * @param {Point} position position
    * @member CoordinateSystem#setTranslate
    */
-  setTranslate(position) {
+  setTranslate (position) {
     this._position = new Point(position);
     this._basis = this.getAffineTransform(this._xScale, this._yScale, this._radian, this._position, this._pivot);
   }
@@ -159,7 +159,7 @@ class CoordinateSystem {
    * @return {CanvasMatrix} CanvasMatrix
    * @member CoordinateSystem#getAffineTransform
    */
-  getAffineTransform(xScale, yScale, radian, position, pivot) {
+  getAffineTransform (xScale, yScale, radian, position, pivot) {
     let a, b, c, d;
     let matrix = new CanvasMatrix();
 
@@ -201,7 +201,7 @@ class CoordinateSystem {
    * @param {Point} point point
    * @member Shape#getTransformedPoint
    */
-  getTransformedPoint(point) {
+  getTransformedPoint (point) {
     let inverse = this.basis.inverse();
 
     if (!inverse) {
@@ -217,7 +217,7 @@ class CoordinateSystem {
    * @return {Object} option
    * @member CoordinateSystem#getOption
    */
-  getOption(name) {
+  getOption (name) {
     let hasName = name !== undefined && name !== null;
     if (!hasName) {
       return null;
@@ -231,7 +231,7 @@ class CoordinateSystem {
    * @param {Object} value property value
    * @member CoordinateSystem#setOption
    */
-  setOption(name, value) {
+  setOption (name, value) {
     let hasName = name !== undefined && name !== null;
     let hasValue = value !== undefined && value !== null;
 

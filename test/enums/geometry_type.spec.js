@@ -1,4 +1,4 @@
-import GEOMETRY_TYPE from "../../src/global/geometry_type";
+import GEOMETRY_TYPE from "../../src/enums/geometry_type";
 import chai from "chai";
 
 let assert = chai.assert;
