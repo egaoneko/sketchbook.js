@@ -4,8 +4,11 @@ import chai from "chai";
 let assert = chai.assert;
 
 describe('COORDINATE_SYSTEM', () => {
-  it('COORDINATE_SYSTEM', () => {
-    assert.property(COORDINATE_SYSTEM, "SCREEN");
-    assert.property(COORDINATE_SYSTEM, "CARTESIAN");
+  it('SCREEN', () => {
+    assert.strictEqual(COORDINATE_SYSTEM.enumValueOf("SCREEN"), COORDINATE_SYSTEM.SCREEN);
+  });
+
+  it('SCREEN', () => {
+    assert.strictEqual(COORDINATE_SYSTEM.enumValueOf("CARTESIAN"), COORDINATE_SYSTEM.CARTESIAN);
   });
 });

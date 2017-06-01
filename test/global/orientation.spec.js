@@ -4,8 +4,11 @@ import chai from "chai";
 let assert = chai.assert;
 
 describe('orientation', () => {
-  it('ORIENTATION', () => {
-    assert.property(ORIENTATION, "CW");
-    assert.property(ORIENTATION, "CCW");
+  it('CW', () => {
+    assert.strictEqual(ORIENTATION.enumValueOf("CW"), ORIENTATION.CW);
+  });
+
+  it('CCW', () => {
+    assert.strictEqual(ORIENTATION.enumValueOf("CCW"), ORIENTATION.CCW);
   });
 });

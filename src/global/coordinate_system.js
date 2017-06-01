@@ -1,9 +1,11 @@
-import Enum from "es6-enum";
+import {Enum} from "enumify";
 
 /**
  * SCREEN     : Screen coordinate system
  * CARTESIAN  : Cartesian coordinate system
  */
-const COORDINATE_SYSTEM = Enum("SCREEN", "CARTESIAN");
+class COORDINATE_SYSTEM extends Enum {
+}
+COORDINATE_SYSTEM.initEnum(["SCREEN", "CARTESIAN"]);
 
 export default COORDINATE_SYSTEM;

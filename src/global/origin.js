@@ -1,9 +1,11 @@
-import Enum from "es6-enum";
+import {Enum} from "enumify";
 
 /**
  * LEFT_TOP   : left top
  * CENTER     : center
  */
-const ORIGIN = Enum("LEFT_TOP", "CENTER");
+class ORIGIN extends Enum {
+}
+ORIGIN.initEnum(["LEFT_TOP", "CENTER"]);
 
 export default ORIGIN;

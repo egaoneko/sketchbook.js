@@ -1,9 +1,11 @@
-import Enum from "es6-enum";
+import {Enum} from "enumify";
 
 /**
  * CW     : clockwise
  * CCW    : counter clockwise
  */
-const ORIENTATION = Enum("CW", "CCW");
+class ORIENTATION extends Enum {
+}
+ORIENTATION.initEnum(["CW", "CCW"]);
 
 export default ORIENTATION;

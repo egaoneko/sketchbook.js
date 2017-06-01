@@ -1,9 +1,11 @@
-import Enum from "es6-enum";
+import {Enum} from "enumify";
 
 /**
  * POLYLINE   : polyline
  * POLYGON    : polygon
  */
-const GEOMETRY_TYPE = Enum("POLYLINE", "POLYGON");
+class GEOMETRY_TYPE extends Enum {
+}
+GEOMETRY_TYPE.initEnum(["POLYLINE", "POLYGON"]);
 
 export default GEOMETRY_TYPE;

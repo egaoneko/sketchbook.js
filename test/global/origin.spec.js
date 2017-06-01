@@ -4,8 +4,11 @@ import chai from "chai";
 let assert = chai.assert;
 
 describe('ORIGIN', () => {
-  it('ORIGIN', () => {
-    assert.property(ORIGIN, "LEFT_TOP");
-    assert.property(ORIGIN, "CENTER");
+  it('LEFT_TOP', () => {
+    assert.strictEqual(ORIGIN.enumValueOf("LEFT_TOP"), ORIGIN.LEFT_TOP);
+  });
+
+  it('CENTER', () => {
+    assert.strictEqual(ORIGIN.enumValueOf("CENTER"), ORIGIN.CENTER);
   });
 });
