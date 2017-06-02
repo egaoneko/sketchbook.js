@@ -1,6 +1,7 @@
 import Shape from "./shapes/shape";
 import Point from "./objects/point";
 import GroupHelper from "./helpers/group_helper";
+import SketchbookMouseEventHelper from "./helpers/sketchbook_mouse_event_helper";
 import {typeCheck} from "./utils/base";
 import {CannotFoundError, ArgumentError} from "./errors/errors";
 import {ORIGIN, COORDINATE_SYSTEM} from "./enums/global";
@@ -43,6 +44,7 @@ class Sketchbook extends Shape {
         throw new ArgumentError("This object isn't a instance of Shape.");
       }
     };
+    this._sketchbookMouseEventHelper = new SketchbookMouseEventHelper(this);
     this._init();
   }
 
@@ -275,6 +277,28 @@ class Sketchbook extends Shape {
     return new Point(position);
   }
 
+  /**
+   * @description add event listener
+   * @param {Event|String} type type
+   * @param {Function} listener listener
+   * @param {Boolean} [useCapture] capture boolean
+   * @return {Function} listener
+   * @member Sketchbook#addEventListener
+   */
+  addEventListener (type, listener, useCapture) {
+    return this._sketchbookMouseEventHelper.addEventListener(type, listener, useCapture);
+  }
+
+  /**
+   * @description remove event listener
+   * @param {Event|String} type type
+   * @param {Function} listener listener
+   * @param {Boolean} [useCapture] capture boolean
+   * @member Sketchbook#removeEventListener
+   */
+  removeEventListener (type, listener, useCapture) {
+    this._sketchbookMouseEventHelper.removeEventListener(type, listener, useCapture);
+  }
 }
 
 export default Sketchbook;

@@ -42,8 +42,7 @@ class SketchbookMouseEventHelper extends EventHelper {
       event.originX = origin.x;
       event.originY = origin.y;
     };
-    super.addBaseEventListener(base, type, listener, useCapture);
-    return listener;
+    return super.addBaseEventListener(base, type, listener, useCapture);
   }
 }
 

@@ -1,7 +1,11 @@
 import chai from "chai";
+import _ from "lodash";
+import simulate from "./test_utils/simulate";
 import Sketchbook from "../src/sketchbook";
 import Point from "../src/objects/point";
 import GroupHelper from "../src/helpers/group_helper";
+import SketchbookMouseEventHelper from "../src/helpers/sketchbook_mouse_event_helper";
+import MOUSE_EVENT from "../src/enums/events/mouse_event";
 import {ORIGIN, COORDINATE_SYSTEM} from "../src/enums/global";
 
 let assert = chai.assert;
@@ -55,6 +59,11 @@ describe('Sketchbook', () => {
 
     it('initialized GroupHelper', () => {
       assert.isTrue(sketchbook._groupHelper instanceof GroupHelper);
+    });
+
+    it('initialized SketchbookMouseEventHelper', () => {
+      assert.isTrue(sketchbook._sketchbookMouseEventHelper instanceof SketchbookMouseEventHelper);
+      assert.strictEqual(sketchbook._sketchbookMouseEventHelper._element, sketchbook._canvas);
     });
   });
 
@@ -244,6 +253,39 @@ describe('Sketchbook', () => {
 
       assert.strictEqual(actualPosition.x, expectedPosition.x);
       assert.strictEqual(actualPosition.y, expectedPosition.y);
+    });
+
+    it('addEventListener listener', () => {
+      let listener = (evt) => {
+        assert.strictEqual(evt.originX, 50);
+        assert.strictEqual(evt.originY, 50);
+      };
+      sketchbook.scale(2, 2);
+      checkForMouseEvents(listener);
+    });
+
+    function checkForMouseEvents (listener) {
+      _.each(MOUSE_EVENT.enumValues, event => {
+        let eventName = event.name;
+        sketchbook.addEventListener(eventName, listener);
+        simulate(sketchbook.canvas, eventName, {pointerX: 100, pointerY: 100});
+      });
+    }
+
+    it('removeEventListener listener by return value', () => {
+      let listenerExpected = "test";
+      let listenerActual = "test";
+      let testEvent = document.createEvent('Event');
+      testEvent.initEvent('test', true, true);
+
+      let listener = () => {
+        listenerActual = "";
+      };
+      let returnListener = sketchbook.addEventListener('test', listener);
+      sketchbook.removeEventListener('test', returnListener);
+      sketchbook.canvas.dispatchEvent(testEvent);
+
+      assert.strictEqual(listenerActual, listenerExpected);
     });
   });
 });
