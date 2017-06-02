@@ -43,4 +43,8 @@ describe('MOUSE_EVENT', () => {
   it('mouseup', () => {
     assert.strictEqual(MOUSE_EVENT.enumValueOf("mouseup"), MOUSE_EVENT.mouseup);
   });
+
+  it('mousewheel', () => {
+    assert.strictEqual(MOUSE_EVENT.enumValueOf("mousewheel"), MOUSE_EVENT.mousewheel);
+  });
 });

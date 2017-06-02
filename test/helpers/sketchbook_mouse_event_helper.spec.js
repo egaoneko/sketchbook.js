@@ -34,8 +34,8 @@ describe('SketchbookMouseEventHelper', () => {
       let listener = (evt) => {
         // TODO Research under situation
         // Caution : If event has not originX or originY, other some tests are broken. 
-        assert.strictEqual(evt.originX, 50);
-        assert.strictEqual(evt.originY, 50);
+        assert.strictEqual(evt.origin.x, 50);
+        assert.strictEqual(evt.origin.y, 50);
       };
       sketchbook.scale(2, 2);
       checkForMouseEvents(listener);

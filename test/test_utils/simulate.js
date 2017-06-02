@@ -4,7 +4,7 @@
 
 const eventMatchers = {
   'HTMLEvents': /^(?:load|unload|abort|error|select|change|submit|reset|focus|blur|resize|scroll)$/,
-  'MouseEvents': /^(?:click|contextmenu|dblclick|mouse(?:down|up|over|move|out|enter|leave))$/
+  'MouseEvents': /^(?:click|contextmenu|dblclick|mouse(?:down|up|over|move|out|enter|leave|wheel))$/
 };
 
 const defaultOptions = {

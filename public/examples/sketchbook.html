@@ -343,48 +343,15 @@
 
     sb = addBox("Draw");
 
-    document.addEventListener("keydown", keyDownEvent.bind(sb));
-    sb.canvas.addEventListener('click', clickEvent.bind(sb));
-    sb.canvas.addEventListener('mousewheel', wheelEvent.bind(sb));
-    sb.canvas.addEventListener('mousedown', downEvent.bind(sb));
-    sb.canvas.addEventListener('mousemove', moveEvent.bind(sb));
-    sb.canvas.addEventListener('mouseup', upEvent.bind(sb));
+    sb.addEventListener('click', clickEvent.bind(sb));
+    sb.addEventListener('mousewheel', wheelEvent.bind(sb));
+    sb.addEventListener('mousedown', downEvent.bind(sb));
+    sb.addEventListener('mousemove', moveEvent.bind(sb));
+    sb.addEventListener('mouseup', upEvent.bind(sb));
 
-    var pivot = null;
-
-    function keyDownEvent (ev) {
-      var delta = 0;
-      if (ev.keyCode === 38) {
-        delta = 100;
-      } else if (ev.keyCode === 40) {
-        delta = -100;
-      } else {
-        return;
-      }
-
-      if (!pivot) {
-        alert("Pivot is null");
-        return;
-      }
-
-      console.log(this.basis.a, this.basis.b, this.basis.c, this.basis.d, this.basis.e, this.basis.f, pivot.x, pivot.y);
-
-      var xScale = this.xScale + (this.xScale * delta * 0.0002);
-      var yScale = this.yScale + (this.yScale * delta * 0.0002);
-
-      this.setScale(xScale, yScale, pivot);
-      sb.clear();
-      sb.renderAll();
-      ev.stopPropagation();
-      ev.preventDefault();
-    }
 
     function clickEvent (ev) {
-      var lastX = ev.offsetX || (ev.pageX - this.canvas.offsetLeft);
-      var lastY = ev.offsetY || (ev.pageY - this.canvas.offsetTop);
-
-      pivot = this.basis.inverse().multiply(new sketchbook.Point([lastX, lastY]));
-      console.log(this.basis.a, this.basis.b, this.basis.c, this.basis.d, this.basis.e, this.basis.f, pivot.x, pivot.y);
+      console.log(this.basis.a, this.basis.b, this.basis.c, this.basis.d, this.basis.e, this.basis.f, ev.origin.x, ev.origin.y);
     }
 
     function wheelEvent (ev) {
@@ -401,14 +368,9 @@
       var xScale = this.xScale + (this.xScale * delta * 0.0002);
       var yScale = this.yScale + (this.yScale * delta * 0.0002);
 
-      var lastX = ev.offsetX || (ev.pageX - this.canvas.offsetLeft);
-      var lastY = ev.offsetY || (ev.pageY - this.canvas.offsetTop);
+      console.log(ev.origin);
 
-      var pivot = this.basis.inverse().multiply(new sketchbook.Point([lastX, lastY]));
-      //      var pivot = new sketchbook.Point([sb.width * 0.5, sb.height * 0.5]);
-      //      console.log(this.basis.a, this.basis.b, this.basis.c, this.basis.d, this.basis.e, this.basis.f, pivot.x, pivot.y);
-
-      this.setScale(xScale, yScale, pivot);
+      this.setScale(xScale, yScale, ev.origin);
       sb.clear();
       sb.renderAll();
       ev.stopPropagation();
@@ -418,23 +380,14 @@
     var start = null;
 
     function downEvent (ev) {
-      var lastX = ev.offsetX || (ev.pageX - this.canvas.offsetLeft);
-      var lastY = ev.offsetY || (ev.pageY - this.canvas.offsetTop);
-
-      start = this.basis.inverse().multiply(new sketchbook.Point([lastX, lastY]));
+      start = ev.origin;
     }
 
     function moveEvent (ev) {
-      var lastX = ev.offsetX || (ev.pageX - this.canvas.offsetLeft);
-      var lastY = ev.offsetY || (ev.pageY - this.canvas.offsetTop);
-      pivot = this.basis.inverse().multiply(new sketchbook.Point([lastX, lastY]));
-
       if (!start) {
         return;
       }
-      var pt = this.basis.inverse().multiply(new sketchbook.Point([lastX, lastY]));
-      //      console.log(this.basis.a, this.basis.b, this.basis.c, this.basis.d, this.basis.e, this.basis.f, pivot.x, pivot.y);
-
+      var pt = ev.origin;
       this.translate(pt.x - start.x, pt.y - start.y);
       sb.clear();
       sb.renderAll();
@@ -446,7 +399,7 @@
 
     sb.add(rect);
     sb.renderAll();
-  }
+  };
 
   function addBox (name) {
     var box = document.createElement('div');

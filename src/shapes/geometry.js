@@ -20,7 +20,6 @@ class Geometry extends Shape {
     this._corners = [];
     this._boundingBoxHelper = new BoundingBoxHelper();
     this._init(corners, options);
-    // TODO bound box, example
   }
 
   /**

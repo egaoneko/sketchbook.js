@@ -11,6 +11,7 @@ import {Enum} from "enumify";
  * mouseover
  * mouseout
  * mouseup
+ * mousewheel
  */
 class MOUSE_EVENT extends Enum {
 }
@@ -25,7 +26,8 @@ MOUSE_EVENT.initEnum([
   "mousemove",
   "mouseover",
   "mouseout",
-  "mouseup"
+  "mouseup",
+  "mousewheel"
 ]);
 
 export default MOUSE_EVENT;

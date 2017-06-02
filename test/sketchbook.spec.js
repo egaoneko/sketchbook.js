@@ -257,8 +257,8 @@ describe('Sketchbook', () => {
 
     it('addEventListener listener', () => {
       let listener = (evt) => {
-        assert.strictEqual(evt.originX, 50);
-        assert.strictEqual(evt.originY, 50);
+        assert.strictEqual(evt.origin.x, 50);
+        assert.strictEqual(evt.origin.y, 50);
       };
       sketchbook.scale(2, 2);
       checkForMouseEvents(listener);
