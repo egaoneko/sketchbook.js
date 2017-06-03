@@ -247,6 +247,24 @@ class Shape {
   }
 
   /**
+   * @description Get opacity
+   * @type {Number}
+   * @member Shape#opacity
+   */
+  get opacity() {
+    return this.globalAlpha;
+  }
+
+  /**
+   * @description Set opacity
+   * @type {Number}
+   * @member Shape#opacity
+   */
+  set opacity(opacity) {
+    this.globalAlpha = opacity;
+  }
+
+  /**
    * @description Get globalCompositeOperation
    * @type {String}
    * @member Shape#globalCompositeOperation

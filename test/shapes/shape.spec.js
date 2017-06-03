@@ -339,6 +339,15 @@ describe('Shape', () => {
       assert.strictEqual(shape._opt.globalAlpha, 0.0);
     });
 
+    it('get opacity', () => {
+      assert.strictEqual(shape.opacity, shape._opt.globalAlpha);
+    });
+
+    it('set opacity', () => {
+      shape.opacity = 0.0;
+      assert.strictEqual(shape._opt.globalAlpha, 0.0);
+    });
+
     it('get globalCompositeOperation', () => {
       assert.strictEqual(shape.globalCompositeOperation, 'source-over');
     });
@@ -801,7 +810,7 @@ describe('Shape', () => {
       checkMatrix(canvasSvgCtx.getTransform(), shape._cs._basis);
     });
 
-    function checkMatrix (svgMatrix, canvasMatrix) {
+    function checkMatrix(svgMatrix, canvasMatrix) {
       let closeTo = 1e-09;
       assert.approximately(svgMatrix.a, canvasMatrix.a, closeTo);
       assert.approximately(svgMatrix.b, canvasMatrix.b, closeTo);
@@ -811,7 +820,7 @@ describe('Shape', () => {
       assert.approximately(svgMatrix.f, canvasMatrix.f, closeTo);
     }
 
-    function trackTransforms (ctx) {
+    function trackTransforms(ctx) {
       let svg = document.createElementNS("http://www.w3.org/2000/svg", 'svg');
       let xform = svg.createSVGMatrix();
       ctx.getTransform = function () {
