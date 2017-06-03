@@ -2,6 +2,7 @@ node_modules
 temp
 .tmp
 .idea
+*.iml
 dist
 .sass-cache
 app/bower_components
