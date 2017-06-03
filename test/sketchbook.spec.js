@@ -264,7 +264,7 @@ describe('Sketchbook', () => {
       checkForMouseEvents(listener);
     });
 
-    function checkForMouseEvents (listener) {
+    function checkForMouseEvents(listener) {
       _.each(MOUSE_EVENT.enumValues, event => {
         let eventName = event.name;
         sketchbook.addEventListener(eventName, listener);

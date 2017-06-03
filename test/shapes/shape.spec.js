@@ -811,7 +811,7 @@ describe('Shape', () => {
     });
 
     function checkMatrix(svgMatrix, canvasMatrix) {
-      let closeTo = 1e-09;
+      let closeTo = 1e-06;
       assert.approximately(svgMatrix.a, canvasMatrix.a, closeTo);
       assert.approximately(svgMatrix.b, canvasMatrix.b, closeTo);
       assert.approximately(svgMatrix.c, canvasMatrix.c, closeTo);

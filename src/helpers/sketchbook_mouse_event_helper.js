@@ -14,7 +14,7 @@ class SketchbookMouseEventHelper extends EventHelper {
    * @description SketchbookMouseEventHelper constructor.
    * @constructs SketchbookMouseEventHelper
    */
-  constructor (sketchbook) {
+  constructor(sketchbook) {
     if (!(sketchbook instanceof Sketchbook)) {
       throw new ArgumentError("A element must be Sketchbook.");
     }
@@ -30,13 +30,13 @@ class SketchbookMouseEventHelper extends EventHelper {
    * @return {Function} listener
    * @member SketchbookMouseEventHelper#addEventListener
    */
-  addEventListener (type, listener, useCapture) {
+  addEventListener(type, listener, useCapture) {
     if (!MOUSE_EVENT.enumValueOf(type)) {
       return null;
     }
     let base = (event)=> {
-      let lastX = event.offsetX || (event.pageX - this.sketchbook.offsetLeft);
-      let lastY = event.offsetY || (event.pageY - this.sketchbook.offsetTop);
+      let lastX = event.offsetX || (event.pageX - this._element.offsetLeft);
+      let lastY = event.offsetY || (event.pageY - this._element.offsetTop);
 
       let origin = this.sketchbook.basis.inverse().multiply(new Point([lastX, lastY]));
       event.origin = new Point([origin.x, origin.y]);

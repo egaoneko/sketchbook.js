@@ -345,16 +345,17 @@
 
     sb.addEventListener('click', clickEvent.bind(sb));
     sb.addEventListener('mousewheel', wheelEvent.bind(sb));
+    sb.addEventListener('DOMMouseScroll', wheelEvent.bind(sb));
     sb.addEventListener('mousedown', downEvent.bind(sb));
     sb.addEventListener('mousemove', moveEvent.bind(sb));
     sb.addEventListener('mouseup', upEvent.bind(sb));
 
 
-    function clickEvent (ev) {
+    function clickEvent(ev) {
       console.log(this.basis.a, this.basis.b, this.basis.c, this.basis.d, this.basis.e, this.basis.f, ev.origin.x, ev.origin.y);
     }
 
-    function wheelEvent (ev) {
+    function wheelEvent(ev) {
       var delta = 0;
       if (ev.wheelDelta !== undefined) {
         // WebKit / Opera / Explorer 9
@@ -379,11 +380,11 @@
 
     var start = null;
 
-    function downEvent (ev) {
+    function downEvent(ev) {
       start = ev.origin;
     }
 
-    function moveEvent (ev) {
+    function moveEvent(ev) {
       if (!start) {
         return;
       }
@@ -393,7 +394,7 @@
       sb.renderAll();
     }
 
-    function upEvent () {
+    function upEvent() {
       start = null;
     }
 
@@ -401,7 +402,7 @@
     sb.renderAll();
   };
 
-  function addBox (name) {
+  function addBox(name) {
     var box = document.createElement('div');
     box.className = 'box';
 
@@ -420,7 +421,7 @@
     return sb;
   }
 
-  function addRow () {
+  function addRow() {
     document.body.appendChild(document.createElement('br'));
   }
 </script>

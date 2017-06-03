@@ -8,7 +8,7 @@ describe('COORDINATE_SYSTEM', () => {
     assert.strictEqual(COORDINATE_SYSTEM.enumValueOf("SCREEN"), COORDINATE_SYSTEM.SCREEN);
   });
 
-  it('SCREEN', () => {
+  it('CARTESIAN', () => {
     assert.strictEqual(COORDINATE_SYSTEM.enumValueOf("CARTESIAN"), COORDINATE_SYSTEM.CARTESIAN);
   });
 });

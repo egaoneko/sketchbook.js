@@ -47,4 +47,8 @@ describe('MOUSE_EVENT', () => {
   it('mousewheel', () => {
     assert.strictEqual(MOUSE_EVENT.enumValueOf("mousewheel"), MOUSE_EVENT.mousewheel);
   });
+
+  it('DOMMouseScroll', () => {
+    assert.strictEqual(MOUSE_EVENT.enumValueOf("DOMMouseScroll"), MOUSE_EVENT.DOMMouseScroll);
+  });
 });

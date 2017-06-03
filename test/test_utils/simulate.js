@@ -4,7 +4,7 @@
 
 const eventMatchers = {
   'HTMLEvents': /^(?:load|unload|abort|error|select|change|submit|reset|focus|blur|resize|scroll)$/,
-  'MouseEvents': /^(?:click|contextmenu|dblclick|mouse(?:down|up|over|move|out|enter|leave|wheel))$/
+  'MouseEvents': /^(?:click|contextmenu|dblclick|mouse(?:down|up|over|move|out|enter|leave|wheel)|DOMMouseScroll)$/
 };
 
 const defaultOptions = {
@@ -29,7 +29,7 @@ const defaultOptions = {
  * @param {String} eventName event name
  * @returns {Object} elment
  */
-function simulate (element, eventName) {
+function simulate(element, eventName) {
   let options = Object.assign(defaultOptions, arguments[2] || {});
   let Event, eventType;
 

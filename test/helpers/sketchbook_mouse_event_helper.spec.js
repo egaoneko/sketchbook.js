@@ -33,7 +33,7 @@ describe('SketchbookMouseEventHelper', () => {
     it('addEventListener listener', () => {
       let listener = (evt) => {
         // TODO Research under situation
-        // Caution : If event has not originX or originY, other some tests are broken. 
+        // Caution : If event has not originX or originY, other some tests are broken.
         assert.strictEqual(evt.origin.x, 50);
         assert.strictEqual(evt.origin.y, 50);
       };
@@ -41,7 +41,7 @@ describe('SketchbookMouseEventHelper', () => {
       checkForMouseEvents(listener);
     });
 
-    function checkForMouseEvents (listener) {
+    function checkForMouseEvents(listener) {
       _.each(MOUSE_EVENT.enumValues, event => {
         let eventName = event.name;
         sketchbookMouseEventHelper.addEventListener(eventName, listener);

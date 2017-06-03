@@ -23,8 +23,13 @@ module.exports = {
     }, {
       test: /sinon.*\.js$/,
       loader: "imports-loader?define=>false,require=>false"
-    }
-    ],
+    }, {
+      enforce: 'post',
+      test: /\.js/,
+      exclude: /(node_modules|bower_components)/,
+      include: path.resolve('src'),  // instrument only testing sources with Istanbul, after ts-loader runs
+      loader: 'istanbul-instrumenter-loader'
+    }],
     noParse: [/sinon/],
   },
   resolve: {
