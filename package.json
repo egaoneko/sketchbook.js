@@ -7,11 +7,10 @@
     "setup": "npm install -g webpack && npm install",
     "dev": "cross-env NODE_ENV=development webpack-dev-server --config ./webpack.config-page.js --progress --colors --open --hot",
     "watch": "webpack --config ./webpack.config.js --progress --colors --watch",
-    "prebuild": "eslint lib test",
+    "prebuild": "eslint lib pretest",
     "build": "cross-env NODE_ENV=production webpack --config ./webpack.config.js --progress --colors --hide-modules",
     "test": "karma start",
-    "ci-test": "karma start --single-run",
-    "prepublish": "npm test"
+    "pretest": "karma start --single-run"
   },
   "repository": {
     "url": "https://github.com/egaoneko/sketchbook.js.git",
