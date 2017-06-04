@@ -9,7 +9,7 @@ module.exports = {
   output: {
     path: __dirname + "/dist",
     filename: "sketchbook.js",
-    libraryTarget: "var", // export itself to a global var
+    libraryTarget: "umd", // export itself to a global var
     library: "sketchbook" // name of the global var: "sketchbook"
   },
   module: {

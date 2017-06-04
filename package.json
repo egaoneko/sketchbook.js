@@ -1,8 +1,8 @@
 {
   "name": "sketchbook.js",
-  "version": "0.1.0",
-  "description": "sketchbook.js",
-  "main": "index.js",
+  "version": "0.1.1",
+  "description": "Sketchbook.js is a library that makes it easy to use canvas element.",
+  "main": "./dist/sketchbook.js",
   "scripts": {
     "setup": "npm install -g webpack && npm install",
     "dev": "cross-env NODE_ENV=development webpack-dev-server --config ./webpack.config-page.js --progress --colors --open --hot",
@@ -16,8 +16,8 @@
     "url": "https://github.com/egaoneko/sketchbook.js.git",
     "type": "git"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Donghyun Seo",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/egaoneko/sketchbook.js/issues"
   },

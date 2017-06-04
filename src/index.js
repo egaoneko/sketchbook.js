@@ -9,7 +9,8 @@ import Group from "./shapes/group";
 import Geometry from "./shapes/geometry";
 import Geometry3D from "./shapes/geometry_3d";
 import * as global from "./enums/global";
-
+import {version} from "../package.json";
+//noinspection JSUnresolvedVariable
 
 export {
   Sketchbook,
@@ -24,5 +25,6 @@ export {
   Geometry,
   Geometry3D,
 
-  global
+  global,
+  version
 };

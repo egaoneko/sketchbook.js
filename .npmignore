@@ -1,6 +1,7 @@
 temp
 .tmp
 .sass-cache
+.git*
 .DS_Store
 npm-debug.log
 
@@ -9,7 +10,8 @@ src/bower_components
 test/bower_components
 package
 coverage
+test
+scripts
 
 .idea
 *.iml
-
