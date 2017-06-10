@@ -88,7 +88,7 @@ class GroupHelper {
       this.validator(object);
     }
 
-    if (this.distinct && this._objects.includes(object)) {
+    if (this.distinct && _.includes(this._objects, object)) {
       return;
     }
 
