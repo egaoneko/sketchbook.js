@@ -10,7 +10,7 @@
     "prebuild": "eslint lib pretest",
     "build": "cross-env NODE_ENV=production webpack --config ./webpack.config.js --progress --colors --hide-modules",
     "test": "karma start",
-    "pretest": "karma start --single-run"
+    "citest": "karma start --single-run"
   },
   "repository": {
     "url": "https://github.com/egaoneko/sketchbook.js.git",
