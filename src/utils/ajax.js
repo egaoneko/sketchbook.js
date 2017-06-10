@@ -170,7 +170,7 @@ function setUrl(url, parameter) {
   if (parameter) {
     _.each(parameter, (value, key)=> {
       let param = ':' + key;
-      if (!_.includes(url, param)) {
+      if (!url.includes(param)) {
         query.push(encodeURIComponent(key) + '=' + encodeURIComponent(value));
       } else {
         url = url.replace(new RegExp(':' + key, 'g'), value);
