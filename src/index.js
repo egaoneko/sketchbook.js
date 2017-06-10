@@ -1,4 +1,3 @@
-import "babel-polyfill";
 import Sketchbook from "./sketchbook";
 import Point from "./objects/point";
 import Shape from "./shapes/shape";
