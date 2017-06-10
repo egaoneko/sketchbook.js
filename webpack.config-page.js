@@ -5,7 +5,7 @@ var webpack = require('webpack');
 
 module.exports = {
   context: path.join(__dirname, 'src'),
-  entry: ['babel-polyfill', './index.js'],
+  entry: './index.js',
   output: {
     path: __dirname + "/dist",
     filename: "sketchbook.js",
