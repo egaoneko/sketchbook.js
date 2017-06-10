@@ -53,6 +53,7 @@
     "webpack-dev-server": "^2.2.1"
   },
   "dependencies": {
+    "babel-polyfill": "^6.23.0",
     "enumify": "^1.0.4",
     "lodash": "^4.17.4",
     "sylvester-es6": "0.0.2",
