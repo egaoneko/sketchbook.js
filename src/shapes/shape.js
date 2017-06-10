@@ -594,7 +594,7 @@ class Shape {
       return null;
     }
 
-    if (CS_OPTIONS.includes(name)) {
+    if (_.includes(CS_OPTIONS, name)) {
       return this._cs.getOption(name);
     }
 
@@ -615,7 +615,7 @@ class Shape {
       return;
     }
 
-    if (CS_OPTIONS.includes(name)) {
+    if (_.includes(CS_OPTIONS, name)) {
       this._cs.setOption(name, value);
       return;
     }
@@ -645,7 +645,7 @@ class Shape {
     options = Object.assign({}, options);
 
     _.each(options, (value, key) => {
-      if (!CS_OPTIONS.includes(key)) {
+      if (!_.includes(CS_OPTIONS, key)) {
         return;
       }
       this._cs.setOption(key, value);
