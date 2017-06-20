@@ -437,7 +437,7 @@ class Shape {
    * @description scale
    * @param {Number} xScale xScale
    * @param {Number} yScale yScale
-   * @param {Point} [pivot] pivot point
+   * @param {Point} [pivot] pivot pivot
    * @member Shape#scale
    */
   scale(xScale, yScale, pivot = this._position) {
@@ -452,7 +452,7 @@ class Shape {
    * @description setScale
    * @param {Number} xScale xScale
    * @param {Number} yScale yScale
-   * @param {Point} [pivot] pivot point
+   * @param {Point} [pivot] pivot pivot
    * @member Shape#setScale
    */
   setScale(xScale, yScale, pivot = this._position) {
@@ -467,7 +467,7 @@ class Shape {
    * @description check scale validate
    * @param {Number} xScale xScale
    * @param {Number} yScale yScale
-   * @param {Point} pivot point
+   * @param {Point} pivot pivot
    * @method isScaleValidate
    */
   _checkScaleValidate(xScale, yScale, pivot) {
@@ -488,6 +488,37 @@ class Shape {
 
     if (!(pivot instanceof Point)) {
       throw new TypeError("The pivot must be Point.");
+    }
+  }
+
+  /**
+   * @description zoom
+   * @param {Number} xScale xScale
+   * @param {Number} yScale yScale
+   * @param {Point} position position
+   * @param {Point} pivot pivot
+   * @member Shape#scale
+   */
+  zoom(xScale, yScale, position, pivot) {
+    this._checkZoomValidate(xScale, yScale, position, pivot);
+
+    this._cs.pivot = pivot;
+    this._cs.zoom(xScale, yScale, position, pivot);
+  }
+
+  /**
+   * @private
+   * @description check zoom validate
+   * @param {Number} xScale xScale
+   * @param {Number} yScale yScale
+   * @param {Point} position point
+   * @param {Point} pivot point
+   * @method _checkZoomValidate
+   */
+  _checkZoomValidate(xScale, yScale, position, pivot) {
+    this._checkScaleValidate(xScale, yScale, pivot);
+    if (!(position instanceof Point)) {
+      throw new TypeError("The position must be Point.");
     }
   }
 

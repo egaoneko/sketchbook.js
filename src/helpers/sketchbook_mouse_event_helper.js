@@ -38,8 +38,10 @@ class SketchbookMouseEventHelper extends EventHelper {
       let lastX = event.offsetX || (event.pageX - this._element.offsetLeft);
       let lastY = event.offsetY || (event.pageY - this._element.offsetTop);
 
-      let origin = this.sketchbook.basis.inverse().multiply(new Point([lastX, lastY]));
-      event.origin = new Point([origin.x, origin.y]);
+      event.origin = new Point([lastX, lastY]);
+
+      let worldOrigin = this.sketchbook.basis.inverse().multiply(new Point([lastX, lastY]));
+      event.worldOrigin = new Point([worldOrigin.x, worldOrigin.y]);
     };
     return super.addBaseEventListener(base, type, listener, useCapture);
   }

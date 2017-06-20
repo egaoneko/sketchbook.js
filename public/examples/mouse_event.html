@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Setchbook</title>
+
+  <style>
+    html, body {
+    }
+
+    .box {
+      position: relative;
+      display: inline-block;
+      margin: 10px;
+    }
+
+    .box > canvas {
+      border: solid 1px;
+    }
+  </style>
+</head>
+<body>
+<h1>Mouse Event</h1>
+<script src="../sketchbook.js"></script>
+<script>
+  window.onload = function () {
+
+    var rect;
+    var sb;
+
+    rect = new sketchbook.Rect({
+      x: 100,
+      y: 100,
+      width: 200,
+      height: 200
+    });
+
+    sb = addBox("Mouse Event");
+
+    sb.addEventListener('click', clickEvent.bind(sb));
+    sb.addEventListener('mousewheel', wheelEvent.bind(sb));
+    sb.addEventListener('DOMMouseScroll', wheelEvent.bind(sb));
+    sb.addEventListener('mousedown', downEvent.bind(sb));
+    sb.addEventListener('mousemove', moveEvent.bind(sb));
+    sb.addEventListener('mouseup', upEvent.bind(sb));
+
+    function clickEvent(ev) {
+      console.log(this.basis.a, this.basis.b, this.basis.c, this.basis.d, this.basis.e, this.basis.f, ev.origin.x, ev.origin.y);
+    }
+
+    var wheelTime = null;
+
+    function wheelEvent(ev) {
+      var delta = 0;
+      if (ev.wheelDelta !== undefined) {
+        // WebKit / Opera / Explorer 9
+        delta = ev.wheelDelta;
+
+      } else if (ev.detail !== undefined) {
+        // Firefox
+        delta = -ev.detail * 2;
+      }
+
+      if (new Date() - wheelTime < 100) {
+        return;
+      }
+
+      var xScale = this.xScale + (this.xScale * delta * 0.0002);
+      var yScale = this.yScale + (this.yScale * delta * 0.0002);
+      var position = ev.worldOrigin;
+      var pivot = ev.origin;
+
+      this.zoom(xScale, yScale, position, pivot);
+      wheelTime = new Date();
+      sb.clear();
+      sb.renderAll();
+      ev.stopPropagation();
+      ev.preventDefault();
+    }
+
+    var start = null;
+
+    function downEvent(ev) {
+      start = ev.worldOrigin;
+    }
+
+    function moveEvent(ev) {
+      var pt = ev.worldOrigin;
+
+      if (!start) {
+        return;
+      }
+
+      this.translate(pt.x - start.x, pt.y - start.y);
+      sb.clear();
+      sb.renderAll();
+    }
+
+    function upEvent() {
+      start = null;
+    }
+
+    sb.add(rect);
+    sb.renderAll();
+  };
+
+  function addBox(name) {
+    var box = document.createElement('div');
+    box.className = 'box';
+
+    var h2 = document.createElement('h2');
+    h2.innerText = name;
+    box.appendChild(h2);
+
+    var canvas = document.createElement('canvas');
+    box.appendChild(canvas);
+
+    var sb = new sketchbook.Sketchbook(canvas);
+    sb.width = 500;
+    sb.height = 500;
+
+    document.body.appendChild(box);
+    return sb;
+  }
+</script>
+</body>
+</html>

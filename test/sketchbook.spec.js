@@ -255,10 +255,19 @@ describe('Sketchbook', () => {
       assert.strictEqual(actualPosition.y, expectedPosition.y);
     });
 
-    it('addEventListener listener', () => {
+    it('addEventListener listener origin', () => {
       let listener = (evt) => {
-        assert.strictEqual(evt.origin.x, 50);
-        assert.strictEqual(evt.origin.y, 50);
+        assert.strictEqual(evt.origin.x, 100);
+        assert.strictEqual(evt.origin.y, 100);
+      };
+      sketchbook.scale(2, 2);
+      checkForMouseEvents(listener);
+    });
+
+    it('addEventListener listener world origin', () => {
+      let listener = (evt) => {
+        assert.strictEqual(evt.worldOrigin.x, 50);
+        assert.strictEqual(evt.worldOrigin.y, 50);
       };
       sketchbook.scale(2, 2);
       checkForMouseEvents(listener);

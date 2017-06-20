@@ -11,10 +11,12 @@ let assert = chai.assert;
 describe('Shape', () => {
   let shape;
   let pivot;
+  let position;
 
   beforeEach(() => {
     shape = new Shape();
     pivot = new Point([3, 4]);
+    position = new Point([3, 4]);
   });
 
   describe('initialized Shape', () => {
@@ -495,6 +497,51 @@ describe('Shape', () => {
     it('_checkScaleValidate with wrong type pivot', () => {
       assert.throws(()=>shape._checkScaleValidate(10, 10, {}), Error, "The pivot must be Point.");
       assert.doesNotThrow(()=>shape._checkScaleValidate(10, 10, pivot));
+    });
+
+    it('zoom', () => {
+      let xScale = 2;
+      let yScale = 2;
+      let matrix = new CanvasMatrix(xScale, 0, 0, yScale, 0, 0);
+      let pivot = new Point([0, 0]);
+      let position = new Point([0, 0]);
+
+      shape.zoom(xScale, yScale, position, pivot);
+      assert.strictEqual(shape._cs._xScale, xScale);
+      assert.strictEqual(shape._cs._yScale, yScale);
+      assert.isTrue(shape._cs._basis.equal(matrix));
+    });
+
+    it('_checkZoomValidate without params', () => {
+      assert.throws(()=>shape._checkZoomValidate(), Error, "Both xScale and yScale must be needed.");
+      assert.throws(()=>shape._checkZoomValidate(10), Error, "Both xScale and yScale must be needed.");
+      assert.throws(()=>shape._checkZoomValidate(null), Error, "Both xScale and yScale must be needed.");
+      assert.throws(()=>shape._checkZoomValidate(null, null, position), Error, "Both xScale and yScale must be needed.");
+      assert.throws(()=>shape._checkZoomValidate(null, null, null, pivot), Error, "Both xScale and yScale must be needed.");
+      assert.doesNotThrow(()=>shape._checkZoomValidate(10, 10, position, pivot));
+    });
+
+    it('_checkZoomValidate with unnumerical param', () => {
+      assert.throws(()=>shape._checkZoomValidate('a', 10, position, pivot), TypeError, "Both xScale and yScale must be numerical values.");
+      assert.throws(()=>shape._checkZoomValidate(10, 'a', position, pivot), TypeError, "Both xScale and yScale must be numerical values.");
+      assert.doesNotThrow(()=>shape._checkZoomValidate(10, 10, position, pivot));
+    });
+
+    it('_checkZoomValidate with minus param', () => {
+      assert.throws(()=>shape._checkZoomValidate(-10, 10, position, pivot), Error, "Both xScale and yScale must be larger than 0.");
+      assert.throws(()=>shape._checkZoomValidate(10, -10, position, pivot), Error, "Both xScale and yScale must be larger than 0.");
+      assert.throws(()=>shape._checkZoomValidate(-10, -10, position, pivot), Error, "Both xScale and yScale must be larger than 0.");
+      assert.doesNotThrow(()=>shape._checkZoomValidate(10, 10, position, pivot));
+    });
+
+    it('_checkZoomValidate with wrong type position', () => {
+      assert.throws(()=>shape._checkZoomValidate(10, 10, {}, pivot), Error, "The position must be Point.");
+      assert.doesNotThrow(()=>shape._checkZoomValidate(10, 10, position, pivot));
+    });
+
+    it('_checkZoomValidate with wrong type pivot', () => {
+      assert.throws(()=>shape._checkZoomValidate(10, 10, position, {}), Error, "The pivot must be Point.");
+      assert.doesNotThrow(()=>shape._checkZoomValidate(10, 10, position, pivot));
     });
 
     it('rotate cw', () => {

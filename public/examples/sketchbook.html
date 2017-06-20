@@ -338,68 +338,6 @@
     sb.add(csLine);
     sb.setOption("coordinateSystem", sketchbook.global.COORDINATE_SYSTEM.CARTESIAN);
     sb.renderAll();
-
-    addRow();
-
-    sb = addBox("Draw");
-
-    sb.addEventListener('click', clickEvent.bind(sb));
-    sb.addEventListener('mousewheel', wheelEvent.bind(sb));
-    sb.addEventListener('DOMMouseScroll', wheelEvent.bind(sb));
-    sb.addEventListener('mousedown', downEvent.bind(sb));
-    sb.addEventListener('mousemove', moveEvent.bind(sb));
-    sb.addEventListener('mouseup', upEvent.bind(sb));
-
-
-    function clickEvent(ev) {
-      console.log(this.basis.a, this.basis.b, this.basis.c, this.basis.d, this.basis.e, this.basis.f, ev.origin.x, ev.origin.y);
-    }
-
-    function wheelEvent(ev) {
-      var delta = 0;
-      if (ev.wheelDelta !== undefined) {
-        // WebKit / Opera / Explorer 9
-        delta = ev.wheelDelta;
-
-      } else if (ev.detail !== undefined) {
-        // Firefox
-        delta = -ev.detail * 2;
-      }
-
-      var xScale = this.xScale + (this.xScale * delta * 0.0002);
-      var yScale = this.yScale + (this.yScale * delta * 0.0002);
-
-      console.log(ev.origin);
-
-      this.setScale(xScale, yScale, ev.origin);
-      sb.clear();
-      sb.renderAll();
-      ev.stopPropagation();
-      ev.preventDefault();
-    }
-
-    var start = null;
-
-    function downEvent(ev) {
-      start = ev.origin;
-    }
-
-    function moveEvent(ev) {
-      if (!start) {
-        return;
-      }
-      var pt = ev.origin;
-      this.translate(pt.x - start.x, pt.y - start.y);
-      sb.clear();
-      sb.renderAll();
-    }
-
-    function upEvent() {
-      start = null;
-    }
-
-    sb.add(rect);
-    sb.renderAll();
   };
 
   function addBox(name) {

@@ -9,9 +9,10 @@ let assert = chai.assert;
 
 describe('SketchbookMouseEventHelper', () => {
   let sketchbookMouseEventHelper;
-  let sketchbook = new Sketchbook();
+  let sketchbook;
 
   beforeEach(() => {
+    sketchbook = new Sketchbook();
     sketchbookMouseEventHelper = new SketchbookMouseEventHelper(sketchbook);
   });
 
@@ -30,12 +31,23 @@ describe('SketchbookMouseEventHelper', () => {
   });
 
   describe('methods', () => {
-    it('addEventListener listener', () => {
+    it('addEventListener listener about origin', () => {
       let listener = (evt) => {
         // TODO Research under situation
         // Caution : If event has not originX or originY, other some tests are broken.
-        assert.strictEqual(evt.origin.x, 50);
-        assert.strictEqual(evt.origin.y, 50);
+        assert.strictEqual(evt.origin.x, 100);
+        assert.strictEqual(evt.origin.y, 100);
+      };
+      sketchbook.scale(2, 2);
+      checkForMouseEvents(listener);
+    });
+
+    it('addEventListener listener about world origin', () => {
+      let listener = (evt) => {
+        // TODO Research under situation
+        // Caution : If event has not originX or originY, other some tests are broken.
+        assert.strictEqual(evt.worldOrigin.x, 50);
+        assert.strictEqual(evt.worldOrigin.y, 50);
       };
       sketchbook.scale(2, 2);
       checkForMouseEvents(listener);

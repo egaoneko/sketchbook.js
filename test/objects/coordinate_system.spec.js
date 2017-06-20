@@ -126,6 +126,20 @@ describe('CoordinateSystem', () => {
       assert.isTrue(cs._basis.equal(matrix));
     });
 
+    it('zoom', () => {
+      let xScale = 2;
+      let yScale = 2;
+      let position = new Point([0, 0]);
+      let pivot = new Point([0, 0]);
+      let matrix = new CanvasMatrix(xScale, 0, 0, yScale, 0, 0);
+
+      cs.zoom(4, 4, position, pivot);
+      cs.zoom(xScale, yScale, position, pivot);
+      assert.strictEqual(cs._xScale, xScale);
+      assert.strictEqual(cs._yScale, yScale);
+      assert.isTrue(cs._basis.equal(matrix));
+    });
+
     it('rotate cw', () => {
       let radian = 90 * Math.PI / 180;
       let a = Math.cos(radian);
@@ -349,6 +363,64 @@ describe('CoordinateSystem', () => {
       assert.isTrue(cs.getAffineTransform(xScale, yScale, radian, position, pivot).equal(matrix));
     });
 
+    it('getZoomAffineTransform cw', () => {
+      cs = new CoordinateSystem({orientation: ORIENTATION.CW});
+
+      let xScale = 2;
+      let yScale = 2;
+      let a, b, c, d;
+      let radian = 90 * Math.PI / 180;
+      let position = new Point([3, 4]);
+      let pivot = new Point([6, 8]);
+
+      let matrix = new CanvasMatrix();
+
+      matrix = matrix.multiply(new CanvasMatrix(xScale, 0, 0, yScale, 0, 0));
+
+      a = Math.cos(radian);
+      b = Math.sin(radian);
+      c = -Math.sin(radian);
+      d = Math.cos(radian);
+
+      matrix = matrix.multiply(new CanvasMatrix(a, b, c, d, 0, 0));
+      matrix = matrix.multiply(new CanvasMatrix(1, 0, 0, 1, -position.x, -position.y));
+
+      if (pivot) {
+        matrix = matrix.add(new CanvasMatrix(0, 0, 0, 0, pivot.x, pivot.y));
+      }
+
+      assert.isTrue(cs.getZoomAffineTransform(xScale, yScale, radian, position, pivot).equal(matrix));
+    });
+
+    it('getZoomAffineTransform ccw', () => {
+      cs = new CoordinateSystem({orientation: ORIENTATION.CCW});
+
+      let xScale = 2;
+      let yScale = 2;
+      let a, b, c, d;
+      let radian = 90 * Math.PI / 180;
+      let position = new Point([3, 4]);
+      let pivot = new Point([6, 8]);
+
+      let matrix = new CanvasMatrix();
+
+      matrix = matrix.multiply(new CanvasMatrix(xScale, 0, 0, yScale, 0, 0));
+
+      a = Math.cos(radian);
+      b = -Math.sin(radian);
+      c = Math.sin(radian);
+      d = Math.cos(radian);
+
+      matrix = matrix.multiply(new CanvasMatrix(a, b, c, d, 0, 0));
+      matrix = matrix.multiply(new CanvasMatrix(1, 0, 0, 1, -position.x, -position.y));
+
+      if (pivot) {
+        matrix = matrix.add(new CanvasMatrix(0, 0, 0, 0, pivot.x, pivot.y));
+      }
+
+      assert.isTrue(cs.getZoomAffineTransform(xScale, yScale, radian, position, pivot).equal(matrix));
+    });
+
     it('getTransformedPoint', () => {
       let svg = document.createElementNS("http://www.w3.org/2000/svg", 'svg');
       let svgMatrix = svg.createSVGMatrix();
@@ -434,7 +506,7 @@ describe('CoordinateSystem', () => {
     });
   });
 
-  function checkMatrix (matrix) {
+  function checkMatrix(matrix) {
     assert.strictEqual(matrix.a, 1);
     assert.strictEqual(matrix.b, 0);
     assert.strictEqual(matrix.c, 0);
@@ -445,4 +517,5 @@ describe('CoordinateSystem', () => {
     assert.strictEqual(matrix._matrix.e(3, 2), 0);
     assert.strictEqual(matrix._matrix.e(3, 3), 1);
   }
-});
+})
+;
