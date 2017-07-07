@@ -50,7 +50,10 @@ function _ajax(inputOpts) {
   xhr = getXMLHttpRequest();
   if (xhr != null) {
     xhr.open(opts.type, opts.url, opts.async);
-    xhr.setRequestHeader('Content-Type', opts.contentType);
+    
+    if (!base.typeCheck('null', opts.data)) {
+      xhr.setRequestHeader('Content-Type', opts.contentType);
+    }
 
     xhr.send(opts.data);
 
