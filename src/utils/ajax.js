@@ -52,9 +52,7 @@ function _ajax(inputOpts) {
     xhr.open(opts.type, opts.url, opts.async);
     xhr.setRequestHeader('Content-Type', opts.contentType);
 
-    if (!base.typeCheck('null', opts.data)) {
-      xhr.send(opts.data);
-    }
+    xhr.send(opts.data);
 
     callback = function () {
       if (xhr.readyState !== 4) {

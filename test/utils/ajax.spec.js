@@ -47,6 +47,27 @@ describe('Ajax util test', () => {
       assert.equal(requests[0].method, 'GET');
     });
 
+    it('GET Method Test without body', (done) => {
+      let opts = {
+        url: 'test.com',
+        type: 'GET',
+        success: (result, status) => {
+          assert.equal(status, 200);
+          done();
+        },
+        fail: () => {
+          assert.fail();
+          done();
+        }
+      };
+      ajax.ajax(opts);
+      requests[0].respond(200, {'Content-Type': 'text/json'});
+
+      assert.isNumber(requests.length);
+      assert.equal(requests.length, 1);
+      assert.equal(requests[0].method, 'GET');
+    });
+
     it('Post Method Test', (done) => {
       let data = {foo: 'bar'};
       let dataJson = JSON.stringify(data);
